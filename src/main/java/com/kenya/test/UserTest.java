@@ -1,4 +1,3 @@
-/*
 package com.kenya.test;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import com.kenya.bean.User;
 import com.kenya.service.UserService;  
 
   
-@RunWith(SpringJUnit4ClassRunner.class)     //ï¿½ï¿½Ê¾ï¿½Ì³ï¿½ï¿½ï¿½SpringJUnit4ClassRunnerï¿½ï¿½  
+@RunWith(SpringJUnit4ClassRunner.class)     //±íÊ¾¼Ì³ÐÁËSpringJUnit4ClassRunnerÀà  
 @ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})  
   
 public class UserTest {  
@@ -35,7 +34,7 @@ public class UserTest {
     public void test1() {  
         List<User> users = userService.selectAll();  
         // System.out.println(user.getUserName());  
-        // logger.info("Öµï¿½ï¿½"+user.getUserName());  
+        // logger.info("Öµ£º"+user.getUserName());  
         logger.info(JSON.toJSONString(users));  
     }  
-}  */
+}  
