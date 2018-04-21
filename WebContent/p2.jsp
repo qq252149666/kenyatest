@@ -130,7 +130,7 @@
 		</tr>
 		<tr>
 			<td>
-				选择图片:
+				please cal img是否
 			</td>
 			<td>
 				<input type="file"  name="files" id="doc" multiple="multiple"  style="width:150px;" onchange="javascript:setImagePreviews();" accept="image/*" />
