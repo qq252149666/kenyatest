@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.JobSeekerMapper">
+	<resultMap id="BaseResultMap" type="com.kenya.bean.JobSeeker">
+		<result column="JobSeekerId" jdbcType="INTEGER" property="jobseekerid" />
+		<result column="userId" jdbcType="INTEGER" property="userid" />
+		<result column="sName" jdbcType="VARCHAR" property="sname" />
+		<result column="sHeadPortrait" jdbcType="VARCHAR" property="sheadportrait" />
+		<result column="sSex" jdbcType="INTEGER" property="ssex" />
+		<result column="sJobWant" jdbcType="VARCHAR" property="sjobwant" />
+		<result column="sCallNum" jdbcType="VARCHAR" property="scallnum" />
+		<result column="sBirthday" jdbcType="DATE" property="sbirthday" />
+		<result column="jobTime" jdbcType="DATE" property="jobtime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.kenya.bean.JobSeeker">
+		<result column="Personalntroduction" jdbcType="LONGVARCHAR"
+			property="personalntroduction" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		JobSeekerId, userId, sName, sHeadPortrait, sSex, sJobWant, sCallNum, sBirthday,
+		jobTime
+	</sql>
+	<sql id="Blob_Column_List">
+		Personalntroduction
+	</sql>
+	<select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.JobSeekerExample"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from jobseeker
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" parameterType="com.kenya.bean.JobSeekerExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from jobseeker
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<delete id="deleteByExample" parameterType="com.kenya.bean.JobSeekerExample">
+		delete from jobseeker
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.kenya.bean.JobSeeker">
+		insert into jobseeker (JobSeekerId, userId, sName,
+		sHeadPortrait, sSex, sJobWant,
+		sCallNum, sBirthday, jobTime,
+		Personalntroduction)
+		values (#{jobseekerid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{sname,jdbcType=VARCHAR},
+		#{sheadportrait,jdbcType=VARCHAR}, #{ssex,jdbcType=INTEGER}, #{sjobwant,jdbcType=VARCHAR},
+		#{scallnum,jdbcType=VARCHAR}, #{sbirthday,jdbcType=DATE},
+		#{jobtime,jdbcType=DATE},
+		#{personalntroduction,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.kenya.bean.JobSeeker">
+		insert into jobseeker
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="jobseekerid != null">
+				JobSeekerId,
+			</if>
+			<if test="userid != null">
+				userId,
+			</if>
+			<if test="sname != null">
+				sName,
+			</if>
+			<if test="sheadportrait != null">
+				sHeadPortrait,
+			</if>
+			<if test="ssex != null">
+				sSex,
+			</if>
+			<if test="sjobwant != null">
+				sJobWant,
+			</if>
+			<if test="scallnum != null">
+				sCallNum,
+			</if>
+			<if test="sbirthday != null">
+				sBirthday,
+			</if>
+			<if test="jobtime != null">
+				jobTime,
+			</if>
+			<if test="personalntroduction != null">
+				Personalntroduction,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="jobseekerid != null">
+				#{jobseekerid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="sname != null">
+				#{sname,jdbcType=VARCHAR},
+			</if>
+			<if test="sheadportrait != null">
+				#{sheadportrait,jdbcType=VARCHAR},
+			</if>
+			<if test="ssex != null">
+				#{ssex,jdbcType=INTEGER},
+			</if>
+			<if test="sjobwant != null">
+				#{sjobwant,jdbcType=VARCHAR},
+			</if>
+			<if test="scallnum != null">
+				#{scallnum,jdbcType=VARCHAR},
+			</if>
+			<if test="sbirthday != null">
+				#{sbirthday,jdbcType=DATE},
+			</if>
+			<if test="jobtime != null">
+				#{jobtime,jdbcType=DATE},
+			</if>
+			<if test="personalntroduction != null">
+				#{personalntroduction,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.kenya.bean.JobSeekerExample"
+		resultType="java.lang.Long">
+		select count(*) from jobseeker
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update jobseeker
+		<set>
+			<if test="record.jobseekerid != null">
+				JobSeekerId = #{record.jobseekerid,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				userId = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.sname != null">
+				sName = #{record.sname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sheadportrait != null">
+				sHeadPortrait = #{record.sheadportrait,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ssex != null">
+				sSex = #{record.ssex,jdbcType=INTEGER},
+			</if>
+			<if test="record.sjobwant != null">
+				sJobWant = #{record.sjobwant,jdbcType=VARCHAR},
+			</if>
+			<if test="record.scallnum != null">
+				sCallNum = #{record.scallnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sbirthday != null">
+				sBirthday = #{record.sbirthday,jdbcType=DATE},
+			</if>
+			<if test="record.jobtime != null">
+				jobTime = #{record.jobtime,jdbcType=DATE},
+			</if>
+			<if test="record.personalntroduction != null">
+				Personalntroduction = #{record.personalntroduction,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update jobseeker
+		set JobSeekerId = #{record.jobseekerid,jdbcType=INTEGER},
+		userId = #{record.userid,jdbcType=INTEGER},
+		sName = #{record.sname,jdbcType=VARCHAR},
+		sHeadPortrait = #{record.sheadportrait,jdbcType=VARCHAR},
+		sSex = #{record.ssex,jdbcType=INTEGER},
+		sJobWant = #{record.sjobwant,jdbcType=VARCHAR},
+		sCallNum = #{record.scallnum,jdbcType=VARCHAR},
+		sBirthday = #{record.sbirthday,jdbcType=DATE},
+		jobTime = #{record.jobtime,jdbcType=DATE},
+		Personalntroduction = #{record.personalntroduction,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update jobseeker
+		set JobSeekerId = #{record.jobseekerid,jdbcType=INTEGER},
+		userId = #{record.userid,jdbcType=INTEGER},
+		sName = #{record.sname,jdbcType=VARCHAR},
+		sHeadPortrait = #{record.sheadportrait,jdbcType=VARCHAR},
+		sSex = #{record.ssex,jdbcType=INTEGER},
+		sJobWant = #{record.sjobwant,jdbcType=VARCHAR},
+		sCallNum = #{record.scallnum,jdbcType=VARCHAR},
+		sBirthday = #{record.sbirthday,jdbcType=DATE},
+		jobTime = #{record.jobtime,jdbcType=DATE}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<select id="pageQuery" resultType="com.kenya.bean.JobSeeker">
+		select <include refid="Base_Column_List" /> 
+		from jobseeker
+		<where>
+			<if test="pagetext != null">
+				and sName like concat('%', #{pagetext}, '%')
+			</if>
+		</where>
+		order by JobSeekerId desc
+		limit #{start}, #{size}
+	</select>
+	<select id="queryCount" resultType="int">
+        select count(JobSeekerId) from jobseeker
+        <where>
+            <if test="pagetext != null">
+            and sName like concat('%', #{pagetext}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

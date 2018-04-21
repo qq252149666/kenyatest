@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.News">
+    <id column="newsId" jdbcType="INTEGER" property="newsid" />
+    <result column="newsTitle" jdbcType="VARCHAR" property="newstitle" />
+    <result column="newsImg0" jdbcType="VARCHAR" property="newsimg0" />
+    <result column="newsImg1" jdbcType="VARCHAR" property="newsimg1" />
+    <result column="NewsAuthor" jdbcType="VARCHAR" property="newsauthor" />
+    <result column="NewsCreateTime" jdbcType="TIMESTAMP" property="newscreatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.News">
+    <result column="newsText" jdbcType="LONGVARCHAR" property="newstext" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    newsId, newsTitle, newsImg0, newsImg1, NewsAuthor, NewsCreateTime,newsText
+  </sql>
+  <sql id="Blob_Column_List">
+    newsText
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.NewsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kenya.bean.NewsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.NewsExample">
+    delete from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.News">
+    insert into news (newsId, newsTitle, newsImg0, 
+      newsImg1, NewsAuthor, NewsCreateTime, 
+      newsText)
+    values (#{newsid,jdbcType=INTEGER}, #{newstitle,jdbcType=VARCHAR}, #{newsimg0,jdbcType=VARCHAR}, 
+      #{newsimg1,jdbcType=VARCHAR}, #{newsauthor,jdbcType=VARCHAR}, #{newscreatetime,jdbcType=TIMESTAMP}, 
+      #{newstext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.News">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsid != null">
+        newsId,
+      </if>
+      <if test="newstitle != null">
+        newsTitle,
+      </if>
+      <if test="newsimg0 != null">
+        newsImg0,
+      </if>
+      <if test="newsimg1 != null">
+        newsImg1,
+      </if>
+      <if test="newsauthor != null">
+        NewsAuthor,
+      </if>
+      <if test="newscreatetime != null">
+        NewsCreateTime,
+      </if>
+      <if test="newstext != null">
+        newsText,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsid != null">
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null">
+        #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg0 != null">
+        #{newsimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg1 != null">
+        #{newsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="newsauthor != null">
+        #{newsauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newscreatetime != null">
+        #{newscreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newstext != null">
+        #{newstext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.NewsExample" resultType="java.lang.Long">
+    select count(*) from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update news
+    <set>
+      <if test="record.newsid != null">
+        newsId = #{record.newsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newstitle != null">
+        newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsimg0 != null">
+        newsImg0 = #{record.newsimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsimg1 != null">
+        newsImg1 = #{record.newsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsauthor != null">
+        NewsAuthor = #{record.newsauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newscreatetime != null">
+        NewsCreateTime = #{record.newscreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newstext != null">
+        newsText = #{record.newstext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update news
+    set newsId = #{record.newsid,jdbcType=INTEGER},
+      newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      newsImg0 = #{record.newsimg0,jdbcType=VARCHAR},
+      newsImg1 = #{record.newsimg1,jdbcType=VARCHAR},
+      NewsAuthor = #{record.newsauthor,jdbcType=VARCHAR},
+      NewsCreateTime = #{record.newscreatetime,jdbcType=TIMESTAMP},
+      newsText = #{record.newstext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update news
+    set newsId = #{record.newsid,jdbcType=INTEGER},
+      newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      newsImg0 = #{record.newsimg0,jdbcType=VARCHAR},
+      newsImg1 = #{record.newsimg1,jdbcType=VARCHAR},
+      NewsAuthor = #{record.newsauthor,jdbcType=VARCHAR},
+      NewsCreateTime = #{record.newscreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.News">
+    update news
+    <set>
+      <if test="newstitle != null">
+        newsTitle = #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg0 != null">
+        newsImg0 = #{newsimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg1 != null">
+        newsImg1 = #{newsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="newsauthor != null">
+        NewsAuthor = #{newsauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newscreatetime != null">
+        NewsCreateTime = #{newscreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newstext != null">
+        newsText = #{newstext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.News">
+    update news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsImg0 = #{newsimg0,jdbcType=VARCHAR},
+      newsImg1 = #{newsimg1,jdbcType=VARCHAR},
+      NewsAuthor = #{newsauthor,jdbcType=VARCHAR},
+      NewsCreateTime = #{newscreatetime,jdbcType=TIMESTAMP},
+      newsText = #{newstext,jdbcType=LONGVARCHAR}
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.News">
+    update news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsImg0 = #{newsimg0,jdbcType=VARCHAR},
+      newsImg1 = #{newsimg1,jdbcType=VARCHAR},
+      NewsAuthor = #{newsauthor,jdbcType=VARCHAR},
+      NewsCreateTime = #{newscreatetime,jdbcType=TIMESTAMP}
+    where newsId = #{newsid,jdbcType=INTEGER}
+  </update>
+    	<select id="pageQuery" resultType="com.kenya.bean.News">
+		select
+		<include refid="Base_Column_List" />
+		from news
+		<where>
+			<if test="pagetext != null">
+				and newsTitle like concat('%', #{pagetext}, '%')
+			</if>
+		</where>
+		order by newsId desc
+		limit #{start}, #{size}
+	</select>
+	<select id="queryCount" resultType="int">
+		select count(newsId) from news
+		<where>
+			<if test="pagetext != null">
+				and newsTitle like concat('%', #{pagetext}, '%')
+			</if>
+		</where>
+	</select>
+</mapper>

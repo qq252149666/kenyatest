@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.CompanyWithBLOBs">
+    <id column="companyId" jdbcType="INTEGER" property="companyid" />
+    <result column="companyName" jdbcType="VARCHAR" property="companyname" />
+    <result column="companyStation" jdbcType="VARCHAR" property="companystation" />
+    <result column="companyStationSalary" jdbcType="DOUBLE" property="companystationsalary" />
+    <result column="companyPhone" jdbcType="VARCHAR" property="companyphone" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="companyImg0" jdbcType="VARCHAR" property="companyimg0" />
+    <result column="companyImg1" jdbcType="VARCHAR" property="companyimg1" />
+    <result column="companyImg2" jdbcType="VARCHAR" property="companyimg2" />
+    <result column="companyImg3" jdbcType="VARCHAR" property="companyimg3" />
+    <result column="companyImg4" jdbcType="VARCHAR" property="companyimg4" />
+    <result column="companyImg5" jdbcType="VARCHAR" property="companyimg5" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.CompanyWithBLOBs">
+    <result column="companyStationDesc" jdbcType="LONGVARCHAR" property="companystationdesc" />
+    <result column="companyAddress" jdbcType="LONGVARCHAR" property="companyaddress" />
+    <result column="companyDesc" jdbcType="LONGVARCHAR" property="companydesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    companyId, companyName, companyStation, companyStationSalary, companyPhone, userId, 
+    companyImg0, companyImg1, companyImg2, companyImg3, companyImg4, companyImg5
+  </sql>
+  <sql id="Blob_Column_List">
+    companyStationDesc, companyAddress, companyDesc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.CompanyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kenya.bean.CompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    where companyId = #{companyid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from company
+    where companyId = #{companyid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.CompanyExample">
+    delete from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.CompanyWithBLOBs">
+    insert into company (companyId, companyName, companyStation, 
+      companyStationSalary, companyPhone, userId, 
+      companyImg0, companyImg1, companyImg2, 
+      companyImg3, companyImg4, companyImg5, 
+      companyStationDesc, companyAddress, 
+      companyDesc)
+    values (#{companyid,jdbcType=INTEGER}, #{companyname,jdbcType=VARCHAR}, #{companystation,jdbcType=VARCHAR}, 
+      #{companystationsalary,jdbcType=DOUBLE}, #{companyphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{companyimg0,jdbcType=VARCHAR}, #{companyimg1,jdbcType=VARCHAR}, #{companyimg2,jdbcType=VARCHAR}, 
+      #{companyimg3,jdbcType=VARCHAR}, #{companyimg4,jdbcType=VARCHAR}, #{companyimg5,jdbcType=VARCHAR}, 
+      #{companystationdesc,jdbcType=LONGVARCHAR}, #{companyaddress,jdbcType=LONGVARCHAR}, 
+      #{companydesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.CompanyWithBLOBs">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyid != null">
+        companyId,
+      </if>
+      <if test="companyname != null">
+        companyName,
+      </if>
+      <if test="companystation != null">
+        companyStation,
+      </if>
+      <if test="companystationsalary != null">
+        companyStationSalary,
+      </if>
+      <if test="companyphone != null">
+        companyPhone,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="companyimg0 != null">
+        companyImg0,
+      </if>
+      <if test="companyimg1 != null">
+        companyImg1,
+      </if>
+      <if test="companyimg2 != null">
+        companyImg2,
+      </if>
+      <if test="companyimg3 != null">
+        companyImg3,
+      </if>
+      <if test="companyimg4 != null">
+        companyImg4,
+      </if>
+      <if test="companyimg5 != null">
+        companyImg5,
+      </if>
+      <if test="companystationdesc != null">
+        companyStationDesc,
+      </if>
+      <if test="companyaddress != null">
+        companyAddress,
+      </if>
+      <if test="companydesc != null">
+        companyDesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyid != null">
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null">
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companystation != null">
+        #{companystation,jdbcType=VARCHAR},
+      </if>
+      <if test="companystationsalary != null">
+        #{companystationsalary,jdbcType=DOUBLE},
+      </if>
+      <if test="companyphone != null">
+        #{companyphone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companyimg0 != null">
+        #{companyimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg1 != null">
+        #{companyimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg2 != null">
+        #{companyimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg3 != null">
+        #{companyimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg4 != null">
+        #{companyimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg5 != null">
+        #{companyimg5,jdbcType=VARCHAR},
+      </if>
+      <if test="companystationdesc != null">
+        #{companystationdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companyaddress != null">
+        #{companyaddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companydesc != null">
+        #{companydesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.CompanyExample" resultType="java.lang.Long">
+    select count(*) from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update company
+    <set>
+      <if test="record.companyid != null">
+        companyId = #{record.companyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyname != null">
+        companyName = #{record.companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companystation != null">
+        companyStation = #{record.companystation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companystationsalary != null">
+        companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+      </if>
+      <if test="record.companyphone != null">
+        companyPhone = #{record.companyphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyimg0 != null">
+        companyImg0 = #{record.companyimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyimg1 != null">
+        companyImg1 = #{record.companyimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyimg2 != null">
+        companyImg2 = #{record.companyimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyimg3 != null">
+        companyImg3 = #{record.companyimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyimg4 != null">
+        companyImg4 = #{record.companyimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyimg5 != null">
+        companyImg5 = #{record.companyimg5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companystationdesc != null">
+        companyStationDesc = #{record.companystationdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.companyaddress != null">
+        companyAddress = #{record.companyaddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.companydesc != null">
+        companyDesc = #{record.companydesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update company
+    set companyId = #{record.companyid,jdbcType=INTEGER},
+      companyName = #{record.companyname,jdbcType=VARCHAR},
+      companyStation = #{record.companystation,jdbcType=VARCHAR},
+      companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+      companyPhone = #{record.companyphone,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
+      companyImg0 = #{record.companyimg0,jdbcType=VARCHAR},
+      companyImg1 = #{record.companyimg1,jdbcType=VARCHAR},
+      companyImg2 = #{record.companyimg2,jdbcType=VARCHAR},
+      companyImg3 = #{record.companyimg3,jdbcType=VARCHAR},
+      companyImg4 = #{record.companyimg4,jdbcType=VARCHAR},
+      companyImg5 = #{record.companyimg5,jdbcType=VARCHAR},
+      companyStationDesc = #{record.companystationdesc,jdbcType=LONGVARCHAR},
+      companyAddress = #{record.companyaddress,jdbcType=LONGVARCHAR},
+      companyDesc = #{record.companydesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update company
+    set companyId = #{record.companyid,jdbcType=INTEGER},
+      companyName = #{record.companyname,jdbcType=VARCHAR},
+      companyStation = #{record.companystation,jdbcType=VARCHAR},
+      companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+      companyPhone = #{record.companyphone,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
+      companyImg0 = #{record.companyimg0,jdbcType=VARCHAR},
+      companyImg1 = #{record.companyimg1,jdbcType=VARCHAR},
+      companyImg2 = #{record.companyimg2,jdbcType=VARCHAR},
+      companyImg3 = #{record.companyimg3,jdbcType=VARCHAR},
+      companyImg4 = #{record.companyimg4,jdbcType=VARCHAR},
+      companyImg5 = #{record.companyimg5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.CompanyWithBLOBs">
+    update company
+    <set>
+      <if test="companyname != null">
+        companyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companystation != null">
+        companyStation = #{companystation,jdbcType=VARCHAR},
+      </if>
+      <if test="companystationsalary != null">
+        companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+      </if>
+      <if test="companyphone != null">
+        companyPhone = #{companyphone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companyimg0 != null">
+        companyImg0 = #{companyimg0,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg1 != null">
+        companyImg1 = #{companyimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg2 != null">
+        companyImg2 = #{companyimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg3 != null">
+        companyImg3 = #{companyimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg4 != null">
+        companyImg4 = #{companyimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="companyimg5 != null">
+        companyImg5 = #{companyimg5,jdbcType=VARCHAR},
+      </if>
+      <if test="companystationdesc != null">
+        companyStationDesc = #{companystationdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companyaddress != null">
+        companyAddress = #{companyaddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companydesc != null">
+        companyDesc = #{companydesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where companyId = #{companyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.CompanyWithBLOBs">
+    update company
+    set companyName = #{companyname,jdbcType=VARCHAR},
+      companyStation = #{companystation,jdbcType=VARCHAR},
+      companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+      companyPhone = #{companyphone,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      companyImg0 = #{companyimg0,jdbcType=VARCHAR},
+      companyImg1 = #{companyimg1,jdbcType=VARCHAR},
+      companyImg2 = #{companyimg2,jdbcType=VARCHAR},
+      companyImg3 = #{companyimg3,jdbcType=VARCHAR},
+      companyImg4 = #{companyimg4,jdbcType=VARCHAR},
+      companyImg5 = #{companyimg5,jdbcType=VARCHAR},
+      companyStationDesc = #{companystationdesc,jdbcType=LONGVARCHAR},
+      companyAddress = #{companyaddress,jdbcType=LONGVARCHAR},
+      companyDesc = #{companydesc,jdbcType=LONGVARCHAR}
+    where companyId = #{companyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.CompanyWithBLOBs">
+    update company
+    set companyName = #{companyname,jdbcType=VARCHAR},
+      companyStation = #{companystation,jdbcType=VARCHAR},
+      companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+      companyPhone = #{companyphone,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      companyImg0 = #{companyimg0,jdbcType=VARCHAR},
+      companyImg1 = #{companyimg1,jdbcType=VARCHAR},
+      companyImg2 = #{companyimg2,jdbcType=VARCHAR},
+      companyImg3 = #{companyimg3,jdbcType=VARCHAR},
+      companyImg4 = #{companyimg4,jdbcType=VARCHAR},
+      companyImg5 = #{companyimg5,jdbcType=VARCHAR}
+    where companyId = #{companyid,jdbcType=INTEGER}
+  </update>
+  	<select id="pageQuery" resultType="com.kenya.bean.CompanyWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		from company
+		<where>
+			<if test="pagetext != null">
+				and sName like concat('%', #{pagetext}, '%')
+			</if>
+		</where>
+		order by companyId desc
+		limit #{start}, #{size}
+	</select>
+	<select id="queryCount" resultType="int">
+		select count(companyId) from company
+		<where>
+			<if test="pagetext != null">
+				and sName like concat('%', #{pagetext}, '%')
+			</if>
+		</where>
+	</select>
+</mapper>
