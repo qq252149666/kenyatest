@@ -136,7 +136,6 @@
 				<input type="file"  name="files" id="doc" multiple="multiple"  style="width:150px;" onchange="javascript:setImagePreviews();" accept="image/*" />
 
 				<div id="dd" style=" width:500px;"></div>
-
 				
 			</td>
 		</tr>
