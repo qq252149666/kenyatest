@@ -80,6 +80,8 @@ public class UserController {
 			case "农林牧":
 				map=framController.deleteFram(id, request);
 				break;
+			case "求职":
+				break;
 		}
 		return map;
 	}
