@@ -4,9 +4,6 @@ package com.kenya.bean;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 public class Job {
 	/*Gson gson =   new GsonBuilder() */
     private Integer jobid;

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.kenya.ajaxResult.JjsonResult1;
 import com.kenya.ajaxResult.JsonCodeEnum;
@@ -31,7 +34,9 @@ import com.atguigu.survey.utils.GlobalMessage;
 import com.atguigu.survey.utils.GlobalNames;*/
 import com.kenya.ajaxResult.JsonResult;
 import com.kenya.bean.Job;
+import com.kenya.bean.Lease;
 import com.kenya.bean.PageBean1;
+import com.kenya.dao.DeleteImg;
 import com.kenya.service.JobSeekerService;
 import com.kenya.until.DataprocessUtils;
 import com.kenya.until.StringUtil;
@@ -41,6 +46,7 @@ import com.kenya.until.StringUtil;
 public class JobSeekerController {
 	@Autowired
 	private JobSeekerService jobSeekerService;
+	DeleteImg deleteimg = new DeleteImg();
 
 	@ResponseBody
 	@RequestMapping(value="/saveJobWant",method=RequestMethod.POST)
@@ -173,6 +179,50 @@ public class JobSeekerController {
       
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         return sd.format(lo);
+    }
+	
+	/**
+	 * 删除job
+	 */
+    @RequestMapping("/deletejob")
+	@ResponseBody
+	public  HashMap<String, Object> deletejob(@RequestParam(value="jobid",defaultValue="0")int jobid,HttpServletRequest request){
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+		if(jobid==0) {
+			map.put("Code", "040");
+			map.put("result", "非法访问");
+		}else {
+			if(jobSeekerService.selectById(jobid).getHeadimg()!=null) {
+				deleteimg.deleteImg(jobSeekerService.selectById(jobid).getHeadimg(), request);
+			}
+			if(jobSeekerService.deleteById(jobid)==0) {
+				map.put("code", "040");
+				map.put("result", "删除失败");
+			}else {
+				map.put("code", "000");
+				map.put("result","删除成功");
+			}
+		}
+		return map;
+	}
+    /**
+     * 查询用户发布的信息
+     */
+    @RequestMapping("/selectByUserId")
+    @ResponseBody
+    public HashMap<String,Object> selectByUserId(@RequestParam(value="userid",defaultValue="0")int userid,@RequestParam(value="pn",defaultValue="1")int pn){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		//page插件 pn页码 7显示几条记录
+		PageHelper.startPage(pn, 7);
+		List<Job> list=jobSeekerService.selectByUserid(userid);
+		PageInfo<Job> page = new PageInfo<Job>(list);
+		if(page.isIsLastPage()) {
+			map.put("code","040");
+		}else {
+			map.put("code","000");
+		}
+		map.put("result", list);
+		return map;
     }
 
 }

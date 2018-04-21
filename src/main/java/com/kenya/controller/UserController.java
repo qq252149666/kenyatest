@@ -33,6 +33,10 @@ public class UserController {
 	private LiveController liveController;
 	@Autowired
 	private FramController framController;
+	@Autowired
+	private JobSeekerController jobseekerController;
+	@Autowired
+	private CompanyController companyController;
 	@RequestMapping("/selectAll")
 	public @ResponseBody List<User> SelectAll(Map<String, Object> model) {
 
@@ -60,6 +64,12 @@ public class UserController {
 			case "农林牧":
 				map=framController.selectByUserId(userid, pn);
 				break;
+			case "求职":
+				map=jobseekerController.selectByUserId(userid, pn);
+				break;
+			case "招聘":
+				map=companyController.selectByUserId(userid, pn);
+				break;
 		}
 		return map;
 	}
@@ -81,6 +91,10 @@ public class UserController {
 				map=framController.deleteFram(id, request);
 				break;
 			case "求职":
+				map=jobseekerController.deletejob(id, request);
+				break;
+			case "招聘":
+				map=companyController.deleteCompany(id, request);
 				break;
 		}
 		return map;

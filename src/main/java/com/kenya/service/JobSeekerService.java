@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.kenya.bean.Job;
-import com.kenya.bean.JobSeeker;
 
 public interface JobSeekerService {
 	int insert(Job jobSeeker);
@@ -13,4 +12,9 @@ public interface JobSeekerService {
 
 	public int queryCount(Map<String, Object> paramMap);
 
+	public Job selectById(int id);
+	
+	public int deleteById(int id);
+	
+	public List<Job> selectByUserid(int Userid);
 }

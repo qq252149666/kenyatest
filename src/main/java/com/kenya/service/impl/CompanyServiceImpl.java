@@ -6,6 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kenya.bean.Company;
+import com.kenya.bean.CompanyExample;
+import com.kenya.bean.CompanyExample.Criteria;
 import com.kenya.bean.CompanyWithBLOBs;
 import com.kenya.dao.CompanyMapper;
 import com.kenya.service.CompanyService;
@@ -32,6 +35,16 @@ public class CompanyServiceImpl implements CompanyService {
 	public int deleteByPrimaryKey(Integer companyid) {
 		// TODO Auto-generated method stub
 		return companyMapper.deleteByPrimaryKey(companyid);
+	}
+	public List<Company> selectByUserId(int id) {
+		CompanyExample example = new CompanyExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUseridEqualTo(id);
+		return companyMapper.selectByExample(example);
+	}
+	
+	public Company selectById(int id) {
+		return companyMapper.selectByPrimaryKey(id);
 	}
 
 }

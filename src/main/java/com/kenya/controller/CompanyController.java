@@ -1,12 +1,10 @@
 package com.kenya.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,16 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kenya.ajaxResult.JjsonResult1;
-import com.kenya.ajaxResult.JsonResult;
+import com.kenya.bean.Company;
 import com.kenya.bean.CompanyWithBLOBs;
-import com.kenya.bean.Goods;
 import com.kenya.bean.PageBean1;
-
+import com.kenya.dao.DeleteImg;
 import com.kenya.service.CompanyService;
-import com.kenya.until.DataprocessUtils;
 import com.kenya.until.StringUtil;
 
 /*
@@ -39,6 +36,7 @@ public class CompanyController {
 	@Autowired
 	private CompanyService recruitService;
 
+	DeleteImg deleteimg = new DeleteImg();
 	@RequestMapping("/publish")
 	@ResponseBody
 	public Object publishRecruit(/* @RequestParam(value="logoFile",required=false) */
@@ -165,11 +163,61 @@ public class CompanyController {
 	}
 	// 删除
 
+	@RequestMapping("/deleteCompany")
 	@ResponseBody
-	@RequestMapping("/delet")
-	public Object pageQuery(Integer companyid) {
-		return recruitService.deleteByPrimaryKey(companyid);
-
+	public  HashMap<String, Object> deleteCompany(@RequestParam(value="companyId",defaultValue="0")int companyId,HttpServletRequest request){
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+		if(companyId==0) {
+			map.put("Code", "040");
+			map.put("result", "非法访问");
+		}else {
+			if(recruitService.selectById(companyId).getCompanyimg0()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg0(), request);
+			}
+			if(recruitService.selectById(companyId).getCompanyimg1()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg1(), request);
+			}
+			if(recruitService.selectById(companyId).getCompanyimg2()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg2(), request);
+			}
+			if(recruitService.selectById(companyId).getCompanyimg3()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg3(), request);
+			}
+			if(recruitService.selectById(companyId).getCompanyimg4()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg4(), request);
+			}
+			if(recruitService.selectById(companyId).getCompanyimg5()!=null) {
+				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg5(), request);
+			}
+			if(recruitService.deleteByPrimaryKey(companyId)==0) {
+				map.put("code", "040");
+				map.put("result", "删除失败");
+			}else {
+				map.put("code", "000");
+				map.put("result","删除成功");
+			}
+		}
+		return map;
 	}
+    /**
+     * 查询用户发布的信息
+     */
+    @RequestMapping("/selectByUserId")
+    @ResponseBody
+    public HashMap<String,Object> selectByUserId(@RequestParam(value="userid",defaultValue="0")int userid,@RequestParam(value="pn",defaultValue="1")int pn){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		//page插件 pn页码 7显示几条记录
+		PageHelper.startPage(pn, 7);
+		List<Company> list=recruitService.selectByUserId(userid);
+		PageInfo<Company> page = new PageInfo<Company>(list);
+		if(page.isIsLastPage()) {
+			map.put("code","040");
+		}else {
+			map.put("code","000");
+		}
+		map.put("result", list);
+		return map;
+    }
+
 
 }
