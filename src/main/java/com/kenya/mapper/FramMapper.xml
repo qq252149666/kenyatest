@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.FramMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.Fram">
+    <id column="framId" jdbcType="INTEGER" property="framid" />
+    <result column="framName" jdbcType="VARCHAR" property="framname" />
+    <result column="framImgs" jdbcType="VARCHAR" property="framimgs" />
+    <result column="framImg1" jdbcType="VARCHAR" property="framimg1" />
+    <result column="framImg2" jdbcType="VARCHAR" property="framimg2" />
+    <result column="framImg3" jdbcType="VARCHAR" property="framimg3" />
+    <result column="framImg4" jdbcType="VARCHAR" property="framimg4" />
+    <result column="framType" jdbcType="VARCHAR" property="framtype" />
+    <result column="framUser" jdbcType="VARCHAR" property="framuser" />
+    <result column="framDesc" jdbcType="VARCHAR" property="framdesc" />
+    <result column="framPhone" jdbcType="VARCHAR" property="framphone" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <association property="user" javaType="com.kenya.bean.User">  
+	    <id column="user_id" property="userId"/>
+	    	<result column="user_name" property="userName"/>
+    </association>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Fram">
+    <result column="framDesc" jdbcType="LONGVARCHAR" property="framdesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    framId, framName, framImgs, framImg1, framImg2, framImg3, framImg4, framType, framUser, 
+    framPhone,framDesc, userId,user_id,user_name
+  </sql>
+  <sql id="Blob_Column_List">
+    framDesc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.FramExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kenya_fram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kenya.bean.FramExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_fram join kenya_user on kenya_fram.userId=kenya_user.user_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select framId, framName, framImgs, framImg1, framImg2, framImg3, framImg4, framType, framUser, 
+    framPhone,framDesc, userId,user_id,user_name from kenya_fram join kenya_user on kenya_fram.userId=kenya_user.user_id where framId=#{framid}
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_fram
+    where framId = #{framid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.FramExample">
+    delete from kenya_fram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.Fram">
+    insert into kenya_fram (framId, framName, framImgs, 
+      framImg1, framImg2, framImg3, 
+      framImg4, framType, framUser, 
+      framPhone, userId, framDesc
+      )
+    values (#{framid,jdbcType=INTEGER}, #{framname,jdbcType=VARCHAR}, #{framimgs,jdbcType=VARCHAR}, 
+      #{framimg1,jdbcType=VARCHAR}, #{framimg2,jdbcType=VARCHAR}, #{framimg3,jdbcType=VARCHAR}, 
+      #{framimg4,jdbcType=VARCHAR}, #{framtype,jdbcType=VARCHAR}, #{framuser,jdbcType=VARCHAR}, 
+      #{framphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{framdesc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.Fram">
+    insert into kenya_fram
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="framid != null">
+        framId,
+      </if>
+      <if test="framname != null">
+        framName,
+      </if>
+      <if test="framimgs != null">
+        framImgs,
+      </if>
+      <if test="framimg1 != null">
+        framImg1,
+      </if>
+      <if test="framimg2 != null">
+        framImg2,
+      </if>
+      <if test="framimg3 != null">
+        framImg3,
+      </if>
+      <if test="framimg4 != null">
+        framImg4,
+      </if>
+      <if test="framtype != null">
+        framType,
+      </if>
+      <if test="framuser != null">
+        framUser,
+      </if>
+      <if test="framphone != null">
+        framPhone,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="framdesc != null">
+        framDesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="framid != null">
+        #{framid,jdbcType=INTEGER},
+      </if>
+      <if test="framname != null">
+        #{framname,jdbcType=VARCHAR},
+      </if>
+      <if test="framimgs != null">
+        #{framimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg1 != null">
+        #{framimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg2 != null">
+        #{framimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg3 != null">
+        #{framimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg4 != null">
+        #{framimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="framtype != null">
+        #{framtype,jdbcType=VARCHAR},
+      </if>
+      <if test="framuser != null">
+        #{framuser,jdbcType=VARCHAR},
+      </if>
+      <if test="framphone != null">
+        #{framphone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="framdesc != null">
+        #{framdesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.FramExample" resultType="java.lang.Long">
+    select count(*) from kenya_fram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_fram
+    <set>
+      <if test="record.framid != null">
+        framId = #{record.framid,jdbcType=INTEGER},
+      </if>
+      <if test="record.framname != null">
+        framName = #{record.framname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framimgs != null">
+        framImgs = #{record.framimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framimg1 != null">
+        framImg1 = #{record.framimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framimg2 != null">
+        framImg2 = #{record.framimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framimg3 != null">
+        framImg3 = #{record.framimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framimg4 != null">
+        framImg4 = #{record.framimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framtype != null">
+        framType = #{record.framtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framuser != null">
+        framUser = #{record.framuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framphone != null">
+        framPhone = #{record.framphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.framdesc != null">
+        framDesc = #{record.framdesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update kenya_fram
+    set framId = #{record.framid,jdbcType=INTEGER},
+      framName = #{record.framname,jdbcType=VARCHAR},
+      framImgs = #{record.framimgs,jdbcType=VARCHAR},
+      framImg1 = #{record.framimg1,jdbcType=VARCHAR},
+      framImg2 = #{record.framimg2,jdbcType=VARCHAR},
+      framImg3 = #{record.framimg3,jdbcType=VARCHAR},
+      framImg4 = #{record.framimg4,jdbcType=VARCHAR},
+      framType = #{record.framtype,jdbcType=VARCHAR},
+      framUser = #{record.framuser,jdbcType=VARCHAR},
+      framPhone = #{record.framphone,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
+      framDesc = #{record.framdesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_fram
+    set framId = #{record.framid,jdbcType=INTEGER},
+      framName = #{record.framname,jdbcType=VARCHAR},
+      framImgs = #{record.framimgs,jdbcType=VARCHAR},
+      framImg1 = #{record.framimg1,jdbcType=VARCHAR},
+      framImg2 = #{record.framimg2,jdbcType=VARCHAR},
+      framImg3 = #{record.framimg3,jdbcType=VARCHAR},
+      framImg4 = #{record.framimg4,jdbcType=VARCHAR},
+      framType = #{record.framtype,jdbcType=VARCHAR},
+      framUser = #{record.framuser,jdbcType=VARCHAR},
+      framPhone = #{record.framphone,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Fram">
+    update kenya_fram
+    <set>
+      <if test="framname != null">
+        framName = #{framname,jdbcType=VARCHAR},
+      </if>
+      <if test="framimgs != null">
+        framImgs = #{framimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg1 != null">
+        framImg1 = #{framimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg2 != null">
+        framImg2 = #{framimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg3 != null">
+        framImg3 = #{framimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="framimg4 != null">
+        framImg4 = #{framimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="framtype != null">
+        framType = #{framtype,jdbcType=VARCHAR},
+      </if>
+      <if test="framuser != null">
+        framUser = #{framuser,jdbcType=VARCHAR},
+      </if>
+      <if test="framphone != null">
+        framPhone = #{framphone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="framdesc != null">
+        framDesc = #{framdesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where framId = #{framid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.Fram">
+    update kenya_fram
+    set framName = #{framname,jdbcType=VARCHAR},
+      framImgs = #{framimgs,jdbcType=VARCHAR},
+      framImg1 = #{framimg1,jdbcType=VARCHAR},
+      framImg2 = #{framimg2,jdbcType=VARCHAR},
+      framImg3 = #{framimg3,jdbcType=VARCHAR},
+      framImg4 = #{framimg4,jdbcType=VARCHAR},
+      framType = #{framtype,jdbcType=VARCHAR},
+      framUser = #{framuser,jdbcType=VARCHAR},
+      framPhone = #{framphone,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      framDesc = #{framdesc,jdbcType=LONGVARCHAR}
+    where framId = #{framid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Fram">
+    update kenya_fram
+    set framName = #{framname,jdbcType=VARCHAR},
+      framImgs = #{framimgs,jdbcType=VARCHAR},
+      framImg1 = #{framimg1,jdbcType=VARCHAR},
+      framImg2 = #{framimg2,jdbcType=VARCHAR},
+      framImg3 = #{framimg3,jdbcType=VARCHAR},
+      framImg4 = #{framimg4,jdbcType=VARCHAR},
+      framType = #{framtype,jdbcType=VARCHAR},
+      framUser = #{framuser,jdbcType=VARCHAR},
+      framPhone = #{framphone,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER}
+    where framId = #{framid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.Project">
+    <id column="projectId" jdbcType="INTEGER" property="projectid" />
+    <result column="projectName" jdbcType="VARCHAR" property="projectname" />
+    <result column="projectPrice" jdbcType="REAL" property="projectprice" />
+    <result column="projectDesc" jdbcType="VARCHAR" property="projectdesc" />
+    <result column="projectPhone" jdbcType="VARCHAR" property="projectphone" />
+    <result column="projectImgs" jdbcType="VARCHAR" property="projectimgs" />
+    <result column="projectImg1" jdbcType="VARCHAR" property="projectimg1" />
+    <result column="projectImg2" jdbcType="VARCHAR" property="projectimg2" />
+    <result column="projectImg3" jdbcType="VARCHAR" property="projectimg3" />
+    <result column="projectImg4" jdbcType="VARCHAR" property="projectimg4" />
+    <result column="adminId" jdbcType="INTEGER" property="adminid" />
+    <result column="projectUser" jdbcType="VARCHAR" property="projectuser" />
+    <result column="projectAddress" jdbcType="VARCHAR" property="projectaddress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
+    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress
+  </sql>
+  <select id="selectByExample" parameterType="com.kenya.bean.ProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kenya_project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.ProjectExample">
+    delete from kenya_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.Project">
+    insert into kenya_project (projectId, projectName, projectPrice, 
+      projectDesc, projectPhone, projectImgs, 
+      projectImg1, projectImg2, projectImg3, 
+      projectImg4, adminId, projectUser, 
+      projectAddress)
+    values (#{projectid,jdbcType=INTEGER}, #{projectname,jdbcType=VARCHAR}, #{projectprice,jdbcType=REAL}, 
+      #{projectdesc,jdbcType=VARCHAR}, #{projectphone,jdbcType=VARCHAR}, #{projectimgs,jdbcType=VARCHAR}, 
+      #{projectimg1,jdbcType=VARCHAR}, #{projectimg2,jdbcType=VARCHAR}, #{projectimg3,jdbcType=VARCHAR}, 
+      #{projectimg4,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}, #{projectuser,jdbcType=VARCHAR}, 
+      #{projectaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.Project">
+    insert into kenya_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectid != null">
+        projectId,
+      </if>
+      <if test="projectname != null">
+        projectName,
+      </if>
+      <if test="projectprice != null">
+        projectPrice,
+      </if>
+      <if test="projectdesc != null">
+        projectDesc,
+      </if>
+      <if test="projectphone != null">
+        projectPhone,
+      </if>
+      <if test="projectimgs != null">
+        projectImgs,
+      </if>
+      <if test="projectimg1 != null">
+        projectImg1,
+      </if>
+      <if test="projectimg2 != null">
+        projectImg2,
+      </if>
+      <if test="projectimg3 != null">
+        projectImg3,
+      </if>
+      <if test="projectimg4 != null">
+        projectImg4,
+      </if>
+      <if test="adminid != null">
+        adminId,
+      </if>
+      <if test="projectuser != null">
+        projectUser,
+      </if>
+      <if test="projectaddress != null">
+        projectAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectid != null">
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="projectname != null">
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectprice != null">
+        #{projectprice,jdbcType=REAL},
+      </if>
+      <if test="projectdesc != null">
+        #{projectdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectphone != null">
+        #{projectphone,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimgs != null">
+        #{projectimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg1 != null">
+        #{projectimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg2 != null">
+        #{projectimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg3 != null">
+        #{projectimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg4 != null">
+        #{projectimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="adminid != null">
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="projectuser != null">
+        #{projectuser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectaddress != null">
+        #{projectaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.ProjectExample" resultType="java.lang.Long">
+    select count(*) from kenya_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_project
+    <set>
+      <if test="record.projectid != null">
+        projectId = #{record.projectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectname != null">
+        projectName = #{record.projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectprice != null">
+        projectPrice = #{record.projectprice,jdbcType=REAL},
+      </if>
+      <if test="record.projectdesc != null">
+        projectDesc = #{record.projectdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectphone != null">
+        projectPhone = #{record.projectphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimgs != null">
+        projectImgs = #{record.projectimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimg1 != null">
+        projectImg1 = #{record.projectimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimg2 != null">
+        projectImg2 = #{record.projectimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimg3 != null">
+        projectImg3 = #{record.projectimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimg4 != null">
+        projectImg4 = #{record.projectimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminid != null">
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectuser != null">
+        projectUser = #{record.projectuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectaddress != null">
+        projectAddress = #{record.projectaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_project
+    set projectId = #{record.projectid,jdbcType=INTEGER},
+      projectName = #{record.projectname,jdbcType=VARCHAR},
+      projectPrice = #{record.projectprice,jdbcType=REAL},
+      projectDesc = #{record.projectdesc,jdbcType=VARCHAR},
+      projectPhone = #{record.projectphone,jdbcType=VARCHAR},
+      projectImgs = #{record.projectimgs,jdbcType=VARCHAR},
+      projectImg1 = #{record.projectimg1,jdbcType=VARCHAR},
+      projectImg2 = #{record.projectimg2,jdbcType=VARCHAR},
+      projectImg3 = #{record.projectimg3,jdbcType=VARCHAR},
+      projectImg4 = #{record.projectimg4,jdbcType=VARCHAR},
+      adminId = #{record.adminid,jdbcType=INTEGER},
+      projectUser = #{record.projectuser,jdbcType=VARCHAR},
+      projectAddress = #{record.projectaddress,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Project">
+    update kenya_project
+    <set>
+      <if test="projectname != null">
+        projectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectprice != null">
+        projectPrice = #{projectprice,jdbcType=REAL},
+      </if>
+      <if test="projectdesc != null">
+        projectDesc = #{projectdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectphone != null">
+        projectPhone = #{projectphone,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimgs != null">
+        projectImgs = #{projectimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg1 != null">
+        projectImg1 = #{projectimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg2 != null">
+        projectImg2 = #{projectimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg3 != null">
+        projectImg3 = #{projectimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimg4 != null">
+        projectImg4 = #{projectimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="adminid != null">
+        adminId = #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="projectuser != null">
+        projectUser = #{projectuser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectaddress != null">
+        projectAddress = #{projectaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Project">
+    update kenya_project
+    set projectName = #{projectname,jdbcType=VARCHAR},
+      projectPrice = #{projectprice,jdbcType=REAL},
+      projectDesc = #{projectdesc,jdbcType=VARCHAR},
+      projectPhone = #{projectphone,jdbcType=VARCHAR},
+      projectImgs = #{projectimgs,jdbcType=VARCHAR},
+      projectImg1 = #{projectimg1,jdbcType=VARCHAR},
+      projectImg2 = #{projectimg2,jdbcType=VARCHAR},
+      projectImg3 = #{projectimg3,jdbcType=VARCHAR},
+      projectImg4 = #{projectimg4,jdbcType=VARCHAR},
+      adminId = #{adminid,jdbcType=INTEGER},
+      projectUser = #{projectuser,jdbcType=VARCHAR},
+      projectAddress = #{projectaddress,jdbcType=VARCHAR}
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.GoodsMapper">
+	<resultMap id="BaseResultMap" type="com.kenya.bean.Goods">
+		<id column="goodsId" jdbcType="INTEGER" property="goodsid" />
+		<result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
+		<result column="goodsImgs" jdbcType="VARCHAR" property="goodsimgs" />
+		<result column="goodsImg1" jdbcType="VARCHAR" property="goodsimg1" />
+		<result column="goodsImg2" jdbcType="VARCHAR" property="goodsimg2" />
+		<result column="goodsImg3" jdbcType="VARCHAR" property="goodsimg3" />
+		<result column="goodsImg4" jdbcType="VARCHAR" property="goodsimg4" />
+		<result column="goodsPrice" jdbcType="REAL" property="goodsprice" />
+		<result column="goodsUserName" jdbcType="VARCHAR" property="goodsusername" />
+		<result column="goodsPhone" jdbcType="VARCHAR" property="goodsphone" />
+		<result column="goodsDesc" jdbcType="VARCHAR" property="goodsdesc" />
+		<result column="userId" jdbcType="INTEGER" property="userid" />
+		<association property="user" javaType="com.kenya.bean.User">  
+	    <id column="user_id" property="userId"/>
+	    	<result column="user_name" property="userName"/>
+    	</association>
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.kenya.bean.Goods">
+		<result column="goodsDesc" jdbcType="LONGVARCHAR" property="goodsdesc" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		goodsId, goodsName, goodsImgs, goodsImg1, goodsImg2, goodsImg3, goodsImg4,
+		goodsPrice,goodsDesc,
+		goodsUserName, goodsPhone, userId,user_id,user_name
+	</sql>
+	<sql id="Blob_Column_List">
+		goodsDesc
+	</sql>
+	<select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.GoodsExample"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from kenya_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" parameterType="com.kenya.bean.GoodsExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from kenya_goods join kenya_user on kenya_goods.userId=kenya_user.user_id
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+		select goodsId, goodsName, goodsImgs, goodsImg1, goodsImg2, goodsImg3, goodsImg4,
+		goodsPrice,goodsDesc,
+		goodsUserName, goodsPhone, userId,user_id,user_name from kenya_goods join kenya_user on kenya_goods.userId=kenya_user.user_id where goodsId = #{goodsid}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from kenya_goods
+		where goodsId = #{goodsid,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.kenya.bean.GoodsExample">
+		delete from kenya_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.kenya.bean.Goods" useGeneratedKeys="true" keyProperty="goodsid">
+		insert into kenya_goods (goodsId, goodsName, goodsImgs,
+		goodsImg1, goodsImg2, goodsImg3,
+		goodsImg4, goodsPrice, goodsUserName,
+		goodsPhone, userId, goodsDesc
+		)
+		values (#{goodsid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR},
+		#{goodsimgs,jdbcType=VARCHAR},
+		#{goodsimg1,jdbcType=VARCHAR}, #{goodsimg2,jdbcType=VARCHAR}, #{goodsimg3,jdbcType=VARCHAR},
+		#{goodsimg4,jdbcType=VARCHAR}, #{goodsprice,jdbcType=REAL},
+		#{goodsusername,jdbcType=VARCHAR},
+		#{goodsphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{goodsdesc,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.kenya.bean.Goods">
+		insert into kenya_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="goodsid != null">
+				goodsId,
+			</if>
+			<if test="goodsname != null">
+				goodsName,
+			</if>
+			<if test="goodsimgs != null">
+				goodsImgs,
+			</if>
+			<if test="goodsimg1 != null">
+				goodsImg1,
+			</if>
+			<if test="goodsimg2 != null">
+				goodsImg2,
+			</if>
+			<if test="goodsimg3 != null">
+				goodsImg3,
+			</if>
+			<if test="goodsimg4 != null">
+				goodsImg4,
+			</if>
+			<if test="goodsprice != null">
+				goodsPrice,
+			</if>
+			<if test="goodsusername != null">
+				goodsUserName,
+			</if>
+			<if test="goodsphone != null">
+				goodsPhone,
+			</if>
+			<if test="userid != null">
+				userId,
+			</if>
+			<if test="goodsdesc != null">
+				goodsDesc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="goodsid != null">
+				#{goodsid,jdbcType=INTEGER},
+			</if>
+			<if test="goodsname != null">
+				#{goodsname,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimgs != null">
+				#{goodsimgs,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg1 != null">
+				#{goodsimg1,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg2 != null">
+				#{goodsimg2,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg3 != null">
+				#{goodsimg3,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg4 != null">
+				#{goodsimg4,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsprice != null">
+				#{goodsprice,jdbcType=REAL},
+			</if>
+			<if test="goodsusername != null">
+				#{goodsusername,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsphone != null">
+				#{goodsphone,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="goodsdesc != null">
+				#{goodsdesc,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.kenya.bean.GoodsExample"
+		resultType="java.lang.Long">
+		select count(*) from kenya_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map" useGeneratedKeys="true" keyProperty="goodsid">
+		update kenya_goods
+		<set>
+			<if test="record.goodsname != null">
+				goodsName = #{record.goodsname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsimgs != null">
+				goodsImgs = #{record.goodsimgs,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsimg1 != null">
+				goodsImg1 = #{record.goodsimg1,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsimg2 != null">
+				goodsImg2 = #{record.goodsimg2,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsimg3 != null">
+				goodsImg3 = #{record.goodsimg3,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsimg4 != null">
+				goodsImg4 = #{record.goodsimg4,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsprice != null">
+				goodsPrice = #{record.goodsprice,jdbcType=REAL},
+			</if>
+			<if test="record.goodsusername != null">
+				goodsUserName = #{record.goodsusername,jdbcType=VARCHAR},
+			</if>
+			<if test="record.goodsphone != null">
+				goodsPhone = #{record.goodsphone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userid != null">
+				userId = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.goodsdesc != null">
+				goodsDesc = #{record.goodsdesc,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update kenya_goods
+		set goodsId = #{record.goodsid,jdbcType=INTEGER},
+		goodsName = #{record.goodsname,jdbcType=VARCHAR},
+		goodsImgs = #{record.goodsimgs,jdbcType=VARCHAR},
+		goodsImg1 = #{record.goodsimg1,jdbcType=VARCHAR},
+		goodsImg2 = #{record.goodsimg2,jdbcType=VARCHAR},
+		goodsImg3 = #{record.goodsimg3,jdbcType=VARCHAR},
+		goodsImg4 = #{record.goodsimg4,jdbcType=VARCHAR},
+		goodsPrice = #{record.goodsprice,jdbcType=REAL},
+		goodsUserName = #{record.goodsusername,jdbcType=VARCHAR},
+		goodsPhone = #{record.goodsphone,jdbcType=VARCHAR},
+		userId = #{record.userid,jdbcType=INTEGER},
+		goodsDesc = #{record.goodsdesc,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update kenya_goods
+		set goodsId = #{record.goodsid,jdbcType=INTEGER},
+		goodsName = #{record.goodsname,jdbcType=VARCHAR},
+		goodsImgs = #{record.goodsimgs,jdbcType=VARCHAR},
+		goodsImg1 = #{record.goodsimg1,jdbcType=VARCHAR},
+		goodsImg2 = #{record.goodsimg2,jdbcType=VARCHAR},
+		goodsImg3 = #{record.goodsimg3,jdbcType=VARCHAR},
+		goodsImg4 = #{record.goodsimg4,jdbcType=VARCHAR},
+		goodsPrice = #{record.goodsprice,jdbcType=REAL},
+		goodsUserName = #{record.goodsusername,jdbcType=VARCHAR},
+		goodsPhone = #{record.goodsphone,jdbcType=VARCHAR},
+		userId = #{record.userid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Goods">
+		update kenya_goods
+		<set>
+			<if test="goodsname != null">
+				goodsId = #{goodsid,jdbcType=INTEGER},
+			</if>
+			<if test="goodsname != null">
+				goodsName = #{goodsname,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimgs != null">
+				goodsImgs = #{goodsimgs,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg1 != null">
+				goodsImg1 = #{goodsimg1,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg2 != null">
+				goodsImg2 = #{goodsimg2,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg3 != null">
+				goodsImg3 = #{goodsimg3,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsimg4 != null">
+				goodsImg4 = #{goodsimg4,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsprice != null">
+				goodsPrice = #{goodsprice,jdbcType=REAL},
+			</if>
+			<if test="goodsusername != null">
+				goodsUserName = #{goodsusername,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsphone != null">
+				goodsPhone = #{goodsphone,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				userId = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="goodsdesc != null">
+				goodsDesc = #{goodsdesc,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where goodsId = #{goodsid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.Goods">
+		update kenya_goods
+		set goodsName = #{goodsname,jdbcType=VARCHAR},
+		goodsImgs = #{goodsimgs,jdbcType=VARCHAR},
+		goodsImg1 = #{goodsimg1,jdbcType=VARCHAR},
+		goodsImg2 = #{goodsimg2,jdbcType=VARCHAR},
+		goodsImg3 = #{goodsimg3,jdbcType=VARCHAR},
+		goodsImg4 = #{goodsimg4,jdbcType=VARCHAR},
+		goodsPrice = #{goodsprice,jdbcType=REAL},
+		goodsUserName = #{goodsusername,jdbcType=VARCHAR},
+		goodsPhone = #{goodsphone,jdbcType=VARCHAR},
+		userId = #{userid,jdbcType=INTEGER},
+		goodsDesc = #{goodsdesc,jdbcType=LONGVARCHAR}
+		where goodsId = #{goodsid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.kenya.bean.Goods">
+		update kenya_goods
+		set goodsName = #{goodsname,jdbcType=VARCHAR},
+		goodsImgs = #{goodsimgs,jdbcType=VARCHAR},
+		goodsImg1 = #{goodsimg1,jdbcType=VARCHAR},
+		goodsImg2 = #{goodsimg2,jdbcType=VARCHAR},
+		goodsImg3 = #{goodsimg3,jdbcType=VARCHAR},
+		goodsImg4 = #{goodsimg4,jdbcType=VARCHAR},
+		goodsPrice = #{goodsprice,jdbcType=REAL},
+		goodsUserName = #{goodsusername,jdbcType=VARCHAR},
+		goodsPhone = #{goodsphone,jdbcType=VARCHAR},
+		userId = #{userid,jdbcType=INTEGER}
+		where goodsId = #{goodsid,jdbcType=INTEGER}
+	</update>
+
+</mapper>

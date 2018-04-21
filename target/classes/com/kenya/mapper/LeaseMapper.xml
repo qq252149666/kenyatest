@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.LeaseMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.Lease">
+    <id column="leaseId" jdbcType="INTEGER" property="leaseid" />
+    <result column="leaseImgs" jdbcType="VARCHAR" property="leaseimgs" />
+    <result column="leaseName" jdbcType="VARCHAR" property="leasename" />
+    <result column="leasePrice" jdbcType="REAL" property="leaseprice" />
+    <result column="leasePhone" jdbcType="VARCHAR" property="leasephone" />
+    <result column="leaseSquare" jdbcType="VARCHAR" property="leasesquare" />
+    <result column="leaseAddress" jdbcType="VARCHAR" property="leaseaddress" />
+    <result column="leaseHome" jdbcType="VARCHAR" property="leasehome" />
+    <result column="leaseImg1" jdbcType="VARCHAR" property="leaseimg1" />
+    <result column="leaseImg2" jdbcType="VARCHAR" property="leaseimg2" />
+    <result column="leaseImg3" jdbcType="VARCHAR" property="leaseimg3" />
+    <result column="leaseImg4" jdbcType="VARCHAR" property="leaseimg4" />
+    <result column="leaseDesc" jdbcType="VARCHAR" property="leasedesc" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <association property="user" javaType="com.kenya.bean.User">  
+	    <id column="user_id" property="userId"/>
+	    <result column="user_name" property="userName"/>
+    </association>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Lease">
+    <result column="leaseDesc" jdbcType="LONGVARCHAR" property="leasedesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    leaseId, leaseImgs, leaseName, leasePrice, leasePhone, leaseSquare, leaseAddress, 
+    leaseHome, leaseImg1, leaseImg2, leaseImg3, leaseImg4, userId,user_id,user_name,leaseDesc
+  </sql>
+  <sql id="Blob_Column_List">
+    leaseDesc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.LeaseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kenya_lease
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kenya.bean.LeaseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_lease left join  kenya_user on kenya_lease.userId=kenya_user.user_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kenya_lease
+    where leaseId = #{leaseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_lease
+    where leaseId = #{leaseid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.LeaseExample">
+    delete from kenya_lease
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.Lease" useGeneratedKeys="true" keyProperty="leaseid">
+    insert into kenya_lease (leaseImgs, leaseName, 
+      leasePrice, leasePhone, leaseSquare, 
+      leaseAddress, leaseHome, leaseImg1, 
+      leaseImg2, leaseImg3, leaseImg4, 
+      userId, leaseDesc)
+    values (#{leaseimgs,jdbcType=VARCHAR}, #{leasename,jdbcType=VARCHAR}, 
+      #{leaseprice,jdbcType=REAL}, #{leasephone,jdbcType=VARCHAR}, #{leasesquare,jdbcType=VARCHAR}, 
+      #{leaseaddress,jdbcType=VARCHAR}, #{leasehome,jdbcType=VARCHAR}, #{leaseimg1,jdbcType=VARCHAR}, 
+      #{leaseimg2,jdbcType=VARCHAR}, #{leaseimg3,jdbcType=VARCHAR}, #{leaseimg4,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{leasedesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.Lease">
+    insert into kenya_lease
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="leaseid != null">
+        leaseId,
+      </if>
+      <if test="leaseimgs != null">
+        leaseImgs,
+      </if>
+      <if test="leasename != null">
+        leaseName,
+      </if>
+      <if test="leaseprice != null">
+        leasePrice,
+      </if>
+      <if test="leasephone != null">
+        leasePhone,
+      </if>
+      <if test="leasesquare != null">
+        leaseSquare,
+      </if>
+      <if test="leaseaddress != null">
+        leaseAddress,
+      </if>
+      <if test="leasehome != null">
+        leaseHome,
+      </if>
+      <if test="leaseimg1 != null">
+        leaseImg1,
+      </if>
+      <if test="leaseimg2 != null">
+        leaseImg2,
+      </if>
+      <if test="leaseimg3 != null">
+        leaseImg3,
+      </if>
+      <if test="leaseimg4 != null">
+        leaseImg4,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="leasedesc != null">
+        leaseDesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="leaseid != null">
+        #{leaseid,jdbcType=INTEGER},
+      </if>
+      <if test="leaseimgs != null">
+        #{leaseimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="leasename != null">
+        #{leasename,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseprice != null">
+        #{leaseprice,jdbcType=REAL},
+      </if>
+      <if test="leasephone != null">
+        #{leasephone,jdbcType=VARCHAR},
+      </if>
+      <if test="leasesquare != null">
+        #{leasesquare,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseaddress != null">
+        #{leaseaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leasehome != null">
+        #{leasehome,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg1 != null">
+        #{leaseimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg2 != null">
+        #{leaseimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg3 != null">
+        #{leaseimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg4 != null">
+        #{leaseimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="leasedesc != null">
+        #{leasedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.LeaseExample" resultType="java.lang.Long">
+    select count(*) from kenya_lease
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_lease
+    <set>
+      <if test="record.leaseid != null">
+        leaseId = #{record.leaseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaseimgs != null">
+        leaseImgs = #{record.leaseimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leasename != null">
+        leaseName = #{record.leasename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseprice != null">
+        leasePrice = #{record.leaseprice,jdbcType=REAL},
+      </if>
+      <if test="record.leasephone != null">
+        leasePhone = #{record.leasephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leasesquare != null">
+        leaseSquare = #{record.leasesquare,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseaddress != null">
+        leaseAddress = #{record.leaseaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leasehome != null">
+        leaseHome = #{record.leasehome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseimg1 != null">
+        leaseImg1 = #{record.leaseimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseimg2 != null">
+        leaseImg2 = #{record.leaseimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseimg3 != null">
+        leaseImg3 = #{record.leaseimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaseimg4 != null">
+        leaseImg4 = #{record.leaseimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.leasedesc != null">
+        leaseDesc = #{record.leasedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update kenya_lease
+    set leaseId = #{record.leaseid,jdbcType=INTEGER},
+      leaseImgs = #{record.leaseimgs,jdbcType=VARCHAR},
+      leaseName = #{record.leasename,jdbcType=VARCHAR},
+      leasePrice = #{record.leaseprice,jdbcType=REAL},
+      leasePhone = #{record.leasephone,jdbcType=VARCHAR},
+      leaseSquare = #{record.leasesquare,jdbcType=VARCHAR},
+      leaseAddress = #{record.leaseaddress,jdbcType=VARCHAR},
+      leaseHome = #{record.leasehome,jdbcType=VARCHAR},
+      leaseImg1 = #{record.leaseimg1,jdbcType=VARCHAR},
+      leaseImg2 = #{record.leaseimg2,jdbcType=VARCHAR},
+      leaseImg3 = #{record.leaseimg3,jdbcType=VARCHAR},
+      leaseImg4 = #{record.leaseimg4,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
+      leaseDesc = #{record.leasedesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_lease
+    set leaseId = #{record.leaseid,jdbcType=INTEGER},
+      leaseImgs = #{record.leaseimgs,jdbcType=VARCHAR},
+      leaseName = #{record.leasename,jdbcType=VARCHAR},
+      leasePrice = #{record.leaseprice,jdbcType=REAL},
+      leasePhone = #{record.leasephone,jdbcType=VARCHAR},
+      leaseSquare = #{record.leasesquare,jdbcType=VARCHAR},
+      leaseAddress = #{record.leaseaddress,jdbcType=VARCHAR},
+      leaseHome = #{record.leasehome,jdbcType=VARCHAR},
+      leaseImg1 = #{record.leaseimg1,jdbcType=VARCHAR},
+      leaseImg2 = #{record.leaseimg2,jdbcType=VARCHAR},
+      leaseImg3 = #{record.leaseimg3,jdbcType=VARCHAR},
+      leaseImg4 = #{record.leaseimg4,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Lease">
+    update kenya_lease
+    <set>
+      <if test="leaseimgs != null">
+        leaseImgs = #{leaseimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="leasename != null">
+        leaseName = #{leasename,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseprice != null">
+        leasePrice = #{leaseprice,jdbcType=REAL},
+      </if>
+      <if test="leasephone != null">
+        leasePhone = #{leasephone,jdbcType=VARCHAR},
+      </if>
+      <if test="leasesquare != null">
+        leaseSquare = #{leasesquare,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseaddress != null">
+        leaseAddress = #{leaseaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leasehome != null">
+        leaseHome = #{leasehome,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg1 != null">
+        leaseImg1 = #{leaseimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg2 != null">
+        leaseImg2 = #{leaseimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg3 != null">
+        leaseImg3 = #{leaseimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="leaseimg4 != null">
+        leaseImg4 = #{leaseimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="leasedesc != null">
+        leaseDesc = #{leasedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where leaseId = #{leaseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.Lease">
+    update kenya_lease
+    set leaseImgs = #{leaseimgs,jdbcType=VARCHAR},
+      leaseName = #{leasename,jdbcType=VARCHAR},
+      leasePrice = #{leaseprice,jdbcType=REAL},
+      leasePhone = #{leasephone,jdbcType=VARCHAR},
+      leaseSquare = #{leasesquare,jdbcType=VARCHAR},
+      leaseAddress = #{leaseaddress,jdbcType=VARCHAR},
+      leaseHome = #{leasehome,jdbcType=VARCHAR},
+      leaseImg1 = #{leaseimg1,jdbcType=VARCHAR},
+      leaseImg2 = #{leaseimg2,jdbcType=VARCHAR},
+      leaseImg3 = #{leaseimg3,jdbcType=VARCHAR},
+      leaseImg4 = #{leaseimg4,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      leaseDesc = #{leasedesc,jdbcType=LONGVARCHAR}
+    where leaseId = #{leaseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Lease">
+    update kenya_lease
+    set leaseImgs = #{leaseimgs,jdbcType=VARCHAR},
+      leaseName = #{leasename,jdbcType=VARCHAR},
+      leasePrice = #{leaseprice,jdbcType=REAL},
+      leasePhone = #{leasephone,jdbcType=VARCHAR},
+      leaseSquare = #{leasesquare,jdbcType=VARCHAR},
+      leaseAddress = #{leaseaddress,jdbcType=VARCHAR},
+      leaseHome = #{leasehome,jdbcType=VARCHAR},
+      leaseImg1 = #{leaseimg1,jdbcType=VARCHAR},
+      leaseImg2 = #{leaseimg2,jdbcType=VARCHAR},
+      leaseImg3 = #{leaseimg3,jdbcType=VARCHAR},
+      leaseImg4 = #{leaseimg4,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER}
+    where leaseId = #{leaseid,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

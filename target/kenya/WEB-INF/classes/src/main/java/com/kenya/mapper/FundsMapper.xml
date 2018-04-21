@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.FundsMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.Funds">
+    <id column="fundsId" jdbcType="INTEGER" property="fundsid" />
+    <result column="fundsName" jdbcType="VARCHAR" property="fundsname" />
+    <result column="fundsPrice" jdbcType="REAL" property="fundsprice" />
+    <result column="fundsDesc" jdbcType="VARCHAR" property="fundsdesc" />
+    <result column="fundsPhone" jdbcType="VARCHAR" property="fundsphone" />
+    <result column="fundsImgs" jdbcType="VARCHAR" property="fundsimgs" />
+    <result column="fundsImg1" jdbcType="VARCHAR" property="fundsimg1" />
+    <result column="fundsImg2" jdbcType="VARCHAR" property="fundsimg2" />
+    <result column="fundsImg3" jdbcType="VARCHAR" property="fundsimg3" />
+    <result column="fundsImg4" jdbcType="VARCHAR" property="fundsimg4" />
+    <result column="fundsUser" jdbcType="VARCHAR" property="fundsuser" />
+    <result column="adminId" jdbcType="INTEGER" property="adminid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    fundsId, fundsName, fundsPrice, fundsDesc, fundsPhone, fundsImgs, fundsImg1, fundsImg2, 
+    fundsImg3, fundsImg4, fundsUser, adminId
+  </sql>
+  <select id="selectByExample" parameterType="com.kenya.bean.FundsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_funds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kenya_funds
+    where fundsId = #{fundsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_funds
+    where fundsId = #{fundsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.FundsExample">
+    delete from kenya_funds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.Funds">
+    insert into kenya_funds (fundsId, fundsName, fundsPrice, 
+      fundsDesc, fundsPhone, fundsImgs, 
+      fundsImg1, fundsImg2, fundsImg3, 
+      fundsImg4, fundsUser, adminId
+      )
+    values (#{fundsid,jdbcType=INTEGER}, #{fundsname,jdbcType=VARCHAR}, #{fundsprice,jdbcType=REAL}, 
+      #{fundsdesc,jdbcType=VARCHAR}, #{fundsphone,jdbcType=VARCHAR}, #{fundsimgs,jdbcType=VARCHAR}, 
+      #{fundsimg1,jdbcType=VARCHAR}, #{fundsimg2,jdbcType=VARCHAR}, #{fundsimg3,jdbcType=VARCHAR}, 
+      #{fundsimg4,jdbcType=VARCHAR}, #{fundsuser,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.Funds">
+    insert into kenya_funds
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fundsid != null">
+        fundsId,
+      </if>
+      <if test="fundsname != null">
+        fundsName,
+      </if>
+      <if test="fundsprice != null">
+        fundsPrice,
+      </if>
+      <if test="fundsdesc != null">
+        fundsDesc,
+      </if>
+      <if test="fundsphone != null">
+        fundsPhone,
+      </if>
+      <if test="fundsimgs != null">
+        fundsImgs,
+      </if>
+      <if test="fundsimg1 != null">
+        fundsImg1,
+      </if>
+      <if test="fundsimg2 != null">
+        fundsImg2,
+      </if>
+      <if test="fundsimg3 != null">
+        fundsImg3,
+      </if>
+      <if test="fundsimg4 != null">
+        fundsImg4,
+      </if>
+      <if test="fundsuser != null">
+        fundsUser,
+      </if>
+      <if test="adminid != null">
+        adminId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fundsid != null">
+        #{fundsid,jdbcType=INTEGER},
+      </if>
+      <if test="fundsname != null">
+        #{fundsname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsprice != null">
+        #{fundsprice,jdbcType=REAL},
+      </if>
+      <if test="fundsdesc != null">
+        #{fundsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsphone != null">
+        #{fundsphone,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimgs != null">
+        #{fundsimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg1 != null">
+        #{fundsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg2 != null">
+        #{fundsimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg3 != null">
+        #{fundsimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg4 != null">
+        #{fundsimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsuser != null">
+        #{fundsuser,jdbcType=VARCHAR},
+      </if>
+      <if test="adminid != null">
+        #{adminid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.FundsExample" resultType="java.lang.Long">
+    select count(*) from kenya_funds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_funds
+    <set>
+      <if test="record.fundsid != null">
+        fundsId = #{record.fundsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fundsname != null">
+        fundsName = #{record.fundsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsprice != null">
+        fundsPrice = #{record.fundsprice,jdbcType=REAL},
+      </if>
+      <if test="record.fundsdesc != null">
+        fundsDesc = #{record.fundsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsphone != null">
+        fundsPhone = #{record.fundsphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsimgs != null">
+        fundsImgs = #{record.fundsimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsimg1 != null">
+        fundsImg1 = #{record.fundsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsimg2 != null">
+        fundsImg2 = #{record.fundsimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsimg3 != null">
+        fundsImg3 = #{record.fundsimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsimg4 != null">
+        fundsImg4 = #{record.fundsimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsuser != null">
+        fundsUser = #{record.fundsuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminid != null">
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_funds
+    set fundsId = #{record.fundsid,jdbcType=INTEGER},
+      fundsName = #{record.fundsname,jdbcType=VARCHAR},
+      fundsPrice = #{record.fundsprice,jdbcType=REAL},
+      fundsDesc = #{record.fundsdesc,jdbcType=VARCHAR},
+      fundsPhone = #{record.fundsphone,jdbcType=VARCHAR},
+      fundsImgs = #{record.fundsimgs,jdbcType=VARCHAR},
+      fundsImg1 = #{record.fundsimg1,jdbcType=VARCHAR},
+      fundsImg2 = #{record.fundsimg2,jdbcType=VARCHAR},
+      fundsImg3 = #{record.fundsimg3,jdbcType=VARCHAR},
+      fundsImg4 = #{record.fundsimg4,jdbcType=VARCHAR},
+      fundsUser = #{record.fundsuser,jdbcType=VARCHAR},
+      adminId = #{record.adminid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Funds">
+    update kenya_funds
+    <set>
+      <if test="fundsname != null">
+        fundsName = #{fundsname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsprice != null">
+        fundsPrice = #{fundsprice,jdbcType=REAL},
+      </if>
+      <if test="fundsdesc != null">
+        fundsDesc = #{fundsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsphone != null">
+        fundsPhone = #{fundsphone,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimgs != null">
+        fundsImgs = #{fundsimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg1 != null">
+        fundsImg1 = #{fundsimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg2 != null">
+        fundsImg2 = #{fundsimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg3 != null">
+        fundsImg3 = #{fundsimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsimg4 != null">
+        fundsImg4 = #{fundsimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsuser != null">
+        fundsUser = #{fundsuser,jdbcType=VARCHAR},
+      </if>
+      <if test="adminid != null">
+        adminId = #{adminid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where fundsId = #{fundsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Funds">
+    update kenya_funds
+    set fundsName = #{fundsname,jdbcType=VARCHAR},
+      fundsPrice = #{fundsprice,jdbcType=REAL},
+      fundsDesc = #{fundsdesc,jdbcType=VARCHAR},
+      fundsPhone = #{fundsphone,jdbcType=VARCHAR},
+      fundsImgs = #{fundsimgs,jdbcType=VARCHAR},
+      fundsImg1 = #{fundsimg1,jdbcType=VARCHAR},
+      fundsImg2 = #{fundsimg2,jdbcType=VARCHAR},
+      fundsImg3 = #{fundsimg3,jdbcType=VARCHAR},
+      fundsImg4 = #{fundsimg4,jdbcType=VARCHAR},
+      fundsUser = #{fundsuser,jdbcType=VARCHAR},
+      adminId = #{adminid,jdbcType=INTEGER}
+    where fundsId = #{fundsid,jdbcType=INTEGER}
+  </update>
+</mapper>

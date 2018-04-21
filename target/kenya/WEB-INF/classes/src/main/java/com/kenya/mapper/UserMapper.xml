@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_psw" jdbcType="VARCHAR" property="userPsw" />
+    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+    <result column="user_age" jdbcType="INTEGER" property="userAge" />
+    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_psw, user_sex, user_age, user_phoneNumber
+  </sql>
+  <select id="selectByExample" parameterType="com.kenya.bean.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kenya_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.UserExample">
+    delete from kenya_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.User">
+    insert into kenya_user (user_id, user_name, user_psw, 
+      user_sex, user_age, user_phoneNumber
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPsw,jdbcType=VARCHAR}, 
+      #{userSex,jdbcType=INTEGER}, #{userAge,jdbcType=INTEGER}, #{userPhonenumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.User">
+    insert into kenya_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPsw != null">
+        user_psw,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userAge != null">
+        user_age,
+      </if>
+      <if test="userPhonenumber != null">
+        user_phoneNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPsw != null">
+        #{userPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userAge != null">
+        #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userPhonenumber != null">
+        #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.UserExample" resultType="java.lang.Long">
+    select count(*) from kenya_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_user
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPsw != null">
+        user_psw = #{record.userPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSex != null">
+        user_sex = #{record.userSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAge != null">
+        user_age = #{record.userAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.userPhonenumber != null">
+        user_phoneNumber = #{record.userPhonenumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_user
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_psw = #{record.userPsw,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=INTEGER},
+      user_age = #{record.userAge,jdbcType=INTEGER},
+      user_phoneNumber = #{record.userPhonenumber,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.User">
+    update kenya_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPsw != null">
+        user_psw = #{userPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userAge != null">
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userPhonenumber != null">
+        user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.User">
+    update kenya_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_psw = #{userPsw,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=INTEGER},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="ByUserPhoneNumber" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from kenya_user where user_phoneNumber=#{user_phoneNumber}
+	</select>
+	<select id="getPhoneNumberCount" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(user_id) from kenya_user where user_phoneNumber=#{phoneNumbers}
+	</select>
+	<select id="getUserDetailsById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select * from kenya_user where user_id=#{id}
+	</select>
+	<!-- <update id="updatePassWord" parameterType="java.lang.String" resultMap="BaseResultMap"> 
+		update kenya_user set user_psw=#{0} where user_phoneNumber=#{1} </update> -->
+
+	<update id="updatePassWord" parameterType="com.kenya.bean.User">
+		update kenya_user
+		
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId!=null">user_id=#{userId,jdbcType=INTEGER},</if>
+			<if test="userName!=null">user_name=#{userName,jdbcType=VARCHAR},</if>
+			<if test="userPS!=null">user_psw=#{userPS,jdbcType=VARCHAR},</if>
+			<if test="userSex!=null">user_sex=#{userSex,jdbcType=INTEGER},</if>
+			<if test="userAge!=null">user_age=#{userAge,jdbcType=INTEGER},</if>			
+		</trim>
+		where user_phoneNumber=#{userPN,jdbcType=VARCHAR}
+	</update>
+		<update id="updateByUserPN" parameterType="com.kenya.bean.User">
+		update kenya_user
+		
+		set user_name = #{userName,jdbcType=VARCHAR},
+		user_id=#{userId,jdbcType=INTEGER}
+		user_psw = #{userPsw,jdbcType=VARCHAR},
+		user_sex = #{userSex,jdbcType=INTEGER},
+		user_age = #{userAge,jdbcType=INTEGER},
+		user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR}
+		where user_phoneNumber=#{userPN,jdbcType=VARCHAR}
+	</update>
+</mapper>

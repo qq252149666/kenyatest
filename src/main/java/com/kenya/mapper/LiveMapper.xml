@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenya.dao.LiveMapper">
+  <resultMap id="BaseResultMap" type="com.kenya.bean.Live">
+    <id column="liveId" jdbcType="INTEGER" property="liveid" />
+    <result column="livePhone" jdbcType="VARCHAR" property="livephone" />
+    <result column="liveDesc" jdbcType="VARCHAR" property="livedesc" />
+    <result column="liveName" jdbcType="VARCHAR" property="livename" />
+    <result column="liveType" jdbcType="VARCHAR" property="livetype" />
+    <result column="liveImgs" jdbcType="VARCHAR" property="liveimgs" />
+    <result column="liveImg1" jdbcType="VARCHAR" property="liveimg1" />
+    <result column="liveImg2" jdbcType="VARCHAR" property="liveimg2" />
+    <result column="liveImg3" jdbcType="VARCHAR" property="liveimg3" />
+    <result column="liveImg4" jdbcType="VARCHAR" property="liveimg4" />
+    <result column="liveUser" jdbcType="VARCHAR" property="liveuser" />
+	<result column="userId" jdbcType="INTEGER" property="userid" />
+    <association property="user" javaType="com.kenya.bean.User">  
+	    <id column="user_id" property="userId"/>
+	    <result column="user_name" property="userName"/>
+    </association>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Live">
+    <result column="liveDesc" jdbcType="LONGVARCHAR" property="livedesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    liveId, livePhone, liveName, liveType, liveImgs, liveImg1,liveUser, liveImg2, liveImg3, liveImg4, 
+    userId,user_id,user_name,liveDesc
+  </sql>
+  <sql id="Blob_Column_List">
+    liveDesc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kenya.bean.LiveExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kenya_live
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kenya.bean.Live" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kenya_live left   join   kenya_user on kenya_live.userId=kenya_user.user_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select liveId, livePhone, liveName, liveType, liveImgs, liveImg1,liveUser, liveImg2, liveImg3, liveImg4, 
+    userId,user_id,user_name,liveDesc from kenya_live left   join   kenya_user on kenya_live.userId=kenya_user.user_id where liveId=#{liveid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kenya_live
+    where liveId = #{liveid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenya.bean.LiveExample">
+    delete from kenya_live
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kenya.bean.Live" useGeneratedKeys="true" keyProperty="liveid">
+    insert into kenya_live (livePhone, liveName,liveType, liveImgs, liveImg1,
+      liveImg2, liveImg3, liveImg4, 
+      userId, liveDesc,liveUser)
+    values (#{livephone,jdbcType=VARCHAR}, #{livename,jdbcType=VARCHAR}, 
+      #{livetype,jdbcType=VARCHAR}, #{liveimgs,jdbcType=VARCHAR}, #{liveimg1,jdbcType=VARCHAR}, 
+      #{liveimg2,jdbcType=VARCHAR}, #{liveimg3,jdbcType=VARCHAR}, #{liveimg4,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{livedesc,jdbcType=LONGVARCHAR},#{liveuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kenya.bean.Live">
+    insert into kenya_live
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="liveid != null">
+        liveId,
+      </if>
+      <if test="livephone != null">
+        livePhone,
+      </if>
+      <if test="livename != null">
+        liveName,
+      </if>
+      <if test="livetype != null">
+        liveType,
+      </if>
+      <if test="liveimgs != null">
+        liveImgs,
+      </if>
+      <if test="liveimg1 != null">
+        liveImg1,
+      </if>
+      <if test="liveimg2 != null">
+        liveImg2,
+      </if>
+      <if test="liveimg3 != null">
+        liveImg3,
+      </if>
+      <if test="liveimg4 != null">
+        liveImg4,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="livedesc != null">
+        liveDesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="liveid != null">
+        #{liveid,jdbcType=INTEGER},
+      </if>
+      <if test="livephone != null">
+        #{livephone,jdbcType=VARCHAR},
+      </if>
+      <if test="livename != null">
+        #{livename,jdbcType=VARCHAR},
+      </if>
+      <if test="livetype != null">
+        #{livetype,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimgs != null">
+        #{liveimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg1 != null">
+        #{liveimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg2 != null">
+        #{liveimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg3 != null">
+        #{liveimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg4 != null">
+        #{liveimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="livedesc != null">
+        #{livedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kenya.bean.LiveExample" resultType="java.lang.Long">
+    select count(*) from kenya_live
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kenya_live
+    <set>
+      <if test="record.liveid != null">
+        liveId = #{record.liveid,jdbcType=INTEGER},
+      </if>
+      <if test="record.livephone != null">
+        livePhone = #{record.livephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.livename != null">
+        liveName = #{record.livename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.livetype != null">
+        liveType = #{record.livetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveimgs != null">
+        liveImgs = #{record.liveimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveimg1 != null">
+        liveImg1 = #{record.liveimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveimg2 != null">
+        liveImg2 = #{record.liveimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveimg3 != null">
+        liveImg3 = #{record.liveimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveimg4 != null">
+        liveImg4 = #{record.liveimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.livedesc != null">
+        liveDesc = #{record.livedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update kenya_live
+    set liveId = #{record.liveid,jdbcType=INTEGER},
+      livePhone = #{record.livephone,jdbcType=VARCHAR},
+      liveName = #{record.livename,jdbcType=VARCHAR},
+      liveType = #{record.livetype,jdbcType=VARCHAR},
+      liveImgs = #{record.liveimgs,jdbcType=VARCHAR},
+      liveImg1 = #{record.liveimg1,jdbcType=VARCHAR},
+      liveImg2 = #{record.liveimg2,jdbcType=VARCHAR},
+      liveImg3 = #{record.liveimg3,jdbcType=VARCHAR},
+      liveImg4 = #{record.liveimg4,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER},
+      liveDesc = #{record.livedesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kenya_live
+    set liveId = #{record.liveid,jdbcType=INTEGER},
+      livePhone = #{record.livephone,jdbcType=VARCHAR},
+      liveName = #{record.livename,jdbcType=VARCHAR},
+      liveType = #{record.livetype,jdbcType=VARCHAR},
+      liveImgs = #{record.liveimgs,jdbcType=VARCHAR},
+      liveImg1 = #{record.liveimg1,jdbcType=VARCHAR},
+      liveImg2 = #{record.liveimg2,jdbcType=VARCHAR},
+      liveImg3 = #{record.liveimg3,jdbcType=VARCHAR},
+      liveImg4 = #{record.liveimg4,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenya.bean.Live">
+    update kenya_live
+    <set>
+      <if test="livephone != null">
+        livePhone = #{livephone,jdbcType=VARCHAR},
+      </if>
+      <if test="livename != null">
+        liveName = #{livename,jdbcType=VARCHAR},
+      </if>
+      <if test="livetype != null">
+        liveType = #{livetype,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimgs != null">
+        liveImgs = #{liveimgs,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg1 != null">
+        liveImg1 = #{liveimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg2 != null">
+        liveImg2 = #{liveimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg3 != null">
+        liveImg3 = #{liveimg3,jdbcType=VARCHAR},
+      </if>
+      <if test="liveimg4 != null">
+        liveImg4 = #{liveimg4,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="livedesc != null">
+        liveDesc = #{livedesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where liveId = #{liveid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kenya.bean.Live">
+    update kenya_live
+    set livePhone = #{livephone,jdbcType=VARCHAR},
+      liveName = #{livename,jdbcType=VARCHAR},
+      liveType = #{livetype,jdbcType=VARCHAR},
+      liveImgs = #{liveimgs,jdbcType=VARCHAR},
+      liveImg1 = #{liveimg1,jdbcType=VARCHAR},
+      liveImg2 = #{liveimg2,jdbcType=VARCHAR},
+      liveImg3 = #{liveimg3,jdbcType=VARCHAR},
+      liveImg4 = #{liveimg4,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      liveDesc = #{livedesc,jdbcType=LONGVARCHAR}
+    where liveId = #{liveid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Live">
+    update kenya_live
+    set livePhone = #{livephone,jdbcType=VARCHAR},
+      liveName = #{livename,jdbcType=VARCHAR},
+      liveType = #{livetype,jdbcType=VARCHAR},
+      liveImgs = #{liveimgs,jdbcType=VARCHAR},
+      liveImg1 = #{liveimg1,jdbcType=VARCHAR},
+      liveImg2 = #{liveimg2,jdbcType=VARCHAR},
+      liveImg3 = #{liveimg3,jdbcType=VARCHAR},
+      liveImg4 = #{liveimg4,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER}
+    where liveId = #{liveid,jdbcType=INTEGER}
+  </update>
+  
+</mapper>
