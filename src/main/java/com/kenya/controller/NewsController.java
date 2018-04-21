@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.kenya.ajaxResult.JjsonResult1;
-import com.kenya.bean.Job;
 import com.kenya.bean.News;
-import com.kenya.bean.PageBean1;
 import com.kenya.service.NewsService;
-import com.kenya.until.EUDataGridResult;
 import com.kenya.until.PageBean2;
 import com.kenya.until.StringUtil;
 

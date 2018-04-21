@@ -1,7 +1,5 @@
 package com.kenya.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -15,16 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.kenya.ajaxResult.JjsonResult1;
 import com.kenya.ajaxResult.JsonCodeEnum;
@@ -37,9 +31,7 @@ import com.atguigu.survey.utils.GlobalMessage;
 import com.atguigu.survey.utils.GlobalNames;*/
 import com.kenya.ajaxResult.JsonResult;
 import com.kenya.bean.Job;
-import com.kenya.bean.JobSeeker;
 import com.kenya.bean.PageBean1;
-import com.kenya.bean.User;
 import com.kenya.service.JobSeekerService;
 import com.kenya.until.DataprocessUtils;
 import com.kenya.until.StringUtil;
@@ -55,7 +47,7 @@ public class JobSeekerController {
 	public JsonResult jobWantPulish(Job survey, @RequestParam("logoFile") MultipartFile logoFile, Integer userId,
 			HttpSession session) throws IOException {
 
-		// 1.检查上传的文件是否为空
+		// 1.检查上传的文件是否为空 
 		if (!logoFile.isEmpty()) {
 
 			// =============================================
@@ -74,9 +66,8 @@ public class JobSeekerController {
 			}
 
 			// =====================\============
-
 			// 2.声明/surveyLogos目录对应的虚拟路径
-			String virtualPath = "/surveyLogos";
+			String virtualPath = "/upload";
 
 			// 3.获取ServletContext对象
 			ServletContext servletContext = session.getServletContext();

@@ -86,7 +86,7 @@ public class PictureController {
 				 * E:\.metadata\.plugins\org.eclipse.wst.server.core\tmp2\wtpwebapps\kenYa-test\
 				 * surveyLogosaassdfgsdgdsgd http://localhost:8080/kenYa-test/saveSurvey
 				 */
-				String virtualPath = "/surveyLogos";
+				String virtualPath = "/upload";
 				// 3.获取ServletContext对象
 				ServletContext servletContext = session.getServletContext();
 				System.out.println(servletContext);

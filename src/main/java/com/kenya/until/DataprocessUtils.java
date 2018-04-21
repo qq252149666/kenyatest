@@ -79,7 +79,7 @@ public class DataprocessUtils {
 			encoder.encode(targetImage);
 
 			// 10.返回文件名
-			return "/kenya/surveyLogos/" + targetFileName;
+			return "/kenya/upload/" + targetFileName;
 
 		} catch (Exception e) {
 
