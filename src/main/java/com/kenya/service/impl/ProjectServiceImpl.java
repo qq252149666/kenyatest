@@ -49,6 +49,37 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 	}
 
+	public int insertProject(Project project) {
+		return projectDao.insert(project);
+	}
+
+	public String IsNull(Project project) {
+		if(project.getProjectname()==null) {
+			return "非法访问";
+		}
+		if(project.getProjectdesc()==null) {
+			return "非法访问";
+		}
+		if(project.getProjectphone()==null) {
+			return "非法访问";
+		}
+		if(project.getProjectuser()==null) {
+			return "非法访问";
+		}
+		if(project.getProjectphone()==null) {
+			return "非法访问";
+		}
+		if(project.getProjectimgs()==null) {
+			return "非法访问";
+		}
+		return "";
+	}
+
+	@Override
+	public Project selectbyid(int id) {
+		return projectDao.selectByPrimaryKey(id);
+	}
+
 
 
 	

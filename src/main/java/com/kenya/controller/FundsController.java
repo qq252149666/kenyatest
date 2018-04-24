@@ -1,12 +1,14 @@
 package com.kenya.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kenya.bean.Admin;
 import com.kenya.bean.Funds;
+import com.kenya.dao.DeleteImg;
 import com.kenya.service.AdminService;
 import com.kenya.service.FundsService;
 
@@ -26,7 +29,10 @@ import com.kenya.service.FundsService;
 @RequestMapping("/Funds")
 public class FundsController {
 
+	int i;
+	HashMap<String,Object> map = new HashMap<String, Object>();
 	
+	DeleteImg deleteImg=new DeleteImg();
 	@Autowired
 	FundsService fundsservice;
 	
@@ -59,7 +65,7 @@ public class FundsController {
 	@RequestMapping("/inserfunds")
 	@ResponseBody
 	public HashMap<String,Object> inserfunds(@RequestParam("files")MultipartFile[] files,Funds funds,
-            HttpServletRequest request) {
+            HttpServletRequest request,HttpServletResponse response) {
 		funds.setAdminid(Integer.valueOf(String.valueOf(request.getSession().getAttribute("adminid"))));
 		List<String> list = new ArrayList<String>();
 		//遍历获得的MultiparFile数组
@@ -67,7 +73,12 @@ public class FundsController {
             for (int i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];
                 // 保存文件
-                list = saveFile(request, file, list);
+                try {
+					list = saveFile(request, file, list,response);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
         //insert准备工作
@@ -110,12 +121,10 @@ public class FundsController {
     }
 
     private List<String> saveFile(HttpServletRequest request,
-            MultipartFile file, List<String> list) {
-        // 判断文件是否为空
-        if (!file.isEmpty()) {
+            MultipartFile file, List<String> list,HttpServletResponse response) throws IOException {
+    	if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
-            int random = rand.nextInt();//保存随机数
-            //生成保存地址
+            int random = rand.nextInt();
             String filePath = request.getSession().getServletContext()
                     .getRealPath("/")
                     + "upload/" + String.valueOf(random)+file.getOriginalFilename();
@@ -123,13 +132,8 @@ public class FundsController {
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
-    		try {
-        			//如果失败转存
-        			file.transferTo(saveDir);
-        		} catch (Exception e1) {
-        			e1.printStackTrace();
-        		}
-    		}
-        return list;
+            file.transferTo(saveDir);
+    	}
+		return list;
     }
 }

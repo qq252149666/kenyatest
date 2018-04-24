@@ -6,10 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.kenya.bean.News;
-import com.kenya.bean.NewsExample;
-import com.kenya.bean.PageBean1;
 import com.kenya.dao.NewsMapper;
 import com.kenya.service.NewsService;
 @Service
@@ -36,15 +33,15 @@ private NewsMapper newsMapper ;
 	}
 }
 /*	public PageBean1 getItemList(int page, int rows) {
-		//查询商品列表
+		//鏌ヨ鍟嗗搧鍒楄〃
 		NewsExample example = new NewsExample();
-		//分页处理
+		//鍒嗛〉澶勭悊
 		PageHelper.startPage(page, rows);
 		List<TbItem> list = itemMapper.selectByExample(example);
-		//创建一个返回值对象
+		//鍒涘缓涓�涓繑鍥炲�煎璞�
 		EUDataGridResult result = new EUDataGridResult();
 		result.setRows(list);
-		//取记录总条数
+		//鍙栬褰曟�绘潯鏁�
 		PageInfo<TbItem> pageInfo = new PageInfo<>(list);
 		result.setTotal(pageInfo.getTotal());
 		return result;

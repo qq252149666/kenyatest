@@ -79,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    companyId, companyName, companyStation, companyStationSalary, companyPhone, userId, 
-    companyImg0, companyImg1, companyImg2, companyImg3, companyImg4, companyImg5
+    companyId, companyName, companyStation,companyStationDesc, companyStationSalary, companyPhone,companyAddress, userId, 
+    companyImg0, companyImg1, companyImg2, companyImg3, companyImg4, companyImg5,companyDesc
   </sql>
   <sql id="Blob_Column_List">
     companyStationDesc, companyAddress, companyDesc

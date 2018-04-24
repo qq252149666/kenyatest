@@ -26,8 +26,19 @@ public class Project {
     private String projectuser;
 
     private String projectaddress;
+    
+    private Admin admin;
+    
 
-    public Integer getProjectid() {
+    public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Integer getProjectid() {
         return projectid;
     }
 

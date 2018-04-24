@@ -2,12 +2,14 @@ package com.kenya.controller;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,8 @@ import com.kenya.service.LeaseService;
 public class LeaseController {
 	@Autowired
 	LeaseService leaseService;
+	HashMap<String,Object> map = new HashMap<String,Object>();
+	int i;
 	
 	DeleteImg deleteImg = new DeleteImg();
 	/**
@@ -63,18 +67,17 @@ public class LeaseController {
 	}
 	/**
 	 * 上传图片
+	 * @throws IOException 
 	 */
 	@RequestMapping("/inserLease")
 	@ResponseBody
     public HashMap<String, Object> filesUpload(@RequestParam("files") MultipartFile[] files,Lease lease,
-            HttpServletRequest request) {
-        HashMap<String,Object> map = new HashMap<String,Object>();
+            HttpServletRequest request,HttpServletResponse response) throws IOException {
 		List<String> list = new ArrayList<String>();
         if (files != null && files.length > 0) {
-            for (int i = 0; i < files.length; i++) {
+            for (i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];
-                // 保存文件
-                list = saveFile(request, file, list);
+				list = saveFile(request, file, list,response);
             }
         }
         //insert准备工作
@@ -110,27 +113,20 @@ public class LeaseController {
     }
 
     private List<String> saveFile(HttpServletRequest request,
-            MultipartFile file, List<String> list) {
+            MultipartFile file, List<String> list,HttpServletResponse response) throws IOException {
         // 判断文件是否为空
         if (!file.isEmpty()) {
-            try {
-            	Random rand = new Random();//生成随机数    
-                int random = rand.nextInt();
-                String filePath = request.getSession().getServletContext()
-                        .getRealPath("/")
-                        + "upload/" + String.valueOf(random)+file.getOriginalFilename();
-                System.out.println("filePath"+filePath+"file.getOriginalFilename()"+file.getOriginalFilename());
-                list.add(random+file.getOriginalFilename());
-                File saveDir = new File(filePath);
-                if (!saveDir.getParentFile().exists())
-                    saveDir.getParentFile().mkdirs();
-                System.out.println("saveDir"+saveDir);
-                // 转存文件
-                file.transferTo(saveDir);
-                return list;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        	System.out.println(i);
+        	Random rand = new Random();//生成随机数    
+            int random = rand.nextInt();
+            String filePath = request.getSession().getServletContext()
+                    .getRealPath("/")
+                    + "upload/" + String.valueOf(random)+file.getOriginalFilename();
+            list.add(random+file.getOriginalFilename());
+            File saveDir = new File(filePath);
+            if (!saveDir.getParentFile().exists())
+                saveDir.getParentFile().mkdirs();
+			file.transferTo(saveDir);
         }
         return list;
     }

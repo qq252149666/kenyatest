@@ -25,11 +25,11 @@ $(document).ready(function(){
            }
            },
            error: function(error) {//失败，回调函数
-              alert(error);
+              alert("用户名或密码错误！");
            }
           
 		  });
-	  })
+	  });
 });
 
 </script>

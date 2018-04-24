@@ -39,6 +39,8 @@ public class GoodsController {
 		PageHelper.startPage(pn, 7);
 		//第一个查询默认分页
 		List<Goods> list = goodsService.selectByfild(goodsName);
+		for(Goods goods:list) {
+		}
 		//PageInfo封装分页信息
 		PageInfo<Goods> page = new PageInfo<Goods>(list);
 		//map封装分页数据

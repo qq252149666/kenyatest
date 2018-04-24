@@ -75,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     fundsId, fundsName, fundsPrice, fundsDesc, fundsPhone, fundsImgs, fundsImg1, fundsImg2, 
-    fundsImg3, fundsImg4, fundsUser, adminId
+    fundsImg3, fundsImg4, fundsUser, adminId, adminuser
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.FundsExample" resultMap="BaseResultMap">
     select
@@ -83,7 +83,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from kenya_funds
+    from kenya_funds left join  kenya_admin on kenya_funds.adminId=kenya_admin.adminId
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenya.bean.Funds">
+  <insert id="insert" parameterType="com.kenya.bean.Funds" useGeneratedKeys="true" keyProperty="fundsid">
     insert into kenya_funds (fundsId, fundsName, fundsPrice, 
       fundsDesc, fundsPhone, fundsImgs, 
       fundsImg1, fundsImg2, fundsImg3, 

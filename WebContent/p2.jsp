@@ -85,55 +85,55 @@
 <form id="insertfunds" enctype="multipart/form-data">
 	<table name="Table1" align="center">
 		<tr>
-			<h1 align="center">项目找资金</h1>
+			<h1 align="center">Have funds to find projects</h1>
 		</tr>
 		<tr>
 			<td width="200px" height="100px">
-				<label for="exampleInputName2">项目名称</label>
+				<label for="exampleInputName2">fundsname</label>
 			</td>
 			<td>
-    			<input name="fundsname" type="text" class="form-control" id="exampleInputName2" onblur="fundsname()" placeholder="项目名称"><p style="color :red" id="name"/>
+    			<input name="fundsname" type="text" class="form-control" id="exampleInputName2" placeholder="fundsname"><p style="color :red" id="name"/>
 			</td>
 		</tr>
 		<tr>
 			<td width="300px" height="100px">
-				<label for="exampleInputName2">项目简介</label>
+				<label for="exampleInputName2">Details of the fund</label>
 			</td>
 			<td>
-    			<textarea name="fundsdesc" id="fundsdesc" onblur="fundsdesc()" class="form-control" placeholder="项目简介" rows="3"></textarea><p style="color :red" id="desc"/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="exampleInputName2">需求金额</label>
-			</td>
-			<td>
-    			<input type="text" name="fundsprice" class="form-control" id="fundsprice" placeholder="需求金额"><p style="color:red" id="price"/>
+    			<textarea name="fundsdesc" id="fundsdesc" class="form-control" placeholder="Details of the fund" rows="3"></textarea><p style="color :red" id="desc"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for="exampleInputName2">联系人姓名</label>
+				<label for="exampleInputName2">fundsprice</label>
 			</td>
 			<td>
-    			<input type="text" name="fundsuser" class="form-control" id="fundsuser" placeholder="联系人"><p style="color:red" id="username"></p>
+    			<input type="text" name="fundsprice" class="form-control" id="fundsprice" placeholder="fundsprice"><p style="color:red" id="price"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="exampleInputName2">Contact name</label>
+			</td>
+			<td>
+    			<input type="text" name="fundsuser" class="form-control" id="fundsuser" placeholder="Contact name"><p style="color:red" id="username"></p>
 			</td>
 		</tr>
 		
 		<tr>
 			<td>
-				<label for="exampleInputName2">联系人手机号</label>
+				<label for="exampleInputName2">Contact phone</label>
 			</td>
 			<td>
-    			<input type="text" name="fundsphone" class="form-control" id="fundsphone" placeholder="联系人"><p style="color:red" id="userphone"></p>
+    			<input type="text" name="fundsphone" class="form-control" id="fundsphone" placeholder="Contact phone"><p style="color:red" id="userphone"></p>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				please cal img是否
+				<label for="exampleInputName2">Please upload the picture :</label>
 			</td>
 			<td>
-				<input type="file"  name="files" id="doc" multiple="multiple"  style="width:150px;" onchange="javascript:setImagePreviews();" accept="image/*" />
+				<input type="file"  name="files" id="doc" multiple="multiple"  accept="image/*" />
 
 				<div id="dd" style=" width:500px;"></div>
 				
@@ -141,30 +141,17 @@
 		</tr>
 		<tr>
 			<td>
-				<div align="left" class="btn_box floatR"><input id="inserfunds" id="inserfunds" name="" type="button" value="提交" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></div>
+				<input class="btn btn-primary" id="inserfunds" name="" type="button" value="Submission">
 			</td>
 			<td>
-				<div class="btn_boxB floatR mag_l20"><input type="reset" onclick="reset()" value="取消"></div>
+				<input type="reset" class="btn btn-default" value="reset">
 			</td>
 		</tr>
 	</table>
-	
-     
 </form>
-
-
-
-
-
-
 </body>
 <script type="text/javascript">
-function reset(){
-	alert(1);
-}
 function setImagePreviews(avalue) {
-	
-	
 	var dd = document.getElementById("dd");
 	var img_id=document.getElementById('doc').value; //根据id得到值
 	var index= img_id.indexOf("."); //得到"."在第几位
@@ -175,130 +162,136 @@ function setImagePreviews(avalue) {
         alert("No picture format is specified,Please upload .bmp .png .gif .jpg .jpeg"); 
         document.getElementById('doc').value="";  // 不符合，就清除，重新选择
         dd.innerHTML="";
-       
    }else{
-	    var fileList = docObj.files;
-	    for (var i = 0; i < fileList.length; i++) {            
-	        dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>";
-	        var imgObjPreview = document.getElementById("img"+i); 
-	        if (docObj.files && docObj.files[i]) {
-	            //火狐下，直接设img属性
-	            imgObjPreview.style.display = 'block';
-	            imgObjPreview.style.width = '150px';
-	            imgObjPreview.style.height = '180px';
-	            //imgObjPreview.src = docObj.files[0].getAsDataURL();
-	            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
-	            imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);
-	        }
-	        else {
-	            docObj.select();
-	            var imgSrc = document.selection.createRange().text;
-	            alert(imgSrc)
-	            var localImagId = document.getElementById("img" + i);
-	            //必须设置初始大小
-	            localImagId.style.width = "150px";
-	            localImagId.style.height = "180px";
-	            //图片异常的捕捉，防止用户修改后缀来伪造图片
-	            try {
-	                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-	                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-	            }
-	            catch (e) {
-	                alert("您上传的图片格式不正确，请重新选择!");
-	                return false;
-	            }
-	            imgObjPreview.style.display = 'none';
-	            document.selection.empty();
-	        }
-	    }  
-	    	return true;
+	   var fileList = docObj.files;
+	   if(fileList.length>5){
+	    	alert("Choose five pictures at most!");
+	    	document.getElementById('doc').value="";
+	   }else{
+	    	for (var i = 0; i < fileList.length; i++) {            
+		        dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>";
+		        var imgObjPreview = document.getElementById("img"+i); 
+		        if (docObj.files && docObj.files[i]) {
+		            //火狐下，直接设img属性
+		            imgObjPreview.style.display = 'block';
+		            imgObjPreview.style.width = '150px';
+		            imgObjPreview.style.height = '180px';
+		            //imgObjPreview.src = docObj.files[0].getAsDataURL();
+		            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+		            imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);
+		        }
+		        else {
+		            docObj.select();
+		            var imgSrc = document.selection.createRange().text;
+		            alert(imgSrc)
+		            var localImagId = document.getElementById("img" + i);
+		            //必须设置初始大小
+		            localImagId.style.width = "150px";
+		            localImagId.style.height = "180px";
+		            //图片异常的捕捉，防止用户修改后缀来伪造图片
+		            try {
+		                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+		                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+		            }
+		            catch (e) {
+		                alert("您上传的图片格式不正确，请重新选择!");
+		                return false;
+		            }
+		            imgObjPreview.style.display = 'none';
+		            document.selection.empty();
+		        }
+		    }
+	    }
+	      
+	    return true;
    }
 }
 
 
 $(document).ready(function(){  
     $("#inserfunds").click(function(){  
-        var formData = new FormData($('#insertfunds')[0]);  
-        $.ajax({  
-            url:"Funds/inserfunds",  
-            data:formData,  
-            type: "POST",                   //类型，POST或者GET  
-            dataType: 'json',  
-            cache: false,  
-            processData: false,    
-            contentType : false,  
-            async:false,  
-            success: function (result) {      //成功，回调函数  
-                if(result==null){  
-                    alert("用户名或密码错误！");//请忽略这。。  
-                }else{  
-                    alert("添加成功");  
-                }  
-            }  
-        }); 
+    	var string=document.getElementById("exampleInputName2").value;
+		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+		if(parent.test(string))
+		{
+			var string=document.getElementById("fundsdesc").value;
+			var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+			if(parent.test(string))
+			{
+				var string=document.getElementById("fundsprice").value;
+				var parent=/^(-?\d+)(\.\d+)?$/;
+				if(parent.test(string))
+				{
+					var string=document.getElementById("fundsuser").value;
+					var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+					if(parent.test(string))
+					{
+						var string=document.getElementById("fundsphone").value;
+						var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+						if(parent.test(string))
+						{
+							var docObj = document.getElementById("doc");
+					    		var fileList = docObj.files;
+							    if(fileList.length>5||fileList.length<1){
+							   		alert("Please insert 1 to 5 pictures!");
+							    	document.getElementById('doc').value="";
+							   }else{
+								   var userName=<%=session.getAttribute("adminid")%>;
+								   if(userName!=null){
+								   var formData = new FormData($('#insertfunds')[0]);  
+							        $.ajax({  
+							            url:"Funds/inserfunds",  
+							            data:formData,  
+							            type: "POST",                   //类型，POST或者GET  
+							            dataType: 'json',  
+							            cache: false,  
+							            processData: false,    
+							            contentType : false,  
+							            async:false,  
+							            success: function (result) {      //成功，回调函数  
+							                if(result==null){  
+							                    alert("添加失败");  
+							                }else{
+							                    alert("添加成功");  
+							                }  
+							            }  
+							        }); 
+								   }else{
+										   alert("请您登陆");
+										   window.parent.location.href="login.jsp"; 
+									}
+							   }
+						}
+						else
+						{
+							$("#userphone").text("The fundsphone Only input numbers!");
+							return false;
+						} 
+					}
+					else
+					{
+						alert("The fundsuser Only input numbers!");
+						return false;
+					}
+				}
+				else
+				{
+					$("#price").text("The fundsprice Only input numbers!");
+					return false;
+				}
+			}
+			else
+			{
+				alert("The fundsdesc Only inputting English letters!");
+				return false;
+			}
+		}
+		else
+		{
+			alert("The name Only inputting English letters!");
+			return false;
+		}
 	});
-	$("#exampleInputName2").blur(function(){
-		var string=document.getElementById("exampleInputName2").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#name").text("OK!");
-		}
-		else
-		{
-			$("#name").text("Only inputting English letters!");
-		}
-	});
-	$("#fundsdesc").blur(function(){
-		var string=document.getElementById("fundsdesc").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#desc").text("OK!");
-		}
-		else
-		{
-			$("#desc").text("Only inputting English letters!");
-		}
-	})
-	$("#fundsprice").blur(function(){
-		var string=document.getElementById("fundsprice").value;
-		var parent=/^(-?\d+)(\.\d+)?$/;
-		if(parent.test(string))
-		{
-			$("#price").text("OK!");
-		}
-		else
-		{
-			$("#price").text("Only input numbers!");
-		}
-	})
-	$("#fundsuser").blur(function(){
-		var string=document.getElementById("fundsuser").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#username").text("OK!");
-		}
-		else
-		{
-			$("#username").text("Only input numbers!");
-		}
-	})
-	$("#fundsphone").blur(function(){
-		var string=document.getElementById("fundsphone").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#userphone").text("OK!");
-		}
-		else
-		{
-			$("#userphone").text("Only input numbers!");
-		} 
-	})
-	
-	
 });
 
 </script>

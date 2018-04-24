@@ -34,7 +34,6 @@ import com.atguigu.survey.utils.GlobalMessage;
 import com.atguigu.survey.utils.GlobalNames;*/
 import com.kenya.ajaxResult.JsonResult;
 import com.kenya.bean.Job;
-import com.kenya.bean.Lease;
 import com.kenya.bean.PageBean1;
 import com.kenya.dao.DeleteImg;
 import com.kenya.service.JobSeekerService;

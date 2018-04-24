@@ -1,13 +1,12 @@
 package com.kenya.dao;
 
-import com.kenya.bean.Job;
-import com.kenya.bean.JobExample;
-import com.kenya.bean.JobSeeker;
-
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.kenya.bean.Job;
+import com.kenya.bean.JobExample;
 
 public interface JobMapper {
     long countByExample(JobExample example);

@@ -76,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
-    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress
+    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress adminUser
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.ProjectExample" resultMap="BaseResultMap">
     select
@@ -84,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from kenya_project
+    from kenya_project left join  kenya_admin on kenya_project.adminId=kenya_admin.adminId
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,9 +93,8 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from kenya_project
+    select projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
+    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress adminUser from kenya_project
     where projectId = #{projectid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -108,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenya.bean.Project">
+  <insert id="insert" parameterType="com.kenya.bean.Project" useGeneratedKeys="true" keyProperty="projectid">
     insert into kenya_project (projectId, projectName, projectPrice, 
       projectDesc, projectPhone, projectImgs, 
       projectImg1, projectImg2, projectImg3, 

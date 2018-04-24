@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    JobId, userid, Name, HeadImg, Sex, JobWant, Phone, Birthday,JoinTime, HopeSalary,PersonDesc
+    JobId, userid, Name, HeadImg, Sex, JobWant, Phone, Birthday,PersonDesc,JoinTime
   </sql>
   <sql id="Blob_Column_List">
     PersonDesc
