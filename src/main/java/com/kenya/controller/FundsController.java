@@ -26,7 +26,7 @@ import com.kenya.service.AdminService;
 import com.kenya.service.FundsService;
 
 @Controller  
-@RequestMapping("/Funds")
+@RequestMapping("Funds")
 public class FundsController {
 
 	int i;
@@ -41,7 +41,7 @@ public class FundsController {
 	/**
 	 * 分页查询显示数据
 	 */
-	@RequestMapping("selectbyfile")
+	@RequestMapping("/selectbyfile")
 	@ResponseBody
 	public HashMap<String,Object> selectbyfile(@RequestParam(value="pn",defaultValue="1")int pn,String fundsName){
 		//返回map集合

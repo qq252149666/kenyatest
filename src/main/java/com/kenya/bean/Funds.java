@@ -5,7 +5,7 @@ public class Funds {
 
     private String fundsname;
 
-    private Float fundsprice;
+    private String fundsprice;
 
     private String fundsdesc;
 
@@ -25,9 +25,13 @@ public class Funds {
 
     private Integer adminid;
 
+    private String fundadvantage;
+    
     private Admin admin;
     
-	public Admin getAdmin() {
+    
+
+    public Admin getAdmin() {
 		return admin;
 	}
 
@@ -51,15 +55,17 @@ public class Funds {
         this.fundsname = fundsname == null ? null : fundsname.trim();
     }
 
-    public Float getFundsprice() {
-        return fundsprice;
-    }
 
-    public void setFundsprice(Float fundsprice) {
-        this.fundsprice = fundsprice;
-    }
 
-    public String getFundsdesc() {
+    public String getFundsprice() {
+		return fundsprice;
+	}
+
+	public void setFundsprice(String fundsprice) {
+		this.fundsprice = fundsprice;
+	}
+
+	public String getFundsdesc() {
         return fundsdesc;
     }
 
@@ -129,5 +135,13 @@ public class Funds {
 
     public void setAdminid(Integer adminid) {
         this.adminid = adminid;
+    }
+
+    public String getFundadvantage() {
+        return fundadvantage;
+    }
+
+    public void setFundadvantage(String fundadvantage) {
+        this.fundadvantage = fundadvantage == null ? null : fundadvantage.trim();
     }
 }

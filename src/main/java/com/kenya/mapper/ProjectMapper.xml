@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kenya.bean.Project">
     <id column="projectId" jdbcType="INTEGER" property="projectid" />
     <result column="projectName" jdbcType="VARCHAR" property="projectname" />
-    <result column="projectPrice" jdbcType="REAL" property="projectprice" />
+    <result column="projectPrice" jdbcType="VARCHAR" property="projectprice" />
     <result column="projectDesc" jdbcType="VARCHAR" property="projectdesc" />
     <result column="projectPhone" jdbcType="VARCHAR" property="projectphone" />
     <result column="projectImgs" jdbcType="VARCHAR" property="projectimgs" />
@@ -15,6 +15,11 @@
     <result column="adminId" jdbcType="INTEGER" property="adminid" />
     <result column="projectUser" jdbcType="VARCHAR" property="projectuser" />
     <result column="projectAddress" jdbcType="VARCHAR" property="projectaddress" />
+    <result column="projectType" jdbcType="VARCHAR" property="projecttype" />
+    <association property="admin" javaType="com.kenya.bean.Admin">  
+	    <id column="adminId" property="adminid"/>
+	    	<result column="adminUser" property="adminuser"/>
+    </association>  
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
-    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress adminUser
+    projectImg2, projectImg3, projectImg4, kenya_admin.adminId, projectUser, projectAddress, projectType,adminUser
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.ProjectExample" resultMap="BaseResultMap">
     select
@@ -93,8 +98,9 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
-    projectImg2, projectImg3, projectImg4, adminId, projectUser, projectAddress adminUser from kenya_project
+    select 
+    <include refid="Base_Column_List" />
+    from kenya_project
     where projectId = #{projectid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -107,17 +113,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenya.bean.Project" useGeneratedKeys="true" keyProperty="projectid">
+  <insert id="insert" parameterType="com.kenya.bean.Project">
     insert into kenya_project (projectId, projectName, projectPrice, 
       projectDesc, projectPhone, projectImgs, 
       projectImg1, projectImg2, projectImg3, 
       projectImg4, adminId, projectUser, 
-      projectAddress)
-    values (#{projectid,jdbcType=INTEGER}, #{projectname,jdbcType=VARCHAR}, #{projectprice,jdbcType=REAL}, 
+      projectAddress, projectType)
+    values (#{projectid,jdbcType=INTEGER}, #{projectname,jdbcType=VARCHAR}, #{projectprice,jdbcType=VARCHAR}, 
       #{projectdesc,jdbcType=VARCHAR}, #{projectphone,jdbcType=VARCHAR}, #{projectimgs,jdbcType=VARCHAR}, 
       #{projectimg1,jdbcType=VARCHAR}, #{projectimg2,jdbcType=VARCHAR}, #{projectimg3,jdbcType=VARCHAR}, 
       #{projectimg4,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}, #{projectuser,jdbcType=VARCHAR}, 
-      #{projectaddress,jdbcType=VARCHAR})
+      #{projectaddress,jdbcType=VARCHAR}, #{projecttype,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Project">
     insert into kenya_project
@@ -161,6 +167,9 @@
       <if test="projectaddress != null">
         projectAddress,
       </if>
+      <if test="projecttype != null">
+        projectType,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectid != null">
@@ -170,7 +179,7 @@
         #{projectname,jdbcType=VARCHAR},
       </if>
       <if test="projectprice != null">
-        #{projectprice,jdbcType=REAL},
+        #{projectprice,jdbcType=VARCHAR},
       </if>
       <if test="projectdesc != null">
         #{projectdesc,jdbcType=VARCHAR},
@@ -202,6 +211,9 @@
       <if test="projectaddress != null">
         #{projectaddress,jdbcType=VARCHAR},
       </if>
+      <if test="projecttype != null">
+        #{projecttype,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kenya.bean.ProjectExample" resultType="java.lang.Long">
@@ -220,7 +232,7 @@
         projectName = #{record.projectname,jdbcType=VARCHAR},
       </if>
       <if test="record.projectprice != null">
-        projectPrice = #{record.projectprice,jdbcType=REAL},
+        projectPrice = #{record.projectprice,jdbcType=VARCHAR},
       </if>
       <if test="record.projectdesc != null">
         projectDesc = #{record.projectdesc,jdbcType=VARCHAR},
@@ -252,6 +264,9 @@
       <if test="record.projectaddress != null">
         projectAddress = #{record.projectaddress,jdbcType=VARCHAR},
       </if>
+      <if test="record.projecttype != null">
+        projectType = #{record.projecttype,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +276,7 @@
     update kenya_project
     set projectId = #{record.projectid,jdbcType=INTEGER},
       projectName = #{record.projectname,jdbcType=VARCHAR},
-      projectPrice = #{record.projectprice,jdbcType=REAL},
+      projectPrice = #{record.projectprice,jdbcType=VARCHAR},
       projectDesc = #{record.projectdesc,jdbcType=VARCHAR},
       projectPhone = #{record.projectphone,jdbcType=VARCHAR},
       projectImgs = #{record.projectimgs,jdbcType=VARCHAR},
@@ -271,7 +286,8 @@
       projectImg4 = #{record.projectimg4,jdbcType=VARCHAR},
       adminId = #{record.adminid,jdbcType=INTEGER},
       projectUser = #{record.projectuser,jdbcType=VARCHAR},
-      projectAddress = #{record.projectaddress,jdbcType=VARCHAR}
+      projectAddress = #{record.projectaddress,jdbcType=VARCHAR},
+      projectType = #{record.projecttype,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -283,7 +299,7 @@
         projectName = #{projectname,jdbcType=VARCHAR},
       </if>
       <if test="projectprice != null">
-        projectPrice = #{projectprice,jdbcType=REAL},
+        projectPrice = #{projectprice,jdbcType=VARCHAR},
       </if>
       <if test="projectdesc != null">
         projectDesc = #{projectdesc,jdbcType=VARCHAR},
@@ -315,13 +331,16 @@
       <if test="projectaddress != null">
         projectAddress = #{projectaddress,jdbcType=VARCHAR},
       </if>
+      <if test="projecttype != null">
+        projectType = #{projecttype,jdbcType=VARCHAR},
+      </if>
     </set>
     where projectId = #{projectid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Project">
     update kenya_project
     set projectName = #{projectname,jdbcType=VARCHAR},
-      projectPrice = #{projectprice,jdbcType=REAL},
+      projectPrice = #{projectprice,jdbcType=VARCHAR},
       projectDesc = #{projectdesc,jdbcType=VARCHAR},
       projectPhone = #{projectphone,jdbcType=VARCHAR},
       projectImgs = #{projectimgs,jdbcType=VARCHAR},
@@ -331,7 +350,8 @@
       projectImg4 = #{projectimg4,jdbcType=VARCHAR},
       adminId = #{adminid,jdbcType=INTEGER},
       projectUser = #{projectuser,jdbcType=VARCHAR},
-      projectAddress = #{projectaddress,jdbcType=VARCHAR}
+      projectAddress = #{projectaddress,jdbcType=VARCHAR},
+      projectType = #{projecttype,jdbcType=VARCHAR}
     where projectId = #{projectid,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,6 +2,7 @@ package com.kenya.service.impl;
 
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +85,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public void createUser(String userName, String psw, Integer userSex, int userAge, String userPhonenumber) {
+	public void createUser(String userName, String psw, Integer userSex, String userPhoneNumber,
+			String user_prohibit, String user_birthday) {
 		
 
 		User kenyaUser = new User();
 		kenyaUser.setUserName(userName);
 		kenyaUser.setUserPsw(MD5Util.getMD5(psw.getBytes()));
 		kenyaUser.setUserSex(userSex);
-		kenyaUser.setUserAge(userAge);
-		kenyaUser.setUserPhonenumber(userPhonenumber);
+	//	kenyaUser.setUserAge(userAge);
+		kenyaUser.setUserPhonenumber(userPhoneNumber);
+		kenyaUser.setUserProhibit(user_prohibit);
+		kenyaUser.setUserBirthday(user_birthday);
 		kenyaUserMapper.insert(kenyaUser);	
 
 	}

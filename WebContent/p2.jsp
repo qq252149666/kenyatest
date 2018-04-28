@@ -108,7 +108,12 @@
 				<label for="exampleInputName2">fundsprice</label>
 			</td>
 			<td>
-    			<input type="text" name="fundsprice" class="form-control" id="fundsprice" placeholder="fundsprice"><p style="color:red" id="price"/>
+    			<select name="fundsprice" class="form-control" id="fundsprice" >
+    				<option value="0-5000">0~5000</option>
+    				<option value="5000~30000">5000~30000</option>
+    				<option value="30000~50000">30000~50000</option>
+    				<option value="50000~">50000~</option>
+    			</select><p style="color:red" id="price"/>
 			</td>
 		</tr>
 		<tr>
@@ -119,13 +124,20 @@
     			<input type="text" name="fundsuser" class="form-control" id="fundsuser" placeholder="Contact name"><p style="color:red" id="username"></p>
 			</td>
 		</tr>
-		
 		<tr>
 			<td>
 				<label for="exampleInputName2">Contact phone</label>
 			</td>
 			<td>
     			<input type="text" name="fundsphone" class="form-control" id="fundsphone" placeholder="Contact phone"><p style="color:red" id="userphone"></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="exampleInputName2">Fund Advantage</label>
+			</td>
+			<td>
+    			<input type="text" name="fundadvantage" class="form-control" id="fundsuser" placeholder="Contact name"><p style="color:red"></p>
 			</td>
 		</tr>
 		<tr>
@@ -216,10 +228,6 @@ $(document).ready(function(){
 		{
 			var string=document.getElementById("fundsdesc").value;
 			var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-			if(parent.test(string))
-			{
-				var string=document.getElementById("fundsprice").value;
-				var parent=/^(-?\d+)(\.\d+)?$/;
 				if(parent.test(string))
 				{
 					var string=document.getElementById("fundsuser").value;
@@ -256,27 +264,21 @@ $(document).ready(function(){
 							                }  
 							            }  
 							        }); 
-								   }else{
-										   alert("请您登陆");
-										   window.parent.location.href="login.jsp"; 
-									}
+								}else{
+								   alert("请您登陆");
+								   window.parent.location.href="login.jsp"; 
+								}
 							   }
-						}
-						else
-						{
+						}else{
 							$("#userphone").text("The fundsphone Only input numbers!");
 							return false;
 						} 
-					}
-					else
-					{
+					}else{
 						alert("The fundsuser Only input numbers!");
 						return false;
 					}
-				}
-				else
-				{
-					$("#price").text("The fundsprice Only input numbers!");
+				}else{
+					alert("The fundsdesc Only inputting English letters!");
 					return false;
 				}
 			}
@@ -285,12 +287,6 @@ $(document).ready(function(){
 				alert("The fundsdesc Only inputting English letters!");
 				return false;
 			}
-		}
-		else
-		{
-			alert("The name Only inputting English letters!");
-			return false;
-		}
 	});
 });
 

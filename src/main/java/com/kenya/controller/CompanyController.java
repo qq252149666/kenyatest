@@ -35,8 +35,9 @@ import com.kenya.until.StringUtil;
 public class CompanyController {
 	@Autowired
 	private CompanyService recruitService;
-
+	
 	DeleteImg deleteimg = new DeleteImg();
+
 	@RequestMapping("/publish")
 	@ResponseBody
 	public Object publishRecruit(/* @RequestParam(value="logoFile",required=false) */
@@ -144,13 +145,17 @@ public class CompanyController {
 			 * userPage.setTotalsize(count); userPage.setPageno(pageno);
 			 * userPage.setPagesize(pagesize); result.setPageObj(userPage);
 			 */
+			jobSeekerPage.setCode("000");
+			if (totalno<=currPage) {
+				jobSeekerPage.setCode("040");
+			}
 			jobSeekerPage.setLists(jobSeeker);
 			jobSeekerPage.setTotalPage(totalno);
 			jobSeekerPage.setCurrPage(currPage);
 			jobSeekerPage.setTotalCount(count);
 			jobSeekerPage.setPageSize(pagesize);
 
-			jobSeekerPage.setCode("000");
+			
 			jsonResult.setPageObj(jobSeekerPage);
 			jsonResult.setSuccess(true);
 
@@ -160,6 +165,14 @@ public class CompanyController {
 		}
 
 		return jobSeekerPage;
+	}
+	// 删除
+
+	@ResponseBody
+	@RequestMapping("/delet")
+	public Object pageQuery(Integer companyid) {
+		return recruitService.deleteByPrimaryKey(companyid);
+
 	}
 	// 删除
 
@@ -218,6 +231,5 @@ public class CompanyController {
 		map.put("result", list);
 		return map;
     }
-
 
 }

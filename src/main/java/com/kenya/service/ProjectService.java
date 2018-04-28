@@ -6,21 +6,21 @@ import com.kenya.bean.Project;
 
 public interface ProjectService {
 	/**
-	 * 资金找项目 map传递条件
+	 * 璧勯噾鎵鹃」鐩� map浼犻�掓潯浠�
 	 * @param map
 	 * @return
 	 */
-	public List<Project> Selectbyfile(String projectName,Float minPrice,Float maxPrice);
+	public List<Project> Selectbyfile(String projectName,String Price);
 	/**
-	 * 添加项目
+	 * 娣诲姞椤圭洰
 	 */
 	public int insertProject(Project project);
 	/**
-	 * 判断非空
+	 * 鍒ゆ柇闈炵┖
 	 */
 	public String IsNull(Project project);
 	/**
-	 * 根据id查找project
+	 * 鏍规嵁id鏌ユ壘project
 	 */
 	public Project selectbyid(int id);
 }

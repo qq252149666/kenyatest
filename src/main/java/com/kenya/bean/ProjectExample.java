@@ -244,52 +244,62 @@ public class ProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceEqualTo(Float value) {
+        public Criteria andProjectpriceEqualTo(String value) {
             addCriterion("projectPrice =", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceNotEqualTo(Float value) {
+        public Criteria andProjectpriceNotEqualTo(String value) {
             addCriterion("projectPrice <>", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceGreaterThan(Float value) {
+        public Criteria andProjectpriceGreaterThan(String value) {
             addCriterion("projectPrice >", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceGreaterThanOrEqualTo(Float value) {
+        public Criteria andProjectpriceGreaterThanOrEqualTo(String value) {
             addCriterion("projectPrice >=", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceLessThan(Float value) {
+        public Criteria andProjectpriceLessThan(String value) {
             addCriterion("projectPrice <", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceLessThanOrEqualTo(Float value) {
+        public Criteria andProjectpriceLessThanOrEqualTo(String value) {
             addCriterion("projectPrice <=", value, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceIn(List<Float> values) {
+        public Criteria andProjectpriceLike(String value) {
+            addCriterion("projectPrice like", value, "projectprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpriceNotLike(String value) {
+            addCriterion("projectPrice not like", value, "projectprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpriceIn(List<String> values) {
             addCriterion("projectPrice in", values, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceNotIn(List<Float> values) {
+        public Criteria andProjectpriceNotIn(List<String> values) {
             addCriterion("projectPrice not in", values, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceBetween(Float value1, Float value2) {
+        public Criteria andProjectpriceBetween(String value1, String value2) {
             addCriterion("projectPrice between", value1, value2, "projectprice");
             return (Criteria) this;
         }
 
-        public Criteria andProjectpriceNotBetween(Float value1, Float value2) {
+        public Criteria andProjectpriceNotBetween(String value1, String value2) {
             addCriterion("projectPrice not between", value1, value2, "projectprice");
             return (Criteria) this;
         }
@@ -981,6 +991,76 @@ public class ProjectExample {
 
         public Criteria andProjectaddressNotBetween(String value1, String value2) {
             addCriterion("projectAddress not between", value1, value2, "projectaddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeIsNull() {
+            addCriterion("projectType is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeIsNotNull() {
+            addCriterion("projectType is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeEqualTo(String value) {
+            addCriterion("projectType =", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeNotEqualTo(String value) {
+            addCriterion("projectType <>", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeGreaterThan(String value) {
+            addCriterion("projectType >", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeGreaterThanOrEqualTo(String value) {
+            addCriterion("projectType >=", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeLessThan(String value) {
+            addCriterion("projectType <", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeLessThanOrEqualTo(String value) {
+            addCriterion("projectType <=", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeLike(String value) {
+            addCriterion("projectType like", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeNotLike(String value) {
+            addCriterion("projectType not like", value, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeIn(List<String> values) {
+            addCriterion("projectType in", values, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeNotIn(List<String> values) {
+            addCriterion("projectType not in", values, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeBetween(String value1, String value2) {
+            addCriterion("projectType between", value1, value2, "projecttype");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjecttypeNotBetween(String value1, String value2) {
+            addCriterion("projectType not between", value1, value2, "projecttype");
             return (Criteria) this;
         }
     }

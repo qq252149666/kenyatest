@@ -43,16 +43,16 @@ import com.kenya.until.StringUtil;
 @Controller
 @RequestMapping("/jobSeeker")
 public class JobSeekerController {
+	DeleteImg deleteimg = new DeleteImg();
 	@Autowired
 	private JobSeekerService jobSeekerService;
-	DeleteImg deleteimg = new DeleteImg();
-
+//  jobSeeker/saveJobWant   logoFile
 	@ResponseBody
 	@RequestMapping(value="/saveJobWant",method=RequestMethod.POST)
 	public JsonResult jobWantPulish(Job survey, @RequestParam("logoFile") MultipartFile logoFile, Integer userId,
 			HttpSession session) throws IOException {
 
-		// 1.检查上传的文件是否为空 
+		// 1.妫�鏌ヤ笂浼犵殑鏂囦欢鏄惁涓虹┖
 		if (!logoFile.isEmpty()) {
 
 			// =============================================
@@ -71,35 +71,35 @@ public class JobSeekerController {
 			}
 
 			// =====================\============
-			// 2.声明/surveyLogos目录对应的虚拟路径
-			String virtualPath = "/upload";
 
-			// 3.获取ServletContext对象
+			// 2.澹版槑/surveyLogos鐩綍瀵瑰簲鐨勮櫄鎷熻矾寰�
+			String virtualPath = "/surveyLogos";
+
+			// 3.鑾峰彇ServletContext瀵硅薄
 			ServletContext servletContext = session.getServletContext();
 
-			// 4.将虚拟路径转换为真实物理路径
+			// 4.灏嗚櫄鎷熻矾寰勮浆鎹负鐪熷疄鐗╃悊璺緞
 			String realPath = servletContext.getRealPath(virtualPath);
 
-			// 5.获取文件输入流
+			// 5.鑾峰彇鏂囦欢杈撳叆娴�
 			InputStream inputStream = logoFile.getInputStream();
 
-			// 6.执行压缩
+			// 6.鎵ц鍘嬬缉
 			String logoPath = DataprocessUtils.resizeImages(inputStream, realPath);
 
-			// 7.为Survey对象设置logoPath属性
+			// 7.涓篠urvey瀵硅薄璁剧疆logoPath灞炴��
 			survey.setHeadimg(logoPath);
 		}
 
-		// 8.从Session域中读取User对象进而获得userId
+		// 8.浠嶴ession鍩熶腑璇诲彇User瀵硅薄杩涜�岃幏寰梪serId
 
-		// 9.给Survey对象设置userId
+		// 9.缁橲urvey瀵硅薄璁剧疆userId
 
 		survey.setUserid(userId);
 		int insert = jobSeekerService.insert(survey);
 		if (insert >= 1) {
 			JsonResult ok1 = JsonResult.getOK1(survey, JsonCodeEnum.UsedGoodsPublishSuccess.getCode(),
 					JsonCodeEnum.UsedGoodsPublishSuccess.getMsg());
-
 			return ok1;
 		}
 
@@ -107,7 +107,7 @@ public class JobSeekerController {
 	}
 
 	/**
-	 * 分页查询用户数据
+	 * 鍒嗛〉鏌ヨ鐢ㄦ埛鏁版嵁
 	 * 
 	 * @param pageno
 	 * @param pagesize
@@ -120,7 +120,7 @@ public class JobSeekerController {
 		PageBean1<Job> jobSeekerPage = new PageBean1<Job>();
 		Gson gson =  new Gson();
 		try {
-			// 查询用户数据
+			// 鏌ヨ鐢ㄦ埛鏁版嵁
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("start", (currPage - 1) * pagesize);
 			paramMap.put("size", pagesize);
@@ -129,13 +129,13 @@ public class JobSeekerController {
 			}
 			paramMap.put("pagetext", pagetext);
 
-			// 分页查询数据
+			// 鍒嗛〉鏌ヨ鏁版嵁
 			List<Job> jobSeeker = jobSeekerService.pageQuery(paramMap);
-			// 获取数据的总条数
+			// 鑾峰彇鏁版嵁鐨勬�绘潯鏁�
 			int count = jobSeekerService.queryCount(paramMap);
 
-			int totalno = 0;// on总页码
-			// 获取总页码
+			int totalno = 0;// on鎬婚〉鐮�
+			// 鑾峰彇鎬婚〉鐮�
 			if (count % pagesize == 0) {
 				totalno = count / pagesize;
 			} else {
@@ -153,6 +153,10 @@ public class JobSeekerController {
 				
 				
 			}*/
+			jobSeekerPage.setCode("000");
+			if (totalno<=currPage) {
+				jobSeekerPage.setCode("040");
+			}
 			jobSeekerPage.setLists(jobSeeker);
 			jobSeekerPage.setTotalPage(totalno);
 			jobSeekerPage.setCurrPage(currPage);
@@ -160,12 +164,12 @@ public class JobSeekerController {
 			jobSeekerPage.setPageSize(pagesize);
 			
 			
-			jsonResult.setPageObj(jobSeekerPage);
+			//jsonResult.setPageObj(jobSeekerPage);
 			
-			jobSeekerPage.setCode("000");
-			jsonResult.setSuccess(true);
+			
+		/*	jsonResult.setSuccess(true);
 			jsonResult.setCode("000");
-
+*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonResult.setDatas(false);
@@ -179,7 +183,7 @@ public class JobSeekerController {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         return sd.format(lo);
     }
-	
+
 	/**
 	 * 删除job
 	 */
@@ -222,6 +226,6 @@ public class JobSeekerController {
 		}
 		map.put("result", list);
 		return map;
-    }
+}
 
 }

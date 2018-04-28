@@ -1,93 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8" />
-<title>图片上传预览演示-柯乐义</title>
-    <style>
-        .img-container{
-            width: 293px;
-            height: 150px;
-            background:#F2F2F2;
-            margin-bottom:35px;
-            overflow: hidden;
-            border: 1px solid #000;
-        }
-        .img-container>img{
-            width: 293px;
-            height: 150px;
-        }
-        .img{
-            width: 293px;
-            height: 150px;
-        }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
-    <form name="/" class="card-form">
-        <div>
-            <div class="img-container"></div>
-            <input class="img-btn" type="file" id="drivingLicence" name="drivingLicence">
-        </div>
-    </form>
-    <script>
-        /**
-         * Created by Administrator on 2016/4/28.
-         */
-//上传图片并预览
-        function previewImg(fileInput,imgDiv){
-            if(window.FileReader){//支持FileReader的时候
-                var reader=new FileReader();
-                reader.readAsDataURL(fileInput.files[0]);
-                reader.onload=function(evt){
-                    imgDiv.innerHTML="\<img src="+evt.target.result+"\>";
-                }
-            }else{//兼容ie9-
-                imgDiv.innerHTML='<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + fileInput.value + '\)\';"></div>';
-            }
-        }
-        function selectImg(fileInputs,imgDivs){
-            var checkImg=new RegExp("(.jpg$)|(.png$)|(.bmp$)|(.jpeg$)","i");
-            var i=0;
-            for(;i<fileInputs.length&&i<imgDivs.length;i++){
-                (function(i){//立即执行函数；保存i
-                    fileInputs[i].onchange=function(){
-                        if(checkImg.test(fileInputs[i].value)){
-                            previewImg(this,imgDivs[i]);
-                        }else{
-                            alert("只支持上传.jpg .png .bmp .jpeg;你的选择有误");
-                        }
-                    };
-                })(i);
-            }
-
-        }
-        /* 为IE6 IE7 IE8增加document.getElementsByClassName函数 */
-        /MSIE\s*(\d+)/i.test(navigator.userAgent);
-        var isIE=parseInt(RegExp.$1?RegExp.$1:0);
-        if(isIE>0&&isIE<9){
-            document.getElementsByClassName=function(cls){
-                var els=this.getElementsByTagName('*');
-                var ell=els.length;
-                var elements=[];
-                for(var n=0;n<ell;n++){
-                    var oCls=els[n].className||'';
-                    if(oCls.indexOf(cls)<0)        continue;
-                    oCls=oCls.split(/\s+/);
-                    var oCll=oCls.length;
-                    for(var j=0;j<oCll;j++){
-                        if(cls==oCls[j]){
-                            elements.push(els[n]);
-                            break;
-                        }
-                    }
-                }
-                return elements;
-            }
-        }
-        var fileInputs=document.getElementsByClassName("img-btn");//文件选择按钮
-        var imgDivs=document.getElementsByClassName("img-container");//图片容器
-        selectImg(fileInputs,imgDivs);
-    </script>
+    <form id="fileupload" action="/rest/pic/upload" method="POST" enctype="multipart/form-data">  
+            <!-- Redirect browsers with JavaScript disabled to the origin page -->  
+            <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>  
+            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->  
+            <div class="row fileupload-buttonbar">  
+                <div class="col-lg-7">  
+                    <!-- The fileinput-button span is used to style the file input field as button -->  
+                    <span class="btn btn-success fileinput-button">  
+                        <i class="glyphicon glyphicon-plus"></i>  
+                        <span>选择文件(多选)</span>  
+                        <input type="file" name="uploadFile" multiple="multiple">  
+                    </span>  
+                    <button type="submit" class="btn btn-primary start">  
+                        <i class="glyphicon glyphicon-upload"></i>  
+                        <span>开始上传</span>  
+                    </button>  
+                    <button type="reset" class="btn btn-warning cancel">  
+                        <i class="glyphicon glyphicon-ban-circle"></i>  
+                        <span>取消上传</span>  
+                    </button>  
+                    <button type="button" class="btn btn-danger delete">  
+                        <i class="glyphicon glyphicon-trash"></i>  
+                        <span>删除</span>  
+                    </button>   
+                    <input type="checkbox" class="toggle" title="全选">  
+                    <!-- The global file processing state -->  
+                    <span class="fileupload-process"></span>  
+                </div>  
+                <!-- The global progress state -->  
+                <div class="col-lg-5 fileupload-progress fade">  
+                    <!-- The global progress bar -->  
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">  
+                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>  
+                    </div>  
+                    <!-- The extended global progress state -->  
+                    <div class="progress-extended"> </div>  
+                </div>  
+            </div>  
+            <!-- The table listing the files available for upload/download -->  
+            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>  
+        </form>
 </body>
 </html>

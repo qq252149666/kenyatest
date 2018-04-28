@@ -39,10 +39,10 @@ public class ProjectController {
 	
 	@RequestMapping("/selectByFile")
 	@ResponseBody
-	public HashMap<String,Object> selectByFile(@RequestParam(value="pn",defaultValue="1")int pn,String projectName,@RequestParam(value="minPrice",defaultValue="0")Float minPrice,@RequestParam(value="maxPrice",defaultValue="0")Float maxPrice){
+	public HashMap<String,Object> selectByFile(@RequestParam(value="pn",defaultValue="1")int pn,String projectName,String Price){
 		PageHelper.startPage(pn, 7);
 		//第一个查询默认分页
-		List<Project> list = projectService.Selectbyfile(projectName,minPrice,maxPrice);
+		List<Project> list = projectService.Selectbyfile(projectName,Price);
 		//PageInfo封装分页信息
 		PageInfo<Project> page = new PageInfo<Project>(list);
 		//map封装分页数据

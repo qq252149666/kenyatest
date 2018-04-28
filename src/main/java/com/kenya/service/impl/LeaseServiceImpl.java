@@ -24,7 +24,7 @@ public class LeaseServiceImpl implements LeaseService{
 		if(leaseName!=null&&!leaseName.equals("")) {
         	LeaseExample example = new LeaseExample();
         	Criteria criteria = example.createCriteria();
-        	criteria.andLeasenameLike(leaseName);
+        	criteria.andLeasenameLike("%"+leaseName+"%");
         	return leasedao.selectByExample(example);
         }else {
         	return leasedao.selectByExample(null);

@@ -1,5 +1,7 @@
 package com.kenya.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -102,9 +104,9 @@ public class kenYaUserController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/register", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
-	public String  register(String userName, String userPsw, Integer userSex, Integer userAge, String userPhoneNumber,
-			HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/register", produces = "text/json;charset=UTF-8")
+	public String  register(String userName, String userPsw, Integer userSex,  String userPhoneNumber,String user_birthday
+		,String user_prohibit,HttpServletRequest request, HttpServletResponse response) {
 
 		// 这里要封装、
 
@@ -119,8 +121,11 @@ public class kenYaUserController {
 			String json = JSON.toJSONString(JsonResult.UserNameExist());
 			return json;
 		} else {
-			kenYaUserServic.createUser(userName, userPsw, userSex, userAge, userPhoneNumber);
-			User user = new User(null, userName, null, userSex, userAge, userPhoneNumber);
+			kenYaUserServic.createUser(userName, userPsw, userSex,userPhoneNumber, user_prohibit, user_birthday);
+			
+			//kenYaUserServic.createUser(userName, userPsw, userSex, userAge, userPhoneNumber,user_birthday,user_prohibit);
+		//	User user = new User(null, userName, null, userSex, userAge, userPhoneNumber,user_prohibit,user_birthday);
+			User user = new User(null, userName, userPsw, userSex,  userPhoneNumber, user_birthday, null, user_prohibit);
 			JsonResult result = JsonResult.getOK(user);
 
 			String mapJson = JSON.toJSONString(result);

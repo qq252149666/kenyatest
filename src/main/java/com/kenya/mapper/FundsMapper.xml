@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kenya.bean.Funds">
     <id column="fundsId" jdbcType="INTEGER" property="fundsid" />
     <result column="fundsName" jdbcType="VARCHAR" property="fundsname" />
-    <result column="fundsPrice" jdbcType="REAL" property="fundsprice" />
+    <result column="fundsPrice" jdbcType="VARCHAR" property="fundsprice" />
     <result column="fundsDesc" jdbcType="VARCHAR" property="fundsdesc" />
     <result column="fundsPhone" jdbcType="VARCHAR" property="fundsphone" />
     <result column="fundsImgs" jdbcType="VARCHAR" property="fundsimgs" />
@@ -14,6 +14,12 @@
     <result column="fundsImg4" jdbcType="VARCHAR" property="fundsimg4" />
     <result column="fundsUser" jdbcType="VARCHAR" property="fundsuser" />
     <result column="adminId" jdbcType="INTEGER" property="adminid" />
+    <result column="FundAdvantage" jdbcType="VARCHAR" property="fundadvantage" />
+    <association property="admin" javaType="com.kenya.bean.Admin">  
+	    <id column="adminId" property="adminid"/>
+	    	<result column="adminUser" property="adminuser"/>
+    </association>  
+    
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     fundsId, fundsName, fundsPrice, fundsDesc, fundsPhone, fundsImgs, fundsImg1, fundsImg2, 
-    fundsImg3, fundsImg4, fundsUser, adminId, adminuser
+    fundsImg3, fundsImg4, fundsUser, kenya_admin.adminId, FundAdvantage,adminUser
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.FundsExample" resultMap="BaseResultMap">
     select
@@ -107,17 +113,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenya.bean.Funds" useGeneratedKeys="true" keyProperty="fundsid">
+  <insert id="insert" parameterType="com.kenya.bean.Funds">
     insert into kenya_funds (fundsId, fundsName, fundsPrice, 
       fundsDesc, fundsPhone, fundsImgs, 
       fundsImg1, fundsImg2, fundsImg3, 
-      fundsImg4, fundsUser, adminId
-      )
-    values (#{fundsid,jdbcType=INTEGER}, #{fundsname,jdbcType=VARCHAR}, #{fundsprice,jdbcType=REAL}, 
+      fundsImg4, fundsUser, adminId, 
+      FundAdvantage)
+    values (#{fundsid,jdbcType=INTEGER}, #{fundsname,jdbcType=VARCHAR}, #{fundsprice,jdbcType=VARCHAR}, 
       #{fundsdesc,jdbcType=VARCHAR}, #{fundsphone,jdbcType=VARCHAR}, #{fundsimgs,jdbcType=VARCHAR}, 
       #{fundsimg1,jdbcType=VARCHAR}, #{fundsimg2,jdbcType=VARCHAR}, #{fundsimg3,jdbcType=VARCHAR}, 
-      #{fundsimg4,jdbcType=VARCHAR}, #{fundsuser,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}
-      )
+      #{fundsimg4,jdbcType=VARCHAR}, #{fundsuser,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}, 
+      #{fundadvantage,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Funds">
     insert into kenya_funds
@@ -158,6 +164,9 @@
       <if test="adminid != null">
         adminId,
       </if>
+      <if test="fundadvantage != null">
+        FundAdvantage,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fundsid != null">
@@ -167,7 +176,7 @@
         #{fundsname,jdbcType=VARCHAR},
       </if>
       <if test="fundsprice != null">
-        #{fundsprice,jdbcType=REAL},
+        #{fundsprice,jdbcType=VARCHAR},
       </if>
       <if test="fundsdesc != null">
         #{fundsdesc,jdbcType=VARCHAR},
@@ -196,6 +205,9 @@
       <if test="adminid != null">
         #{adminid,jdbcType=INTEGER},
       </if>
+      <if test="fundadvantage != null">
+        #{fundadvantage,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kenya.bean.FundsExample" resultType="java.lang.Long">
@@ -214,7 +226,7 @@
         fundsName = #{record.fundsname,jdbcType=VARCHAR},
       </if>
       <if test="record.fundsprice != null">
-        fundsPrice = #{record.fundsprice,jdbcType=REAL},
+        fundsPrice = #{record.fundsprice,jdbcType=VARCHAR},
       </if>
       <if test="record.fundsdesc != null">
         fundsDesc = #{record.fundsdesc,jdbcType=VARCHAR},
@@ -243,6 +255,9 @@
       <if test="record.adminid != null">
         adminId = #{record.adminid,jdbcType=INTEGER},
       </if>
+      <if test="record.fundadvantage != null">
+        FundAdvantage = #{record.fundadvantage,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -252,7 +267,7 @@
     update kenya_funds
     set fundsId = #{record.fundsid,jdbcType=INTEGER},
       fundsName = #{record.fundsname,jdbcType=VARCHAR},
-      fundsPrice = #{record.fundsprice,jdbcType=REAL},
+      fundsPrice = #{record.fundsprice,jdbcType=VARCHAR},
       fundsDesc = #{record.fundsdesc,jdbcType=VARCHAR},
       fundsPhone = #{record.fundsphone,jdbcType=VARCHAR},
       fundsImgs = #{record.fundsimgs,jdbcType=VARCHAR},
@@ -261,7 +276,8 @@
       fundsImg3 = #{record.fundsimg3,jdbcType=VARCHAR},
       fundsImg4 = #{record.fundsimg4,jdbcType=VARCHAR},
       fundsUser = #{record.fundsuser,jdbcType=VARCHAR},
-      adminId = #{record.adminid,jdbcType=INTEGER}
+      adminId = #{record.adminid,jdbcType=INTEGER},
+      FundAdvantage = #{record.fundadvantage,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -273,7 +289,7 @@
         fundsName = #{fundsname,jdbcType=VARCHAR},
       </if>
       <if test="fundsprice != null">
-        fundsPrice = #{fundsprice,jdbcType=REAL},
+        fundsPrice = #{fundsprice,jdbcType=VARCHAR},
       </if>
       <if test="fundsdesc != null">
         fundsDesc = #{fundsdesc,jdbcType=VARCHAR},
@@ -302,13 +318,16 @@
       <if test="adminid != null">
         adminId = #{adminid,jdbcType=INTEGER},
       </if>
+      <if test="fundadvantage != null">
+        FundAdvantage = #{fundadvantage,jdbcType=VARCHAR},
+      </if>
     </set>
     where fundsId = #{fundsid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kenya.bean.Funds">
     update kenya_funds
     set fundsName = #{fundsname,jdbcType=VARCHAR},
-      fundsPrice = #{fundsprice,jdbcType=REAL},
+      fundsPrice = #{fundsprice,jdbcType=VARCHAR},
       fundsDesc = #{fundsdesc,jdbcType=VARCHAR},
       fundsPhone = #{fundsphone,jdbcType=VARCHAR},
       fundsImgs = #{fundsimgs,jdbcType=VARCHAR},
@@ -317,7 +336,8 @@
       fundsImg3 = #{fundsimg3,jdbcType=VARCHAR},
       fundsImg4 = #{fundsimg4,jdbcType=VARCHAR},
       fundsUser = #{fundsuser,jdbcType=VARCHAR},
-      adminId = #{adminid,jdbcType=INTEGER}
+      adminId = #{adminid,jdbcType=INTEGER},
+      FundAdvantage = #{fundadvantage,jdbcType=VARCHAR}
     where fundsId = #{fundsid,jdbcType=INTEGER}
   </update>
 </mapper>

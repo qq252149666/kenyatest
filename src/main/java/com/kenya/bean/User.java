@@ -1,5 +1,7 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
 public class User {
     private Integer userId;
 
@@ -13,8 +15,54 @@ public class User {
 
     private String userPhonenumber;
     
+    private String userHaveCar;
+    
+    private String  userBirthday;
 
+    private String  userPortrait;
+    
+    private String  userProhibit;
+    
+    
    
+
+	public User(Integer userId, String userName, String userPsw, Integer userSex,
+			String userPhonenumber, String userBirthday, String userPortrait, String  userProhibit) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userPsw = userPsw;
+		this.userSex = userSex;
+	
+		this.userPhonenumber = userPhonenumber;
+		this.userBirthday = userBirthday;
+		this.userPortrait = userPortrait;
+		this.userProhibit = userProhibit;
+	}
+
+	public String getUserBirthday() {
+		return userBirthday;
+	}
+
+	public void setUserBirthday(String userBirthday) {
+		this.userBirthday = userBirthday;
+	}
+
+	public String getUserPortrait() {
+		return userPortrait;
+	}
+
+	public void setUserPortrait(String userPortrait) {
+		this.userPortrait = userPortrait;
+	}
+
+	public String  getUserProhibit() {
+		return userProhibit;
+	}
+
+	public void setUserProhibit(String userProhibit) {
+		this.userProhibit = userProhibit;
+	}
 
 	public User() {
 		super();

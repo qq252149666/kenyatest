@@ -5,7 +5,7 @@ public class Project {
 
     private String projectname;
 
-    private Float projectprice;
+    private String projectprice;
 
     private String projectdesc;
 
@@ -26,6 +26,8 @@ public class Project {
     private String projectuser;
 
     private String projectaddress;
+
+    private String projecttype;
     
     private Admin admin;
     
@@ -54,12 +56,12 @@ public class Project {
         this.projectname = projectname == null ? null : projectname.trim();
     }
 
-    public Float getProjectprice() {
+    public String getProjectprice() {
         return projectprice;
     }
 
-    public void setProjectprice(Float projectprice) {
-        this.projectprice = projectprice;
+    public void setProjectprice(String projectprice) {
+        this.projectprice = projectprice == null ? null : projectprice.trim();
     }
 
     public String getProjectdesc() {
@@ -140,5 +142,13 @@ public class Project {
 
     public void setProjectaddress(String projectaddress) {
         this.projectaddress = projectaddress == null ? null : projectaddress.trim();
+    }
+
+    public String getProjecttype() {
+        return projecttype;
+    }
+
+    public void setProjecttype(String projecttype) {
+        this.projecttype = projecttype == null ? null : projecttype.trim();
     }
 }

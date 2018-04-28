@@ -108,7 +108,12 @@
 				<label for="exampleInputName2">projectsprice</label>
 			</td>
 			<td>
-    			<input type="text" name="projectprice" class="form-control" id="projectprice" placeholder="projectsprice"><p style="color:red" id="price"/>
+    			<select name="projectsprice" class="form-control" id="projectsprice" >
+    				<option value="0-5000">0~5000</option>
+    				<option value="5000~30000">5000~30000</option>
+    				<option value="30000~50000">30000~50000</option>
+    				<option value="50000~">50000~</option>
+    			</select><p style="color:red" id="price"/>
 			</td>
 		</tr>
 		<tr>
@@ -220,10 +225,6 @@ $(document).ready(function(){
 			var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
 			if(parent.test(string))
 			{
-				var string=document.getElementById("projectprice").value;
-				var parent=/^(-?\d+)(\.\d+)?$/;
-				if(parent.test(string))
-				{
 					var string=document.getElementById("projectuser").value;
 					var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
 					if(parent.test(string))
@@ -275,11 +276,6 @@ $(document).ready(function(){
 						alert("The projectuser Only input English letters!");
 						return false;
 					}
-				}
-				else
-				{
-					alert("The projectprice Only input numbers!");
-					return false;
 				}
 			}
 			else

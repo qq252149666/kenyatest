@@ -6,8 +6,11 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_psw" jdbcType="VARCHAR" property="userPsw" />
     <result column="user_sex" jdbcType="INTEGER" property="userSex" />
-    <result column="user_age" jdbcType="INTEGER" property="userAge" />
-    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+    
+     <result column="user_haveCar" jdbcType="INTEGER" property="userHaveCar" /> 
+    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -102,10 +105,11 @@
   </delete>
   <insert id="insert" parameterType="com.kenya.bean.User">
     insert into kenya_user (user_id, user_name, user_psw, 
-      user_sex, user_age, user_phoneNumber
+      user_sex,  user_phoneNumber,user_birthday,user_prohibit
       )
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPsw,jdbcType=VARCHAR}, 
-      #{userSex,jdbcType=INTEGER}, #{userAge,jdbcType=INTEGER}, #{userPhonenumber,jdbcType=VARCHAR}
+      #{userSex,jdbcType=INTEGER}, #{userPhonenumber,jdbcType=VARCHAR}
+       ,#{userBirthday,jdbcType=DATE}, #{userProhibit,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.User">

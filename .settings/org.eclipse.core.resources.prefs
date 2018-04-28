@@ -1,10 +1,14 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/kenya/ajaxResult/JsonResult.java=UTF-8
+encoding//src/main/java/com/kenya/controller/CompanyController.java=UTF-8
 encoding//src/main/java/com/kenya/controller/FundsController.java=UTF-8
 encoding//src/main/java/com/kenya/controller/GoodsController.java=utf-8
+encoding//src/main/java/com/kenya/controller/JobSeekerController.java=UTF-8
 encoding//src/main/java/com/kenya/controller/UserController.java=UTF-8
+encoding//src/main/java/com/kenya/service/ProjectService.java=UTF-8
 encoding//src/main/java/com/kenya/service/impl/GoodsServiceImpl.java=UTF-8
 encoding//src/main/java/com/kenya/service/impl/NewSeviceImpl.java=UTF-8
+encoding//src/main/java/com/kenya/service/impl/ProjectServiceImpl.java=UTF-8
 encoding//src/main/java/com/kenya/service/impl/UserServiceImpl.java=UTF-8
 encoding//src/main/java/com/kenya/until/DataprocessUtils.java=UTF-8
 encoding/<project>=UTF-8

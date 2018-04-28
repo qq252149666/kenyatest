@@ -128,7 +128,8 @@ public class Job {
 	public void setAge(int age) {
 		this.age = age;
 	}
-    private  String transferLongToDate(String dateFormat,Long millSec){
+    @SuppressWarnings("unused")
+	private  String transferLongToDate(String dateFormat,Long millSec){
 
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 
