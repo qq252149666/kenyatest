@@ -96,7 +96,7 @@ public class kenYaUserController {
 		} else {
 			map.put("code", "040");
 			map.put("result",null);
-			map.put("message","用户名不存在");
+			map.put("message","Sorry! The user name your entered does not exist!");
 		}
 		return map;
 
@@ -113,7 +113,7 @@ public class kenYaUserController {
 			//KenyaUser kenyaUser = new KenyaUser();
 			map.put("result",null);
 			map.put("code","040");
-			map.put("message","手机号已存在");
+			map.put("message","The phone number has already existed");
 		} else {
 	        user.setUserDate(new Date());
 	        user.setUserHavecar(0);

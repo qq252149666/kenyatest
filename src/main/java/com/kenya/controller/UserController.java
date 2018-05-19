@@ -2,7 +2,6 @@ package com.kenya.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,11 +137,11 @@ public class UserController {
 	    	}
 		}
 		if(userService.update(user)==1) {
-			map.put("message", "修改成功");
+			map.put("message", "Modify Successfully");
 			map.put("code", "000");
 			map.put("result", user);
 		}else {
-			map.put("message","修改失败");
+			map.put("message","Process Failed");
 			map.put("code","040");
 			map.put("result", user);
 		}
@@ -157,10 +156,10 @@ public class UserController {
 			user.setUserName(userName);
 		}
 		if(userService.update(user)==1) {
-			map.put("message", "修改成功");
+			map.put("message", "Modify Successfully");
 			map.put("code", "000");
 		}else {
-			map.put("message","修改失败");
+			map.put("message","Process Failed");
 			map.put("code","040");
 		}
 		return map;
@@ -202,7 +201,7 @@ public class UserController {
 	public HashMap<String,Object> Code(String phone){
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		SendMsgUtil sendMsgUtil = new SendMsgUtil();
-    	map = sendMsgUtil.sendMsg(phone, "【签名】尊敬的用户，您的验证码为" + SendMsgUtil.createRandomVcode() + "，请在10分钟内输入。请勿告诉其他人!");
+    	map = sendMsgUtil.sendMsg(phone, "【Bright Light】Your Bright Light verification code is "+SendMsgUtil.createRandomVcode());
         if(map.get("code").equals(100)) {
         	map.put("code", "000");
         	map.put("message", "Post Successfully");
@@ -224,7 +223,7 @@ public class UserController {
 		if(userId==0) {
 			map.put("code", "040");
 			map.put("result", null);
-			map.put("message", "process failed");
+			map.put("message", "Process Failed");
 		}else {
 			User user = userService.selectbyId(userId);
 			if(user.getUserDeviceid().equals(deviceId)) {
@@ -236,7 +235,7 @@ public class UserController {
 				if(day>7) {
 					map.put("code", "040");
 					map.put("result", null);
-					map.put("message", "登陆失效");
+					map.put("message", "Logon Failure");
 				}else {
 					user.setUserLoginlasttime(new Date());
 					userService.update(user);
@@ -247,7 +246,7 @@ public class UserController {
 			}else {
 				map.put("code", "040");
 				map.put("result", null);
-				map.put("message", "登陆失效");
+				map.put("message", "Logon Failure");
 			}
 		}
 		return map;
