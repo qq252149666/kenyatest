@@ -52,30 +52,27 @@ public class UserController {
         log.info(users.toString());
         return users; 
 	}
-	/**
-	 * 鐢ㄦ埛鍙戝竷鐨勪俊鎭�
-	 */
 	@RequestMapping("selectByUserId")
 	@ResponseBody
 	public HashMap<String,Object> selectByUser(int userid,String Type,@RequestParam(value="pn",defaultValue="1") int pn) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		switch(Type) {
-			case "绉熸埧":
+			case "租房":
 				map=leaseController.selectByUserId(userid, pn);
 				break;
-			case "浜屾墜":
+			case "二手":
 				map=goodsController.selectByUserId(userid, pn);
 				break;
-			case "鐢熸椿鏈嶅姟":
+			case "生活服务":
 				map=liveController.selectByUserId(userid, pn);
 				break;
-			case "鍐滄灄鐗�":
+			case "农林牧":
 				map=framController.selectByUserId(userid, pn);
 				break;
-			case "姹傝亴":
+			case "求职":
 				map=jobseekerController.selectByUserId(userid, pn);
 				break;
-			case "鎷涜仒":
+			case "招聘":
 				map=companyController.selectByUserId(userid, pn);
 				break;
 		}
@@ -86,22 +83,22 @@ public class UserController {
 	public HashMap<String,Object> deleteByUserId(int id,String Type,HttpServletRequest request) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		switch(Type) {
-			case "绉熸埧":
+			case "租房":
 				map=leaseController.deleteLease(id, request);
 				break;
-			case "浜屾墜":
+			case "二手":
 				map=goodsController.deleteGoods(id, request);
 				break;
-			case "鐢熸椿鏈嶅姟":
+			case "生活服务":
 				map=liveController.deletelive(id, request);
 				break;
-			case "鍐滄灄鐗�":
+			case "农林牧":
 				map=framController.deleteFram(id, request);
 				break;
-			case "姹傝亴":
+			case "求职":
 				map=jobseekerController.deletejob(id, request);
 				break;
-			case "鎷涜仒":
+			case "招聘":
 				map=companyController.deleteCompany(id, request);
 				break;
 		}
