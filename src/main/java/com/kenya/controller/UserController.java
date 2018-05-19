@@ -2,6 +2,8 @@ package com.kenya.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -166,11 +168,13 @@ public class UserController {
 	
 	@RequestMapping("/updateUser")
 	@ResponseBody
-	public HashMap<String,Object> updateUser(User user,HttpServletRequest request){
+	public HashMap<String,Object> updateUser(String birthday,User user,HttpServletRequest request) throws Exception{
 		HashMap<String,Object> map =new HashMap<String,Object>();
 		User users = userService.selectbyId(user.getUserId());
-		if(user.getUserBirthday()!=null) {
-			users.setUserBirthday(user.getUserBirthday());
+		if(birthday!=null&&!birthday.equals("")) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date=sdf.parse(birthday);
+			users.setUserBirthday(date);
 		}
 		if(user.getUserSex()!=null) {
 			users.setUserSex(user.getUserSex());
@@ -217,6 +221,11 @@ public class UserController {
 	@ResponseBody
 	public HashMap<String,Object> loged(String deviceId,int userId){
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(userId==0) {
+			map.put("code", "040");
+			map.put("result", null);
+			map.put("message", "process failed");
+		}
 		User user = userService.selectbyId(userId);
 		if(user.getUserDeviceid().equals(deviceId)) {
 			//获取当前时间
