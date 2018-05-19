@@ -113,7 +113,7 @@ public class LeaseController {
         if(leaseService.IsNull(lease)=="非法访问") {
         	map.put("code", "040");
         	map.put("result",null);
-        	map.put("message", "非法访问");
+        	map.put("message", "Invalid Visit");
         }else {
         	User user = userService.selectbyId(lease.getUserid());
         	user.setUserPsw("");
@@ -154,7 +154,7 @@ public class LeaseController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(leaseid==0) {
 			map.put("Code", "040");
-			map.put("message", "非法访问");
+			map.put("message", "Invalid Visit");
 		}else {
 			if(leaseService.selectById(leaseid).getLeaseimgs()!=null) {
 				deleteImg.deleteImg(leaseService.selectById(leaseid).getLeaseimgs(), request);

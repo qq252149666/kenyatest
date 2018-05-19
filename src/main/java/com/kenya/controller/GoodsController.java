@@ -94,7 +94,7 @@ public class GoodsController {
 		if(goodsid==0) {
 			map.put("code", "040");
 			map.put("result", null);
-			map.put("message", "非法访问");
+			map.put("message", "Invalid Visit");
 		}else {
 			if(goodsService.selectById(goodsid).getGoodsimgs()!=null) {
 				deleteImg.deleteImg(goodsService.selectById(goodsid).getGoodsimgs(), request);

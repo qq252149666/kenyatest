@@ -109,7 +109,7 @@ public class FundsController {
         //判断是否有空值
         if(fundsservice.IsNull(funds)=="非法访问") {
         	map.put("code", "040");
-        	map.put("message","非法访问");
+        	map.put("message","Invalid Visit");
         	map.put("result",null);
         }else {
         	//数据库添加
@@ -206,7 +206,7 @@ public class FundsController {
         //判断是否有空值
         if(fundsservice.IsNull(funds)=="非法访问") {
         	map.put("code", "040");
-        	map.put("message","非法访问");
+        	map.put("message","Invalid Visit");
         }else {
         	//数据库添加
         	if(fundsservice.updatefunds(funds)!=0) {
@@ -252,7 +252,7 @@ public class FundsController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
     	if(fundsid==0) {
 			map.put("Code", "040");
-			map.put("message", "非法访问");
+			map.put("message", "Invalid Visit");
 		}else {
 			if(fundsservice.selectById(fundsid).getFundshead()!=null) {
 				deleteImg.deleteImg(fundsservice.selectById(fundsid).getFundshead(), request);

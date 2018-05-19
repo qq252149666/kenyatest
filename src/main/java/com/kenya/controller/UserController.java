@@ -201,7 +201,7 @@ public class UserController {
 	public HashMap<String,Object> Code(String phone){
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		SendMsgUtil sendMsgUtil = new SendMsgUtil();
-    	map = sendMsgUtil.sendMsg(phone, "【Bright Light】Your Bright Light verification code is "+SendMsgUtil.createRandomVcode());
+    	map = sendMsgUtil.sendMsg(phone, "[Bright Light] your verification code "+SendMsgUtil.createRandomVcode());
         if(map.get("code").equals(100)) {
         	map.put("code", "000");
         	map.put("message", "Post Successfully");
@@ -226,7 +226,7 @@ public class UserController {
 			map.put("message", "Process Failed");
 		}else {
 			User user = userService.selectbyId(userId);
-			if(user.getUserDeviceid().equals(deviceId)) {
+			if(user.getUserDeviceid()!=null&&user.getUserDeviceid().equals(deviceId)) {
 				//获取当前时间
 				Date date = new Date();
 				long nd = 1000 * 24 * 60 * 60;

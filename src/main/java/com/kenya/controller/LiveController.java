@@ -116,7 +116,7 @@ public class LiveController {
         HashMap<String,Object> map = new HashMap<String,Object>();
         if(liveService.IsNull(live)=="非法访问") {
         	map.put("code", "040");
-        	map.put("message", "非法访问");
+        	map.put("message", "Invalid Visit");
         	map.put("result",null);
         }else {
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -181,7 +181,7 @@ public class LiveController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(liveid==0) {
 			map.put("code", "040");
-			map.put("message", "非法访问");
+			map.put("message", "Invalid Visit");
 		}else {
 			if(liveService.selectById(liveid).getLiveimgs()!=null) {
 				deleteImg.deleteImg(liveService.selectById(liveid).getLiveimgs(), request);

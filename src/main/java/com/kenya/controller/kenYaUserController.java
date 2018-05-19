@@ -78,7 +78,7 @@ public class kenYaUserController {
 				if(kenyaUser.getUserProhibit().equals("1")) {
 					map.put("code","040");
 					map.put("result", null);
-					map.put("message", "The Account Has Been Sealed.");
+					map.put("message", "This Account is Forbidden");
 				}else {
 					kenyaUser.setUserDeviceid(userDeviceId);
 					kenyaUser.setUserLoginlasttime(new Date());
@@ -96,7 +96,7 @@ public class kenYaUserController {
 		} else {
 			map.put("code", "040");
 			map.put("result",null);
-			map.put("message","Sorry! The user name your entered does not exist!");
+			map.put("message","Sorry! No User!");
 		}
 		return map;
 
@@ -113,7 +113,7 @@ public class kenYaUserController {
 			//KenyaUser kenyaUser = new KenyaUser();
 			map.put("result",null);
 			map.put("code","040");
-			map.put("message","The phone number has already existed");
+			map.put("message","Mobile Number Registered");
 		} else {
 	        user.setUserDate(new Date());
 	        user.setUserHavecar(0);

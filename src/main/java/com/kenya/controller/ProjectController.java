@@ -108,7 +108,7 @@ public class ProjectController {
         //判断是否有空值
         if(projectService.IsNull(project)=="非法访问") {
         	map.put("code", "040");
-        	map.put("message","非法访问");
+        	map.put("message","Invalid Visit");
         	map.put("result",null);
         }else {
         	//数据库添加
@@ -158,7 +158,7 @@ public class ProjectController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
     	if(projectid==0) {
 			map.put("Code", "040");
-			map.put("message", "非法访问");
+			map.put("message", "Invalid Visit");
 		}else {
 			if(projectService.selectbyid(projectid).getProjecthead()!=null) {
 				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjecthead(), request);

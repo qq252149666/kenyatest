@@ -93,7 +93,7 @@ public class FramController {
         HashMap<String,Object> map = new HashMap<String,Object>();
         if(framService.IsNull(fram)=="非法访问") {
         	map.put("code", "040");
-        	map.put("message","非法访问");
+        	map.put("message","Invalid Visit");
         	map.put("result",null);
         }else {
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -161,7 +161,7 @@ public class FramController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(framid==0) {
 			map.put("code", "040");
-			map.put("result", "非法访问");
+			map.put("result", "Invalid Visit");
 		}else {
 			if(framService.selectById(framid).getFramimgs()!=null) {
 				deleteImg.deleteImg(framService.selectById(framid).getFramimgs(), request);
