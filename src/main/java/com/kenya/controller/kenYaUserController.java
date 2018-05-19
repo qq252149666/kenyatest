@@ -116,7 +116,7 @@ public class kenYaUserController {
 			map.put("message","手机号已存在");
 		} else {
 	        user.setUserDate(new Date());
-	        user.setUserHavecar(1);
+	        user.setUserHavecar(0);
 	        user.setUserProhibit("0");
 			if(kenYaUserServic.createUser(user)>0) {
 				map.put("result",user);
