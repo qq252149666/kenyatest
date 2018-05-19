@@ -53,29 +53,29 @@ public class UserController {
         return users; 
 	}
 	/**
-	 * 用户发布的信息
+	 * 鐢ㄦ埛鍙戝竷鐨勪俊鎭�
 	 */
 	@RequestMapping("selectByUserId")
 	@ResponseBody
 	public HashMap<String,Object> selectByUser(int userid,String Type,@RequestParam(value="pn",defaultValue="1") int pn) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		switch(Type) {
-			case "租房":
+			case "绉熸埧":
 				map=leaseController.selectByUserId(userid, pn);
 				break;
-			case "二手":
+			case "浜屾墜":
 				map=goodsController.selectByUserId(userid, pn);
 				break;
-			case "生活服务":
+			case "鐢熸椿鏈嶅姟":
 				map=liveController.selectByUserId(userid, pn);
 				break;
-			case "农林牧":
+			case "鍐滄灄鐗�":
 				map=framController.selectByUserId(userid, pn);
 				break;
-			case "求职":
+			case "姹傝亴":
 				map=jobseekerController.selectByUserId(userid, pn);
 				break;
-			case "招聘":
+			case "鎷涜仒":
 				map=companyController.selectByUserId(userid, pn);
 				break;
 		}
@@ -86,22 +86,22 @@ public class UserController {
 	public HashMap<String,Object> deleteByUserId(int id,String Type,HttpServletRequest request) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		switch(Type) {
-			case "租房":
+			case "绉熸埧":
 				map=leaseController.deleteLease(id, request);
 				break;
-			case "二手":
+			case "浜屾墜":
 				map=goodsController.deleteGoods(id, request);
 				break;
-			case "生活服务":
+			case "鐢熸椿鏈嶅姟":
 				map=liveController.deletelive(id, request);
 				break;
-			case "农林牧":
+			case "鍐滄灄鐗�":
 				map=framController.deleteFram(id, request);
 				break;
-			case "求职":
+			case "姹傝亴":
 				map=jobseekerController.deletejob(id, request);
 				break;
-			case "招聘":
+			case "鎷涜仒":
 				map=companyController.deleteCompany(id, request);
 				break;
 		}
@@ -117,7 +117,7 @@ public class UserController {
 				if(user.getUserPortrait()!=null) {
 					deleteImg.deleteImg(user.getUserPortrait(), request);
 				}
-	        	Random rand = new Random();//生成随机数    
+	        	Random rand = new Random();//鐢熸垚闅忔満鏁�    
 	            int random = rand.nextInt();
 	            String serverpath = request.getSession().getServletContext()
 	                    .getRealPath("/");
@@ -194,18 +194,19 @@ public class UserController {
 		return map;
 	}
 	/**
-	 * 发送验证码
+	 * 鍙戦�侀獙璇佺爜
 	 */
 	@RequestMapping("/getCode")
 	@ResponseBody
 	public HashMap<String,Object> Code(String phone){
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		SendMsgUtil sendMsgUtil = new SendMsgUtil();
-    	map = sendMsgUtil.sendMsg(phone, "[Bright Light] your verification code "+SendMsgUtil.createRandomVcode());
+		String value=SendMsgUtil.createRandomVcode();
+    	map = sendMsgUtil.sendMsg(phone, "[Bright Light] your verification code "+value);
         if(map.get("code").equals(100)) {
         	map.put("code", "000");
         	map.put("message", "Post Successfully");
-        	map.put("verificationCode", SendMsgUtil.createRandomVcode());
+        	map.put("verificationCode", value);
         }else {
         	map.put("code", "040");
         	map.put("message", "Post Failed");
@@ -214,7 +215,7 @@ public class UserController {
 		return map;
 	}
 	/**
-	 * 自动登陆
+	 * 鑷姩鐧婚檰
 	 */
 	@RequestMapping("/loged")
 	@ResponseBody
@@ -227,7 +228,7 @@ public class UserController {
 		}else {
 			User user = userService.selectbyId(userId);
 			if(user.getUserDeviceid()!=null&&user.getUserDeviceid().equals(deviceId)) {
-				//获取当前时间
+				//鑾峰彇褰撳墠鏃堕棿
 				Date date = new Date();
 				long nd = 1000 * 24 * 60 * 60;
 				long diff = date.getTime()-user.getUserLoginlasttime().getTime();

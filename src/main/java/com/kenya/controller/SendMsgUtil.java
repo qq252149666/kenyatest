@@ -17,14 +17,7 @@ public class SendMsgUtil {
       * @return  
       * @return String  
      */  
-    @SuppressWarnings("deprecation")
 	public  HashMap<String, Object> sendMsg(String phone,String content) {  
-        try {
-            content = java.net.URLEncoder.encode(content,"utf-8");   
-        } catch (UnsupportedEncodingException e) {  
-            // TODO Auto-generated catch block  
-            e.printStackTrace();  
-        }  
         //短信接口URL提交地址  
         String url = "https://45.79.185.110:8085/api/messaging/singleSms";  
   
@@ -32,7 +25,7 @@ public class SendMsgUtil {
         //手机号码，多个号码使用英文逗号进行分割  
         params.put("mobileNumber", phone);  
         //将短信内容进行URLEncoder编码  
-        params.put("messageContent", URLEncoder.encode(content));  
+        params.put("messageContent", content);  
   
         return HttpRequestUtil.postRequest(url, params);  
     }  
