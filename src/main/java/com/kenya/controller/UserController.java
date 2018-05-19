@@ -184,11 +184,11 @@ public class UserController {
 		}
 	
 		if(userService.update(users)==1) {
-			map.put("message", "修改成功");
+			map.put("message", "Modify Successfully");
 			map.put("code", "000");
 			map.put("result", users);
 		}else {
-			map.put("message","修改失败");
+			map.put("message","Process Failed");
 			map.put("code","040");
 			map.put("result", null);
 		}
@@ -205,11 +205,11 @@ public class UserController {
     	map = sendMsgUtil.sendMsg(phone, "【签名】尊敬的用户，您的验证码为" + SendMsgUtil.createRandomVcode() + "，请在10分钟内输入。请勿告诉其他人!");
         if(map.get("code").equals(100)) {
         	map.put("code", "000");
-        	map.put("message", "发送成功!");
+        	map.put("message", "Post Successfully");
         	map.put("verificationCode", SendMsgUtil.createRandomVcode());
         }else {
         	map.put("code", "040");
-        	map.put("message", "发送失败!");
+        	map.put("message", "Post Failed");
         	map.put("verificationCode", null);
         }
 		return map;
@@ -225,29 +225,30 @@ public class UserController {
 			map.put("code", "040");
 			map.put("result", null);
 			map.put("message", "process failed");
-		}
-		User user = userService.selectbyId(userId);
-		if(user.getUserDeviceid().equals(deviceId)) {
-			//获取当前时间
-			Date date = new Date();
-			long nd = 1000 * 24 * 60 * 60;
-			long diff = date.getTime()-user.getUserLoginlasttime().getTime();
-			long day = diff / nd;
-			if(day>7) {
+		}else {
+			User user = userService.selectbyId(userId);
+			if(user.getUserDeviceid().equals(deviceId)) {
+				//获取当前时间
+				Date date = new Date();
+				long nd = 1000 * 24 * 60 * 60;
+				long diff = date.getTime()-user.getUserLoginlasttime().getTime();
+				long day = diff / nd;
+				if(day>7) {
+					map.put("code", "040");
+					map.put("result", null);
+					map.put("message", "登陆失效");
+				}else {
+					user.setUserLoginlasttime(new Date());
+					userService.update(user);
+					map.put("code", "000");
+					map.put("result", user);
+					map.put("message", "Login Successfully");
+				}
+			}else {
 				map.put("code", "040");
 				map.put("result", null);
 				map.put("message", "登陆失效");
-			}else {
-				user.setUserLoginlasttime(new Date());
-				userService.update(user);
-				map.put("code", "000");
-				map.put("result", user);
-				map.put("message", "登陆成功");
 			}
-		}else {
-			map.put("code", "040");
-			map.put("result", null);
-			map.put("message", "登陆失效");
 		}
 		return map;
 	}
