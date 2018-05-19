@@ -28,16 +28,18 @@ var TT = TAOTAO = {
 		uploadJson : '/kenya/pic/upload',
 		// 上传类型，分别为image、flash、media、file
 		dir : "image",
-		cssData: 'body {font-family: "微软雅黑"; font-size: 33px}'
+		//cssData: 'body {font-family: "微软雅黑"; font-size: 18px;line-height:1.4}'
+		cssData: 'body {font-family: "微软雅黑"; font-size: 20px;line-height:1.5;color:#666666;}'
+
 	},
-	// 格式化时间
+	// 格式化时间 return now.format("yyyy-MM-dd hh:mm:ss");
 	formatDateTime : function(val,row){
 		var now = new Date(val);
-    	return now.format("yyyy-MM-dd hh:mm:ss");
+    	return now.format("yyyy-MM-dd ");
 	},
 	formatFont : function(val,row){
 		var now = new Date(val);
-    	return now.format("yyyy-MM-dd hh:mm:ss");
+    	return now.format("yyyy-MM-dd ");
 	},
 	// 格式化连接
 	formatUrl : function(val,row){

@@ -111,13 +111,10 @@ public class JsonResult {
 
 	   public static JsonResult getLoginOK(Object obj){
 	    	//登录成功
-	    	
 	    	JsonResult result = new JsonResult();
-	        
 	    	result.setData(obj);
 	        result.setCode(JsonCodeEnum.loginSuccess.getCode());
 	        result.setMessage(JsonCodeEnum.loginSuccess.getMsg());
-	       
 	        return result;
 	    }
 	

@@ -2,6 +2,8 @@ package com.kenya.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User {
     private Integer userId;
 
@@ -11,75 +13,23 @@ public class User {
 
     private Integer userSex;
 
-    private Integer userAge;
-
     private String userPhonenumber;
-    
-    private String userHaveCar;
-    
-    private String  userBirthday;
 
-    private String  userPortrait;
-    
-    private String  userProhibit;
-    
-    
-   
+    private Integer userHavecar;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date userBirthday;
 
-	public User(Integer userId, String userName, String userPsw, Integer userSex,
-			String userPhonenumber, String userBirthday, String userPortrait, String  userProhibit) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.userPsw = userPsw;
-		this.userSex = userSex;
-	
-		this.userPhonenumber = userPhonenumber;
-		this.userBirthday = userBirthday;
-		this.userPortrait = userPortrait;
-		this.userProhibit = userProhibit;
-	}
+    private String userPortrait;
 
-	public String getUserBirthday() {
-		return userBirthday;
-	}
+    private String userProhibit;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date userDate;
 
-	public void setUserBirthday(String userBirthday) {
-		this.userBirthday = userBirthday;
-	}
+    private String userDeviceid;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date userLoginlasttime;
 
-	public String getUserPortrait() {
-		return userPortrait;
-	}
-
-	public void setUserPortrait(String userPortrait) {
-		this.userPortrait = userPortrait;
-	}
-
-	public String  getUserProhibit() {
-		return userProhibit;
-	}
-
-	public void setUserProhibit(String userProhibit) {
-		this.userProhibit = userProhibit;
-	}
-
-	public User() {
-		super();
-	}
-
-	public User(Integer userId, String userName, String userPsw, Integer userSex, Integer userAge,
-			String userPhonenumber) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.userPsw = userPsw;
-		this.userSex = userSex;
-		this.userAge = userAge;
-		this.userPhonenumber = userPhonenumber;
-	}
-
-	public Integer getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -111,14 +61,6 @@ public class User {
         this.userSex = userSex;
     }
 
-    public Integer getUserAge() {
-        return userAge;
-    }
-
-    public void setUserAge(Integer userAge) {
-        this.userAge = userAge;
-    }
-
     public String getUserPhonenumber() {
         return userPhonenumber;
     }
@@ -126,9 +68,60 @@ public class User {
     public void setUserPhonenumber(String userPhonenumber) {
         this.userPhonenumber = userPhonenumber == null ? null : userPhonenumber.trim();
     }
-    @Override
-   	public String toString() {
-   		return "User [userId=" + userId + ", userName=" + userName + ", userPsw=" + userPsw + ", userSex=" + userSex
-   				+ ", userAge=" + userAge + ", userPhonenumber=" + userPhonenumber + "]";
-   	}
+
+    public Integer getUserHavecar() {
+        return userHavecar;
+    }
+
+    public void setUserHavecar(Integer userHavecar) {
+        this.userHavecar = userHavecar;
+    }
+
+    public Date getUserBirthday() {
+        return userBirthday;
+    }
+
+    public void setUserBirthday(Date userBirthday) {
+        this.userBirthday = userBirthday;
+    }
+
+    public String getUserPortrait() {
+        return userPortrait;
+    }
+
+    public void setUserPortrait(String userPortrait) {
+        this.userPortrait = userPortrait == null ? null : userPortrait.trim();
+    }
+
+    public String getUserProhibit() {
+        return userProhibit;
+    }
+
+    public void setUserProhibit(String userProhibit) {
+        this.userProhibit = userProhibit == null ? null : userProhibit.trim();
+    }
+
+    public Date getUserDate() {
+        return userDate;
+    }
+
+    public void setUserDate(Date userDate) {
+        this.userDate = userDate;
+    }
+
+    public String getUserDeviceid() {
+        return userDeviceid;
+    }
+
+    public void setUserDeviceid(String userDeviceid) {
+        this.userDeviceid = userDeviceid == null ? null : userDeviceid.trim();
+    }
+
+    public Date getUserLoginlasttime() {
+        return userLoginlasttime;
+    }
+
+    public void setUserLoginlasttime(Date userLoginlasttime) {
+        this.userLoginlasttime = userLoginlasttime;
+    }
 }

@@ -36,6 +36,7 @@ import com.kenya.service.NewsService;
 import com.kenya.until.DataprocessUtils;
 import com.kenya.until.EUDataGridResult;
 import com.kenya.until.JsonUtils;
+import com.kenya.until.KYResult;
 import com.kenya.until.PageBean2;
 import com.kenya.until.StringUtil;
 
@@ -48,13 +49,15 @@ public class NewsController {
 
 	@ResponseBody///news/pageQuery?page=1
 	@RequestMapping("/pageQuery")
-	public Object pageQuery(String pagetext, Integer page,
-			@RequestParam(value = "rows", defaultValue = "7") Integer rows1) {
+	public Object pageQuery(String pagetext, @RequestParam("page") Integer page, 
+			@RequestParam(value = "rows", defaultValue = "7") Integer rows1,HttpServletRequest request) {
 
 		PageBean2<News> NewsPage = new PageBean2<News>();
 
 		JjsonResult1 jsonResult = new JjsonResult1();
 		Gson gson = new Gson();
+		request.getParameter("page");
+		System.out.println(page);
 		try {
 			// 查询用户数据
 			Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -77,19 +80,19 @@ public class NewsController {
 			} else {
 				totalno = count / rows1 + 1;
 			}
-			if (totalno==page) {
+			if (totalno<=page) {
 				// NewsPage.setLists(jobSeeker);
 				NewsPage.setTotalPage(totalno);
-				NewsPage.setCurrPage(page);
-				NewsPage.setTotalCount(count);
+				NewsPage.setPage(page);
+				NewsPage.setTotal(count);
 				NewsPage.setRows(jobSeeker);
 				NewsPage.setPageSize(rows1);
 				NewsPage.setCode("040");
 			}else {
 				// NewsPage.setLists(jobSeeker);
 				NewsPage.setTotalPage(totalno);
-				NewsPage.setCurrPage(page);
-				NewsPage.setTotalCount(count);
+				NewsPage.setPage(page);
+				NewsPage.setTotal(count);
 				NewsPage.setRows(jobSeeker);
 				NewsPage.setPageSize(rows1);
 				NewsPage.setCode("000");
@@ -107,15 +110,20 @@ public class NewsController {
 
 	@RequestMapping(value = "/item/save", method = RequestMethod.POST)
 	@ResponseBody
+	
 	public Object createItem(News news, HttpSession session) throws Exception {
-		String newstext = news.getNewstext();
+		/*String a<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/> */
+		String a = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,\r"
+				+ " user-scalable=no, minimum-scale=0.5, maximum-scale=2.0\"/>"+"\r<style type=\"text/css\">\r" + 
+						"  img {max-width: 100%;height:auto;}\r" + 
+						" \r\n" + 
+						"</style>\r";
+		String newstext = a+news.getNewstext();
 		Map resultMap = new HashMap<>();
 
 		if (!newstext.isEmpty()) {
 			long length = newstext.length();
-
 			bytes = newstext.getBytes("UTF-8");
-
 			// 2.声明/surveyLogos目录对应的虚拟路径
 			String virtualPath = "/htmlFile";
 
@@ -151,9 +159,25 @@ public class NewsController {
 
 		}
 		//"/kenya1/surveyLogos/" + targetFileName;
-		
-		
+			
+		System.out.println(news.getNewscreatetime());	 
 		return newsService.insertSelective(news);
-
+ 
+	}
+	@RequestMapping("/rest/item/delete")
+	@ResponseBody
+	public  KYResult delete (@RequestParam("ids") int [] ids) {
+	
+		KYResult result = null;
+	//	int i =0;
+		for (int i : ids) {
+			//i++
+			System.out.println(i+"sss");
+			 result = newsService.deleteId(i);
+			//return result;
+		}
+		return result;
+		
+		
 	}
 }

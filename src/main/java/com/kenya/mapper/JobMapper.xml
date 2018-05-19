@@ -10,7 +10,7 @@
     <result column="JobWant" jdbcType="VARCHAR" property="jobwant" />
     <result column="Phone" jdbcType="VARCHAR" property="phone" />
     <result column="Birthday" jdbcType="DATE" property="birthday" />
-    <result column="JoinTime" jdbcType="DATE" property="jointime" />
+    <result column="JoinTime" jdbcType="VARCHAR" property="jointime" />
     <result column="HopeSalary" jdbcType="DOUBLE" property="hopesalary" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Job">
@@ -135,7 +135,7 @@
       HopeSalary, PersonDesc)
     values (#{jobid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{headimg,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{jobwant,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{jointime,jdbcType=DATE}, 
+      #{phone,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{jointime,jdbcType=VARCHAR}, 
       #{hopesalary,jdbcType=DOUBLE}, #{persondesc,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Job">
@@ -201,7 +201,7 @@
         #{birthday,jdbcType=DATE},
       </if>
       <if test="jointime != null">
-        #{jointime,jdbcType=DATE},
+        #{jointime,jdbcType=VARCHAR},
       </if>
       <if test="hopesalary != null">
         #{hopesalary,jdbcType=DOUBLE},
@@ -245,7 +245,7 @@
         Birthday = #{record.birthday,jdbcType=DATE},
       </if>
       <if test="record.jointime != null">
-        JoinTime = #{record.jointime,jdbcType=DATE},
+        JoinTime = #{record.jointime,jdbcType=VARCHAR},
       </if>
       <if test="record.hopesalary != null">
         HopeSalary = #{record.hopesalary,jdbcType=DOUBLE},
@@ -268,7 +268,7 @@
       JobWant = #{record.jobwant,jdbcType=VARCHAR},
       Phone = #{record.phone,jdbcType=VARCHAR},
       Birthday = #{record.birthday,jdbcType=DATE},
-      JoinTime = #{record.jointime,jdbcType=DATE},
+      JoinTime = #{record.jointime,jdbcType=VARCHAR},
       HopeSalary = #{record.hopesalary,jdbcType=DOUBLE},
       PersonDesc = #{record.persondesc,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -285,7 +285,7 @@
       JobWant = #{record.jobwant,jdbcType=VARCHAR},
       Phone = #{record.phone,jdbcType=VARCHAR},
       Birthday = #{record.birthday,jdbcType=DATE},
-      JoinTime = #{record.jointime,jdbcType=DATE},
+      JoinTime = #{record.jointime,jdbcType=VARCHAR},
       HopeSalary = #{record.hopesalary,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -316,7 +316,7 @@
         Birthday = #{birthday,jdbcType=DATE},
       </if>
       <if test="jointime != null">
-        JoinTime = #{jointime,jdbcType=DATE},
+        JoinTime = #{jointime,jdbcType=VARCHAR},
       </if>
       <if test="hopesalary != null">
         HopeSalary = #{hopesalary,jdbcType=DOUBLE},
@@ -336,7 +336,7 @@
       JobWant = #{jobwant,jdbcType=VARCHAR},
       Phone = #{phone,jdbcType=VARCHAR},
       Birthday = #{birthday,jdbcType=DATE},
-      JoinTime = #{jointime,jdbcType=DATE},
+      JoinTime = #{jointime,jdbcType=VARCHAR},
       HopeSalary = #{hopesalary,jdbcType=DOUBLE},
       PersonDesc = #{persondesc,jdbcType=LONGVARCHAR}
     where JobId = #{jobid,jdbcType=INTEGER}
@@ -350,7 +350,7 @@
       JobWant = #{jobwant,jdbcType=VARCHAR},
       Phone = #{phone,jdbcType=VARCHAR},
       Birthday = #{birthday,jdbcType=DATE},
-      JoinTime = #{jointime,jdbcType=DATE},
+      JoinTime = #{jointime,jdbcType=VARCHAR},
       HopeSalary = #{hopesalary,jdbcType=DOUBLE}
     where JobId = #{jobid,jdbcType=INTEGER}
   </update>

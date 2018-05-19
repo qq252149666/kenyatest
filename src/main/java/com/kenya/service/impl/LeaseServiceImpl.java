@@ -54,7 +54,7 @@ public class LeaseServiceImpl implements LeaseService{
 		if(lease.getLeasephone()==null) {
 			return "非法访问";
 		}
-		if(lease.getLeaseprice()==null) {
+		if(lease.getLeaseprice()==0) {
 			return "非法访问";
 		}
 		if(lease.getLeasesquare()==null){

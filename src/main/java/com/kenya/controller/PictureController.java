@@ -2,6 +2,8 @@ package com.kenya.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +51,7 @@ public class PictureController {
 	public JsonResult saveSurvey(@RequestParam("logoFil") MultipartFile[] logoFile, String goodsName, String goodsDesc,
 			Float goodsPrice, String goodUserName, String goodsPhone, Integer userId, HttpServletRequest request,
 
-			HttpSession session) throws IOException {
+			HttpSession session) throws IOException,Exception {
 
 		Goods survey = new Goods();
 
@@ -130,6 +132,11 @@ public class PictureController {
 		survey.setGoodsprice(goodsPrice);
 		survey.setGoodsphone(goodsPhone);
 		survey.setGoodsid(survey.getGoodsid());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = sdf.parse(sdf.format(new Date()));
+        
+		survey.setGoodsdate(date);
 		 /*Goods k1= survey;*/
 	
 		// 发布成功

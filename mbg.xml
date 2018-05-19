@@ -38,7 +38,6 @@
     </javaClientGenerator>
    
     
-    <table tableName="kenya_project" domainObjectName="Project"></table>
-    <table tableName="kenya_funds" domainObjectName="Funds"></table>
+    <table tableName="kenya_user" domainObjectName="User"></table>
   </context>
 </generatorConfiguration>

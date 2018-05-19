@@ -56,9 +56,12 @@ public class ProjectServiceImpl implements ProjectService{
 		return "";
 	}
 
-	@Override
 	public Project selectbyid(int id) {
 		return projectDao.selectByPrimaryKey(id);
+	}
+
+	public int deleteProject(int id) {
+		return projectDao.deleteByPrimaryKey(id);
 	}
 
 

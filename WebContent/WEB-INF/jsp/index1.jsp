@@ -28,6 +28,14 @@
 	         		<li data-options="attributes:{'url':'item-param-list'}">新闻</li>
 	         	</ul>
          	</li>
+         		<li>
+         		<span>轮播管理</span>
+         		<ul>
+	         		<li data-options="attributes:{'url':'carousel'}">新增轮播</li>
+	         		<li data-options="attributes:{'url':'carousel-url-list'}">查询url轮播</li>
+	         		<li data-options="attributes:{'url':'carousel-project-list'}">查询项目轮播</li>
+	         	</ul>
+         	</li>
          	<li>
          		<span>网站内容管理</span>
          		<ul>

@@ -1,5 +1,9 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Funds {
     private Integer fundsid;
 
@@ -27,11 +31,25 @@ public class Funds {
 
     private String fundadvantage;
     
+    private String fundshead;
+    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date fundsdate;
+    
     private Admin admin;
     
     
+    
 
-    public Admin getAdmin() {
+    public String getFundshead() {
+		return fundshead;
+	}
+
+	public void setFundshead(String fundshead) {
+		this.fundshead = fundshead;
+	}
+
+	public Admin getAdmin() {
 		return admin;
 	}
 
@@ -144,4 +162,13 @@ public class Funds {
     public void setFundadvantage(String fundadvantage) {
         this.fundadvantage = fundadvantage == null ? null : fundadvantage.trim();
     }
+
+	public Date getFundsdate() {
+		return fundsdate;
+	}
+
+	public void setFundsdate(Date fundsdate) {
+		this.fundsdate = fundsdate;
+	}
+    
 }

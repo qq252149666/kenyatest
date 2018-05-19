@@ -1,8 +1,12 @@
 package com.kenya.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kenya.bean.User;
+import com.kenya.dao.DeleteImg;
 import com.kenya.service.UserService;
   
   
@@ -24,6 +30,7 @@ public class UserController {
 	private static Logger log=LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
+	DeleteImg deleteImg=new DeleteImg();
 	
 	@Autowired
 	private LeaseController leaseController;
@@ -99,7 +106,141 @@ public class UserController {
 		}
 		return map;
 	}
+	@RequestMapping("/updatePortrait")
+	@ResponseBody
+	public HashMap<String,Object> updatePortrait(MultipartFile file,int id,String Type,HttpServletRequest request) {
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User user = userService.selectbyId(id);
+		if(file!=null) {
+			if (!file.isEmpty()) {
+				if(user.getUserPortrait()!=null) {
+					deleteImg.deleteImg(user.getUserPortrait(), request);
+				}
+	        	Random rand = new Random();//生成随机数    
+	            int random = rand.nextInt();
+	            String serverpath = request.getSession().getServletContext()
+	                    .getRealPath("/");
+	            String parentpath = new File(serverpath).getParent();
+	            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
+	            File saveDir = new File(filePath);
+	            if (!saveDir.getParentFile().exists())
+	                saveDir.getParentFile().mkdirs();
+	            try {
+					file.transferTo(saveDir);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	            user.setUserPortrait("/upload/"+random+file.getOriginalFilename());
+	    	}
+		}
+		if(userService.update(user)==1) {
+			map.put("message", "修改成功");
+			map.put("code", "000");
+			map.put("result", user);
+		}else {
+			map.put("message","修改失败");
+			map.put("code","040");
+			map.put("result", user);
+		}
+		return map;
+	}
+	@RequestMapping("/updateuserName")
+	@ResponseBody
+	public HashMap<String,Object> updateuserName(String userName,int id,String Type,HttpServletRequest request) {
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User user = userService.selectbyId(id);
+		if(userName!=null) {
+			user.setUserName(userName);
+		}
+		if(userService.update(user)==1) {
+			map.put("message", "修改成功");
+			map.put("code", "000");
+		}else {
+			map.put("message","修改失败");
+			map.put("code","040");
+		}
+		return map;
+	}
 	
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public HashMap<String,Object> updateUser(User user,HttpServletRequest request){
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User users = userService.selectbyId(user.getUserId());
+		if(user.getUserBirthday()!=null) {
+			users.setUserBirthday(user.getUserBirthday());
+		}
+		if(user.getUserSex()!=null) {
+			users.setUserSex(user.getUserSex());
+		}
+		if(user.getUserName()!=null) {
+			users.setUserName(user.getUserName());
+		}
 	
+		if(userService.update(users)==1) {
+			map.put("message", "修改成功");
+			map.put("code", "000");
+			map.put("result", users);
+		}else {
+			map.put("message","修改失败");
+			map.put("code","040");
+			map.put("result", null);
+		}
+		return map;
+	}
+	/**
+	 * 发送验证码
+	 */
+	@RequestMapping("/getCode")
+	@ResponseBody
+	public HashMap<String,Object> Code(String phone){
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		SendMsgUtil sendMsgUtil = new SendMsgUtil();
+    	map = sendMsgUtil.sendMsg(phone, "【签名】尊敬的用户，您的验证码为" + SendMsgUtil.createRandomVcode() + "，请在10分钟内输入。请勿告诉其他人!");
+        if(map.get("code").equals(100)) {
+        	map.put("code", "000");
+        	map.put("message", "发送成功!");
+        	map.put("verificationCode", SendMsgUtil.createRandomVcode());
+        }else {
+        	map.put("code", "040");
+        	map.put("message", "发送失败!");
+        	map.put("verificationCode", null);
+        }
+		return map;
+	}
+	/**
+	 * 自动登陆
+	 */
+	@RequestMapping("/loged")
+	@ResponseBody
+	public HashMap<String,Object> loged(String deviceId,int userId){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		User user = userService.selectbyId(userId);
+		if(user.getUserDeviceid().equals(deviceId)) {
+			//获取当前时间
+			Date date = new Date();
+			long nd = 1000 * 24 * 60 * 60;
+			long diff = date.getTime()-user.getUserLoginlasttime().getTime();
+			long day = diff / nd;
+			if(day>7) {
+				map.put("code", "040");
+				map.put("result", null);
+				map.put("message", "登陆失效");
+			}else {
+				user.setUserLoginlasttime(new Date());
+				userService.update(user);
+				map.put("code", "000");
+				map.put("result", user);
+				map.put("message", "登陆成功");
+			}
+		}else {
+			map.put("code", "040");
+			map.put("result", null);
+			map.put("message", "登陆失效");
+		}
+		return map;
+	}
 }  
  

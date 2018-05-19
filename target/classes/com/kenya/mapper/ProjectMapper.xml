@@ -16,6 +16,8 @@
     <result column="projectUser" jdbcType="VARCHAR" property="projectuser" />
     <result column="projectAddress" jdbcType="VARCHAR" property="projectaddress" />
     <result column="projectType" jdbcType="VARCHAR" property="projecttype" />
+    <result column="projectHead" jdbcType="VARCHAR" property="projecthead" />
+    <result column="projectDate" jdbcType="DATE" property="projectdate" />
     <association property="admin" javaType="com.kenya.bean.Admin">  
 	    <id column="adminId" property="adminid"/>
 	    	<result column="adminUser" property="adminuser"/>
@@ -81,7 +83,8 @@
   </sql>
   <sql id="Base_Column_List">
     projectId, projectName, projectPrice, projectDesc, projectPhone, projectImgs, projectImg1, 
-    projectImg2, projectImg3, projectImg4, kenya_admin.adminId, projectUser, projectAddress, projectType,adminUser
+    projectImg2, projectImg3, projectImg4, kenya_admin.adminId, projectUser, projectAddress, projectType,adminUser,projectHead,
+    projectDate
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.ProjectExample" resultMap="BaseResultMap">
     select
@@ -100,7 +103,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from kenya_project
+    from kenya_project left join  kenya_admin on kenya_project.adminId=kenya_admin.adminId
     where projectId = #{projectid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -118,12 +121,12 @@
       projectDesc, projectPhone, projectImgs, 
       projectImg1, projectImg2, projectImg3, 
       projectImg4, adminId, projectUser, 
-      projectAddress, projectType)
+      projectAddress, projectType,projectHead,projectDate)
     values (#{projectid,jdbcType=INTEGER}, #{projectname,jdbcType=VARCHAR}, #{projectprice,jdbcType=VARCHAR}, 
       #{projectdesc,jdbcType=VARCHAR}, #{projectphone,jdbcType=VARCHAR}, #{projectimgs,jdbcType=VARCHAR}, 
       #{projectimg1,jdbcType=VARCHAR}, #{projectimg2,jdbcType=VARCHAR}, #{projectimg3,jdbcType=VARCHAR}, 
       #{projectimg4,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}, #{projectuser,jdbcType=VARCHAR}, 
-      #{projectaddress,jdbcType=VARCHAR}, #{projecttype,jdbcType=VARCHAR})
+      #{projectaddress,jdbcType=VARCHAR}, #{projecttype,jdbcType=VARCHAR},#{projecthead,jdbcType=VARCHAR},#{projectdate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Project">
     insert into kenya_project
@@ -287,7 +290,8 @@
       adminId = #{record.adminid,jdbcType=INTEGER},
       projectUser = #{record.projectuser,jdbcType=VARCHAR},
       projectAddress = #{record.projectaddress,jdbcType=VARCHAR},
-      projectType = #{record.projecttype,jdbcType=VARCHAR}
+      projectType = #{record.projecttype,jdbcType=VARCHAR},
+      projectHead = #{record.projecthead,jdbcType=VARCHAR},
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -351,7 +355,9 @@
       adminId = #{adminid,jdbcType=INTEGER},
       projectUser = #{projectuser,jdbcType=VARCHAR},
       projectAddress = #{projectaddress,jdbcType=VARCHAR},
-      projectType = #{projecttype,jdbcType=VARCHAR}
+      projectType = #{projecttype,jdbcType=VARCHAR},
+      projectHead = #{projecthead,jdbcType=VARCHAR},
+	  projectDate = #{projectdate,jdbcType=DATE}
     where projectId = #{projectid,jdbcType=INTEGER}
   </update>
 </mapper>

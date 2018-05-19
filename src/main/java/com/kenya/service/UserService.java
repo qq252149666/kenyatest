@@ -1,8 +1,6 @@
 package com.kenya.service;
 
-import java.util.Date;
 import java.util.List;
-
 
 import com.kenya.bean.User;
 
@@ -15,8 +13,7 @@ public interface UserService {
 
 	public User login(String userPhoneNumber ,String password);//登录用户
 	
-	public void createUser(String userName,String psw,Integer userSex,String userPhoneNumber,
-			String user_prohibit,String user_birthday);//创建用户
+	public int createUser(User user);//创建用户
 	
 	public User getUserDetails(Integer userId);// 获取用户详情
 	
@@ -25,5 +22,7 @@ public interface UserService {
 	public Boolean updatePassWord (String userPhoneNumber,String userPsw);//修改密码
 	
 	public User selectbyId(int id);//根据id 查询
+	
+	public int update(User user);
 
 }

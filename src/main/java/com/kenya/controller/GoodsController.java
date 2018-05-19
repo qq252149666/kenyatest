@@ -78,10 +78,12 @@ public class GoodsController {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		if(goodsService.updateGoods(goods)==0) {
 			map.put("code", "040");
-			map.put("result", "修改失败");
+			map.put("result", null);
+			map.put("message", "Process Failed");
 		}else {
 			map.put("code", "000");
 			map.put("result", goods);
+			map.put("message", "Modify Successfully");
 		}
 		return map;
 	}
@@ -91,7 +93,8 @@ public class GoodsController {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		if(goodsid==0) {
 			map.put("code", "040");
-			map.put("result", "非法访问");
+			map.put("result", null);
+			map.put("message", "非法访问");
 		}else {
 			if(goodsService.selectById(goodsid).getGoodsimgs()!=null) {
 				deleteImg.deleteImg(goodsService.selectById(goodsid).getGoodsimgs(), request);
@@ -110,10 +113,10 @@ public class GoodsController {
 			}
 			if(goodsService.deleteGoods(goodsid)==0) {
 				map.put("code", "040");
-				map.put("result", "删除失败");
+				map.put("result", "Process Failed");
 			}else {
 				map.put("code", "000");
-				map.put("result","删除成功");
+				map.put("result","Deleted");
 			}
 		}
 		return map;

@@ -3,11 +3,14 @@
 <html>
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
-<link href="css/iconfont.css" rel="stylesheet" type="text/css"/>
-<link href="css/fileUpload.css" rel="stylesheet" type="text/css">
-<script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/fileUpload.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<link href="layui/css/layui.css">
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="layer/layer.js" type="text/javascript" charset="utf-8"></script>
+
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -16,83 +19,49 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
 <style>
- .imageDiv {
-	display:inline-block;
-	width:160px;
-	height:130px;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
-	border:1px dashed darkgray;
-	background:#f8f8f8;
-	position:relative;
-	overflow:hidden;
-	margin:10px
+	.file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
 }
-.cover {
-	position:absolute;
-	z-index:1;
-	top:0;
-	left:0;
-	width:160px;
-	height:130px;
-	background-color:rgba(0,0,0,.3);
-	display:none;
-	line-height:125px;
-	text-align:center;
-	cursor:pointer;
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
 }
-.cover .delbtn {
-	color:red;
-	font-size:20px;
-}
-.imageDiv:hover .cover {
-	display:block;
-}
-.addImages {
-	display:inline-block;
-	width:160px;
-	height:130px;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
-	border:1px dashed darkgray;
-	background:#f8f8f8;
-	position:relative;
-	overflow:hidden;
-	margin:10px;
-}
-.text-detail {
-	margin-top:40px;
-	text-align:center;
-}
-.text-detail span {
-	font-size:40px;
-}
-.file {
-	position:absolute;
-	top:0;
-	left:0;
-	width:160px;
-	height:130px;
-	opacity:0;
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
 }
 </style>
-</head>
 <body>
 
 <form id="insertproject" enctype="multipart/form-data">
 	<table name="Table1" align="center">
 		<tr>
-			<h1 align="center">Have funds to find projects</h1>
+			<h1 align="center">Have fund to find projects</h1>
 		</tr>
 		<tr>
 			<td width="200px" height="100px">
-				<label for="exampleInputName2">projectname</label>
+				<label for="exampleInputName2">projectName</label>
 			</td>
 			<td>
-    			<input name="projectname" type="text" class="form-control" id="exampleInputName2" placeholder="projectname"><p style="color :red" id="name"/>
+				<input type="hidden" id="projectid" name="projectid">
+    			<input name="projectname" type="text" class="form-control" id="projectname" placeholder="projectname"><p style="color :red" id="name"/>
 			</td>
 		</tr>
 		<tr>
@@ -100,20 +69,15 @@
 				<label for="exampleInputName2">Details of the project</label>
 			</td>
 			<td>
-    			<textarea name="projectdesc" id="projectdesc" class="form-control" placeholder="Details of the project" rows="3"></textarea><p style="color :red" id="desc"/>
+    			<textarea name="projectdesc" id="projectdesc" class="form-control" placeholder="Details of the fund" rows="3"></textarea><p style="color :red" id="desc"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for="exampleInputName2">projectsprice</label>
+				<label for="exampleInputName2">projectPrice</label>
 			</td>
 			<td>
-    			<select name="projectsprice" class="form-control" id="projectsprice" >
-    				<option value="0-5000">0~5000</option>
-    				<option value="5000~30000">5000~30000</option>
-    				<option value="30000~50000">30000~50000</option>
-    				<option value="50000~">50000~</option>
-    			</select><p style="color:red" id="price"/>
+    			<input style="margin-Bottom:10px" class="input-mini" type="text" id="minprice" name="minprice" placeholder="minprice" size="6">-<input id="maxprice" name="maxprice" class="input-mini" type="text" placeholder="maxprice" size="6">
 			</td>
 		</tr>
 		<tr>
@@ -124,7 +88,6 @@
     			<input type="text" name="projectuser" class="form-control" id="projectuser" placeholder="Contact name"><p style="color:red" id="username"></p>
 			</td>
 		</tr>
-		
 		<tr>
 			<td>
 				<label for="exampleInputName2">Contact phone</label>
@@ -135,224 +98,232 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="exampleInputName2">Please upload the picture :</label>
+				<label for="exampleInputName2">project address</label>
 			</td>
 			<td>
-				<input type="file"  name="files" id="doc" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*" />
-
-				<div id="dd" style=" width:500px;"></div>
-				
+    			<input type="text" name="projectaddress" class="form-control" id="projectaddress" placeholder="Contact name"><p style="color:red"></p>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<input class="btn btn-primary" id="insertprojects" type="button" value="Submission">
+				<label for="exampleInputName2">projectType</label>
+			</td>
+			<td>
+    			<input type="text" name="projecttype" class="form-control" id="projecttype" placeholder="Contact name"><p style="color:red"></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="exampleInputName2">Please upload the picture :</label>
+			</td>
+			<td>
+				<a href="javascript:;" class="file">选择文件
+				    <input type="file" name="files" id="files" multiple="multiple"/>
+				</a>
+				<div id="dd" style=" width:500px;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="exampleInputName2">projectHead:</label></td>
+			<td>
+				<a href="javascript:;" class="file">选择文件
+				    <input type="file" name="head" id="projecthead"/>
+				</a>
+				<div id="head" style=" width:500px;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input class="btn btn-primary" id="inserfund" name="" type="button" value="Submission">
 			</td>
 			<td>
 				<input type="reset" class="btn btn-default" value="reset">
 			</td>
 		</tr>
 	</table>
+	
 </form>
+	
+
+                
+
+
 </body>
 <script type="text/javascript">
-function setImagePreviews(avalue) {
-	
-	
-	var dd = document.getElementById("dd");
-	var img_id=document.getElementById('doc').value; //根据id得到值
-	var index= img_id.indexOf("."); //得到"."在第几位
-	img_id=img_id.substring(index); //截断"."之前的，得到后缀
-	
-    var docObj = document.getElementById("doc");
-    if(img_id!=".bmp"&&img_id!=".png"&&img_id!=".gif"&&img_id!=".jpg"&&img_id!=".jpeg"){  //根据后缀，判断是否符合图片格式
-        alert("No picture format is specified,Please upload .bmp .png .gif .jpg .jpeg"); 
-        document.getElementById('doc').value="";  // 不符合，就清除，重新选择
-        dd.innerHTML="";
-   }else{
-	   var fileList = docObj.files;
-	   if(fileList.length>5){
-	    	alert("Choose five pictures at most!");
-	    	document.getElementById('doc').value="";
-	   }else{
-	    	for (var i = 0; i < fileList.length; i++) {            
-		        dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>";
-		        var imgObjPreview = document.getElementById("img"+i); 
-		        if (docObj.files && docObj.files[i]) {
-		            //火狐下，直接设img属性
-		            imgObjPreview.style.display = 'block';
-		            imgObjPreview.style.width = '150px';
-		            imgObjPreview.style.height = '180px';
-		            //imgObjPreview.src = docObj.files[0].getAsDataURL();
-		            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
-		            imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);
-		        }
-		        else {
-		            docObj.select();
-		            var imgSrc = document.selection.createRange().text;
-		            alert(imgSrc)
-		            var localImagId = document.getElementById("img" + i);
-		            //必须设置初始大小
-		            localImagId.style.width = "150px";
-		            localImagId.style.height = "180px";
-		            //图片异常的捕捉，防止用户修改后缀来伪造图片
-		            try {
-		                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-		                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-		            }
-		            catch (e) {
-		                alert("您上传的图片格式不正确，请重新选择!");
-		                return false;
-		            }
-		            imgObjPreview.style.display = 'none';
-		            document.selection.empty();
-		        }
-		    }
-	    }
-	      
-	    return true;
-   }
-}
 
 
 $(document).ready(function(){  
-    $("#insertprojects").click(function(){  
-    	var string=document.getElementById("exampleInputName2").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			var string=document.getElementById("projectdesc").value;
-			var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-			if(parent.test(string))
-			{
-					var string=document.getElementById("projectuser").value;
-					var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-					if(parent.test(string))
-					{
-						var string=document.getElementById("projectphone").value;
-						var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-						if(parent.test(string))
-						{
-							var docObj = document.getElementById("doc");
-					    		var fileList = docObj.files;
-							    if(fileList.length>5||fileList.length<1){
-							   		alert("Please insert 1 to 5 pictures!");
-							    	document.getElementById('doc').value="";
-							   }else{
-								   var userName=<%=session.getAttribute("adminid")%>;
-								   if(userName!=null){
-								   var formData = new FormData($('#insertproject')[0]);  
-							        $.ajax({  
-							            url:"Project/insertProject",  
-							            data:formData,  
-							            type: "POST",                   //类型，POST或者GET  
-							            dataType: 'json',  
-							            cache: false,  
-							            processData: false,    
-							            contentType : false,  
-							            async:false,  
-							            success: function (result) {      //成功，回调函数  
-							                if(result==null){  
-							                    alert("添加失败");  
-							                }else{
-							                    alert("添加成功");  
-							                }  
-							            }  
-							        }); 
-								   }else{
-									   alert("请您登陆");
-									   window.parent.location.href="login.jsp"; 
-								   }
-							   }
-						}
-						else
-						{
-							$("#projectphone").text("The fundsphone Only input numbers!");
-							return false;
-						} 
-					}
-					else
-					{
-						alert("The projectuser Only input English letters!");
-						return false;
-					}
+    var qs = getQueryString(); 
+	var id = qs["id"]; // abc
+	
+	$("#files").change(function(){
+		var file = document.getElementById("files");
+		var dd=document.getElementById("dd");
+		var fileList = file.files;
+		var img_id=document.getElementById('files').value; //根据id得到值
+		var index= img_id.indexOf("."); //得到"."在第几位
+		img_id=img_id.substring(index); //截断"."之前的，得到后缀
+	    if(img_id!=".bmp"&&img_id!=".png"&&img_id!=".gif"&&img_id!=".jpg"&&img_id!=".jpeg"){  //根据后缀，判断是否符合图片格式
+	        alert("No picture format is specified,Please upload .bmp .png .gif .jpg .jpeg"); 
+	        document.getElementById('files').value="";  // 不符合，就清除，重新选择
+	        dd.innerHTML="";
+		}else{
+			for(var i =0;i<fileList.length;i++){
+				dd.innerHTML += "<div style='float:left' > <img id='img" + i + "'  /> </div>"
+				var imgObjPreview = document.getElementById("img"+i); 
+				if (file.files && file.files[i]) {
+				    //火狐下，直接设img属性
+				    imgObjPreview.style.display = 'block';
+				    imgObjPreview.style.width = '150px';
+				    imgObjPreview.style.height = 'auto';
+				    imgObjPreview.src = window.URL.createObjectURL(file.files[i]);
 				}
 			}
-			else
-			{
-				alert("The projectdesc Only inputting English letters!");
-				return false;
-			}
 		}
-		else
-		{
-			alert("The name Only inputting English letters!");
-			return false;
+		
+	});
+	$("#projecthead").change(function(){
+		var file = document.getElementById("projecthead");
+		var dd=document.getElementById("head");
+		var fileList = file.files;
+		var img_id=document.getElementById('projecthead').value; //根据id得到值
+		var index= img_id.indexOf("."); //得到"."在第几位
+		img_id=img_id.substring(index); //截断"."之前的，得到后缀
+	    if(img_id!=".bmp"&&img_id!=".png"&&img_id!=".gif"&&img_id!=".jpg"&&img_id!=".jpeg"){  //根据后缀，判断是否符合图片格式
+	        alert("No picture format is specified,Please upload .bmp .png .gif .jpg .jpeg"); 
+	        document.getElementById('files').value="";  // 不符合，就清除，重新选择
+	        dd.innerHTML="";
+		}else{
+			dd.innerHTML += "<div style='float:left' > <img id='imgprojecthead'  /> </div>"
+			var imgObjPreview = document.getElementById("imgprojecthead"); 
+		    //火狐下，直接设img属性
+		    imgObjPreview.style.display = 'block';
+		    imgObjPreview.style.width = '150px';
+		    imgObjPreview.style.height = 'auto';
+		    imgObjPreview.src = window.URL.createObjectURL(file.files[0]);
 		}
 	});
-	/* $("#exampleInputName2").blur(function(){
-		var string=document.getElementById("exampleInputName2").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#name").text("OK!");
-		}
-		else
-		{
-			$("#name").text("Only inputting English letters!");
-		}
-	});
-	$("#fundsdesc").blur(function(){
-		var string=document.getElementById("fundsdesc").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#desc").text("OK!");
-		}
-		else
-		{
-			$("#desc").text("Only inputting English letters!");
-		}
-	})
-	$("#fundsprice").blur(function(){
-		var string=document.getElementById("fundsprice").value;
-		var parent=/^(-?\d+)(\.\d+)?$/;
-		if(parent.test(string))
-		{
-			$("#price").text("OK!");
-		}
-		else
-		{
-			$("#price").text("Only input numbers!");
-		}
-	})
-	$("#fundsuser").blur(function(){
-		var string=document.getElementById("fundsuser").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#username").text("OK!");
-		}
-		else
-		{
-			$("#username").text("Only input numbers!");
-		}
-	})
-	$("#fundsphone").blur(function(){
-		var string=document.getElementById("fundsphone").value;
-		var parent=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
-		if(parent.test(string))
-		{
-			$("#userphone").text("OK!");
-		}
-		else
-		{
-			$("#userphone").text("Only input numbers!");
-		} 
-	})
-	 */
 	
+	
+    $("#inserfund").click(function(){  
+			   var userName=<%=session.getAttribute("adminid")%>;
+			   var formData = new FormData($('#insertproject')[0]);
+			   if(userName!=null){
+				    if($("#projectname").val()==""){
+				    	alert("projectname not null!");
+				    	return false;
+				    }
+			    	if($("#projectdesc").val()==""){
+			    		alert("The details of the project can not be empty!");
+			    		return false;
+			    	}
+		    		if($("#minprice").val()==""){
+		    			alert("The minprice amount can not be empty or less than 0!");
+		    			return false;
+		    		}else{
+		    			var patrn=/^[0-9]*[1-9][0-9]*$/;
+		    			if(!patrn.exec($("#minprice").val())){
+    						alert("Please enter the correct amount!");
+    						return false;
+    					}
+		    		}
+		    		if($("#maxprice").val()!=""){
+		    			var patrn=/^[0-9]*[1-9][0-9]*$/;
+		    			if(!patrn.exec($("#minprice").val())){
+    						alert("Please enter the correct amount!");
+    						return false;
+    					}
+		    		}
+	    			if($("#projectuser").val()==""){
+	    				alert("A contact can't be empty!");
+	    				return false;
+	    			}else{
+	    				var patrn=/^[a-zA-Z\u4e00-\u9fa5 ]{1,20}$/;
+	    				if(!patrn.exec($("#projectuser").val())){
+    						alert("A contact can only be in English!");
+    						return false;
+    					}
+	    			}
+    				if($("#projectphone").val()==""){
+    					alert("Cell phone number can not be empty!");
+    					return false;
+    				}
+   					if($("#projectphone").val().length!=10){
+   						alert("Please enter the correct cell phone number!");
+   						return false;
+   					}else{
+   						var patrn=/^[0-9]{1,20}$/;
+    					if(!patrn.exec($("#projectphone").val())){
+    						alert("Please enter the correct cell phone number!");
+    						return false;
+    					}
+   					}
+				    					
+  					if($("#projectaddress").val()==""){
+  						alert("projectaddress");
+  						return false;
+  					}
+  					if($("#projecttype").val()==""){
+  						alert("projecttype");
+  						return false;
+  					}
+					if($("#files").val()==""){
+						alert("The picture of the fund can't be empty!");
+						return false;
+					}
+					if($("#projecthead").val()==""){
+						alert("The head portrait of a contact can not be empty!");
+						return false;
+					}
+						$.ajax({
+				            url:"Project/insertProject",
+				            data:formData,  
+				            type: "POST",                   //类型，POST或者GET  
+				            dataType: 'json',  
+				            cache: false,  
+				            processData: false,    
+				            contentType : false,  
+				            async:false,
+				            success: function (data) {      //成功，回调函数  
+				            	if(data.code=="000"){
+				                	layer.msg(data.message, {icon: 1},function(){
+				                		window.parent.location.reload(); //刷新父页面
+				                		var index = window.parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				                		window.parent.layer.close(index);//再执行关闭 
+				                	});
+				            	}else{
+				            		layer.msg(data.message, {icon: 2});
+				            	}	
+				            }  
+				    	});  
+			    }else{
+					   alert("请您登陆");
+					   top.location.href="login.jsp"; //刷新父页面
+	        		   var index = window.parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	        		   window.parent.layer.close(index);//再执行关闭 
+				}
+		});
 });
+
+//获取url中的参数
+function getQueryString() {  
+  var qs = location.search.substr(1), // 获取url中"?"符后的字串  
+    args = {}, // 保存参数数据的对象
+    items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+    item = null,
+    len = items.length;
+ 
+  for(var i = 0; i < len; i++) {
+    item = items[i].split("=");
+    var name = decodeURIComponent(item[0]),
+      value = decodeURIComponent(item[1]);
+    if(name) {
+      args[name] = value;
+    }
+  }
+  return args;
+}
+
 
 </script>
 </html>

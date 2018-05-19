@@ -15,6 +15,8 @@
     <result column="fundsUser" jdbcType="VARCHAR" property="fundsuser" />
     <result column="adminId" jdbcType="INTEGER" property="adminid" />
     <result column="FundAdvantage" jdbcType="VARCHAR" property="fundadvantage" />
+    <result column="fundsHead" jdbcType="VARCHAR" property="fundshead" />
+    <result column="fundsDate" jdbcType="DATE" property="fundsdate" />
     <association property="admin" javaType="com.kenya.bean.Admin">  
 	    <id column="adminId" property="adminid"/>
 	    	<result column="adminUser" property="adminuser"/>
@@ -81,7 +83,7 @@
   </sql>
   <sql id="Base_Column_List">
     fundsId, fundsName, fundsPrice, fundsDesc, fundsPhone, fundsImgs, fundsImg1, fundsImg2, 
-    fundsImg3, fundsImg4, fundsUser, kenya_admin.adminId, FundAdvantage,adminUser
+    fundsImg3, fundsImg4, fundsUser, kenya_admin.adminId, FundAdvantage,adminUser,fundsHead,fundsDate
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.FundsExample" resultMap="BaseResultMap">
     select
@@ -100,7 +102,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from kenya_funds
+    from kenya_funds left join  kenya_admin on kenya_funds.adminId=kenya_admin.adminId
     where fundsId = #{fundsid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -118,12 +120,12 @@
       fundsDesc, fundsPhone, fundsImgs, 
       fundsImg1, fundsImg2, fundsImg3, 
       fundsImg4, fundsUser, adminId, 
-      FundAdvantage)
+      FundAdvantage,fundsHead,fundsDate)
     values (#{fundsid,jdbcType=INTEGER}, #{fundsname,jdbcType=VARCHAR}, #{fundsprice,jdbcType=VARCHAR}, 
       #{fundsdesc,jdbcType=VARCHAR}, #{fundsphone,jdbcType=VARCHAR}, #{fundsimgs,jdbcType=VARCHAR}, 
       #{fundsimg1,jdbcType=VARCHAR}, #{fundsimg2,jdbcType=VARCHAR}, #{fundsimg3,jdbcType=VARCHAR}, 
       #{fundsimg4,jdbcType=VARCHAR}, #{fundsuser,jdbcType=VARCHAR}, #{adminid,jdbcType=INTEGER}, 
-      #{fundadvantage,jdbcType=VARCHAR})
+      #{fundadvantage,jdbcType=VARCHAR},#{fundshead,jdbcType=VARCHAR},#{fundsdate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Funds">
     insert into kenya_funds
@@ -337,7 +339,9 @@
       fundsImg4 = #{fundsimg4,jdbcType=VARCHAR},
       fundsUser = #{fundsuser,jdbcType=VARCHAR},
       adminId = #{adminid,jdbcType=INTEGER},
-      FundAdvantage = #{fundadvantage,jdbcType=VARCHAR}
+      FundAdvantage = #{fundadvantage,jdbcType=VARCHAR},
+      fundsHead=#{fundshead,jdbcType=VARCHAR}
+      fundsDate=#{fundsdate,jdbcType=DATE}
     where fundsId = #{fundsid,jdbcType=INTEGER}
   </update>
 </mapper>

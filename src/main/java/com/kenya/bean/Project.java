@@ -1,5 +1,9 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Project {
     private Integer projectid;
 
@@ -29,10 +33,27 @@ public class Project {
 
     private String projecttype;
     
+    private String projecthead;
+    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date projectdate;
+    
+    
     private Admin admin;
     
 
-    public Admin getAdmin() {
+    
+
+    
+    public String getProjecthead() {
+		return projecthead;
+	}
+
+	public void setProjecthead(String projecthead) {
+		this.projecthead = projecthead;
+	}
+
+	public Admin getAdmin() {
 		return admin;
 	}
 
@@ -151,4 +172,13 @@ public class Project {
     public void setProjecttype(String projecttype) {
         this.projecttype = projecttype == null ? null : projecttype.trim();
     }
+
+	public Date getProjectdate() {
+		return projectdate;
+	}
+
+	public void setProjectdate(Date projectdate) {
+		this.projectdate = projectdate;
+	}
+    
 }

@@ -23,4 +23,8 @@ public interface ProjectService {
 	 * 鏍规嵁id鏌ユ壘project
 	 */
 	public Project selectbyid(int id);
+	/**
+	 * 删除project
+	 */
+	public int deleteProject(int id);
 }

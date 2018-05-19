@@ -40,21 +40,10 @@
 				<td>新闻发布时间:</td>
 				<td><input class="easyui-datebox" type="text"
 					name="newscreatetime" data-options="required:true"
-					style="width: 100px;"></input></td>
+					style="width: 100px,formatter:TAOTAO.formatDateTime;"></input></td>
 			</tr>
-
-
-			<!-- <tr>
-				<td>库存数量:</td>
-				<td><input class="easyui-numberbox" type="text" name="num"
-					data-options="min:1,max:99999999,precision:0,required:true" /></td>
-			</tr> -->
-			<!-- 
-			<tr>
-				<td>条形码:</td>
-				<td><input class="easyui-textbox" type="text" name="barcode"
-					data-options="validType:'length[1,30]'" /></td>
-			</tr> -->
+				<!-- <th data-options="field:'newscreatetime',width:130,align:'center',formatter:TAOTAO.formatDateTime">创建时间</th>
+					 -->
 			<tr>
 				<td>新闻图片:</td>
 				<td><a href="javascript:void(0)"
@@ -87,6 +76,7 @@
 		//创建富文本编辑器newstext
 
 		itemAddEditor = TAOTAO.createEditor("#itemAddForm [name=newstext]");
+	//	 cssData: 'body {font-family: "微软雅黑"; font-size: 14px}'
 		//初始化类目选择和图片上传器
 		TAOTAO.init({
 			fun : function(node) {
@@ -134,12 +124,12 @@
 		//$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
 		$.post("/kenya/news/item/save", $("#itemAddForm").serialize(),
 				function(news) {
-			$.messager.alert(news);
-				$.messager.alert(date.code);
+			//$.messager.alert(news);
+				//$.messager.alert(date.code);
 				
-					if (data.code == "000") {
+					if (news== 1) {
 						$.messager.alert('提示', '新增商品成功!');
-					}
+					} 
 				});
 	}
 

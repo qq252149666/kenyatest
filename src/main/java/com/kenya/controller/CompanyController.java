@@ -41,9 +41,12 @@ public class CompanyController {
 	@RequestMapping("/publish")
 	@ResponseBody
 	public Object publishRecruit(/* @RequestParam(value="logoFile",required=false) */
-			CompanyWithBLOBs recruitWithBLOBs, HttpServletRequest request, HttpSession session) throws IOException {
+			CompanyWithBLOBs recruitWithBLOBs,String companystationsalary, HttpServletRequest request, HttpSession session) throws IOException {
 		/* RecruitWithBLOBs recruitWithBLOBs = new RecruitWithBLOBs(); */
 		HashMap<String, Object> recruitWithMap = new HashMap<String, Object>();
+	/*	String parameter = request.getParameter("companystationsalary");
+		double value = Double.valueOf(parameter.toString());  
+		recruitWithBLOBs.setCompanystationsalary(value);*/
 
 		/*
 		 * String logoPaths[] = { "", "", "", "","","" }; int i = -1;

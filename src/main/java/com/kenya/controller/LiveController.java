@@ -3,7 +3,9 @@ package com.kenya.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -79,7 +81,7 @@ public class LiveController {
     //requestParam要写才知道是前台的那个数组
     @ResponseBody
     public HashMap<String, Object> filesUpload(@RequestParam("files") MultipartFile[] files,Live live,
-            HttpServletRequest request,HttpServletResponse response) {
+            HttpServletRequest request,HttpServletResponse response) throws Exception {
         List<String> list = new ArrayList<String>();
         if (files != null && files.length > 0) {
             for (int i = 0; i < files.length; i++) {
@@ -96,32 +98,39 @@ public class LiveController {
         //insert准备工作
         for (int i = 0; i < list.size(); i++) {
             if(i==0) {
-            	live.setLiveimgs("/kenya/upload/"+list.get(i));
+            	live.setLiveimgs("/upload/"+list.get(i));
             }
             if(i==1) {
-            	live.setLiveimg1("/kenya/upload/"+list.get(i));
+            	live.setLiveimg1("/upload/"+list.get(i));
             }
             if(i==2) {
-            	live.setLiveimg2("/kenya/upload/"+list.get(i));
+            	live.setLiveimg2("/upload/"+list.get(i));
             }
             if(i==3) {
-            	live.setLiveimg3("/kenya/upload/"+list.get(i));
+            	live.setLiveimg3("/upload/"+list.get(i));
             }
             if(i==4) {
-            	live.setLiveimg4("/kenya/upload/"+list.get(i));
+            	live.setLiveimg4("/upload/"+list.get(i));
             }
         }
         HashMap<String,Object> map = new HashMap<String,Object>();
         if(liveService.IsNull(live)=="非法访问") {
         	map.put("code", "040");
-        	map.put("result","非法访问");
+        	map.put("message", "非法访问");
+        	map.put("result",null);
         }else {
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date = sdf.parse(sdf.format(new Date()));
+            
+            live.setLivedate(date);
         	liveService.inserLive(live);
         	User user = userService.selectbyId(live.getUserid());
         	user.setUserPsw("");
         	live.setUser(user);
         	map.put("code","000");
         	map.put("result",live);
+        	map.put("message", "Posting Successfully");
         }
         return map;//跳转的页面
     }
@@ -129,19 +138,20 @@ public class LiveController {
     private List<String> saveFile(HttpServletRequest request,
             MultipartFile file, List<String> list,HttpServletResponse response) throws IOException {
         // 判断文件是否为空
-    	if (!file.isEmpty()) {
+        if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
             int random = rand.nextInt();
-            String filePath = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "upload/" + String.valueOf(random)+file.getOriginalFilename();
+            String serverpath = request.getSession().getServletContext()
+                    .getRealPath("/");
+            String parentpath = new File(serverpath).getParent();
+            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
             list.add(random+file.getOriginalFilename());
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
-            file.transferTo(saveDir);
-    	}
-    return list;
+			file.transferTo(saveDir);
+        }
+        return list;
     }
     /**
      * 查询用户发布的生活服务
@@ -171,7 +181,7 @@ public class LiveController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(liveid==0) {
 			map.put("code", "040");
-			map.put("result", "非法访问");
+			map.put("message", "非法访问");
 		}else {
 			if(liveService.selectById(liveid).getLiveimgs()!=null) {
 				deleteImg.deleteImg(liveService.selectById(liveid).getLiveimgs(), request);
@@ -190,10 +200,10 @@ public class LiveController {
 			}
 				if(liveService.deleteLive(liveid)==0) {
 					map.put("code", "040");
-					map.put("result", "删除失败");
+					map.put("message", "Process Failed");
 				}else {
 					map.put("code", "000");
-					map.put("result","删除成功");
+					map.put("message", "Deleted");
 				}
 		}
 		return map;

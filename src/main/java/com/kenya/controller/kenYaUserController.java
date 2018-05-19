@@ -1,6 +1,7 @@
 package com.kenya.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,16 +11,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.record.UseSelFSRecord;
 import org.aspectj.apache.bcel.generic.ReturnaddressType;*/
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.kenya.ajaxResult.JsonResult;
 import com.kenya.bean.User;
 import com.kenya.service.UserService;
-import com.kenya.until.GlobalNames;
 import com.kenya.until.MD5Util;
 
 /*import com.kenYa.ajaxResult.JsonResult;
@@ -41,7 +41,7 @@ public class kenYaUserController {
 	
 	//http://localhost:8080/kenya/user/updatePassWord?userPhoneNumber=52000&userPsw=111
 	@ResponseBody
-	@RequestMapping(value = "/updatePassWord", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "/updatePassWord", produces = "text/json;charset=UTF-8")
 	public String updatePassWord(String userPhoneNumber, String userPsw) {
 		if (userPhoneNumber!=null&&userPsw!=null&&!userPsw.equals("")){
 			Boolean flag = kenYaUserServic.updatePassWord(userPhoneNumber, userPsw);
@@ -68,73 +68,68 @@ public class kenYaUserController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
-	public String login(String userPhoneNumber, String userPsw,HttpSession session) {
-
-		// kenYaUserServic.login(userName, userPsw);
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@RequestMapping(value = "/login")
+	public HashMap<String,Object> login(String userDeviceId,String userPhoneNumber, String userPsw,HttpSession session,HttpServletRequest request) {
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		User kenyaUser = kenYaUserServic.login(userPhoneNumber, userPsw);
-
-		// http://localhost:8080/kenYa-test/user/login?userPhoneNumber=52000&userPsw=111
-
 		if (kenyaUser != null) {
-
-			if (kenyaUser.getUserPsw().equals(MD5Util.getMD5(userPsw.getBytes()))) {
-				// return kenyaUser;
-				// KenyaUser kenyaUser = new KenyaUser();
-				//	kenyaUser.setUserName(userName);LOGIN_USER
-				session.setAttribute(GlobalNames.LOGIN_USER, kenyaUser);
-				kenyaUser.setUserPsw(null);
-			
-				JsonResult result = JsonResult.getLoginOK(kenyaUser);
-				String mapJson = JSON.toJSONString(result);
-				
-				return mapJson;
+			if (MD5Util.getMD5(userPsw.getBytes()).equals(kenyaUser.getUserPsw())) {
+				if(kenyaUser.getUserProhibit().equals("1")) {
+					map.put("code","040");
+					map.put("result", null);
+					map.put("message", "The Account Has Been Sealed.");
+				}else {
+					kenyaUser.setUserDeviceid(userDeviceId);
+					kenyaUser.setUserLoginlasttime(new Date());
+					kenYaUserServic.update(kenyaUser);
+					kenyaUser.setUserPsw(null);
+					map.put("code", "000");
+					map.put("result",kenyaUser);
+					map.put("message", "Login Successfully");
+				}
 			} else {
-				String json = JSON.toJSONString(JsonResult.LoginPswError());
-				return json;
+				map.put("code", "040");
+				map.put("result",null);
+				map.put("message","Password Error");
 			}
-
 		} else {
-			// KenyaUser kenyaUser = new KenyaUser();
-			String json = JSON.toJSONString(JsonResult.UserNoExist());
-			return json;
-
+			map.put("code", "040");
+			map.put("result",null);
+			map.put("message","用户名不存在");
 		}
+		return map;
 
 	}
 
+	
+	@RequestMapping(value="/register")
 	@ResponseBody
-	@RequestMapping(value = "/register", produces = "text/json;charset=UTF-8")
-	public String  register(String userName, String userPsw, Integer userSex,  String userPhoneNumber,String user_birthday
-		,String user_prohibit,HttpServletRequest request, HttpServletResponse response) {
-
-		// 这里要封装、
-
-
-		// System.out.println("222");
-		// String aString = request.getParameter(userPhonenumber);
-		// http://正确localhost:8080/kenya/user/register?userName=w2w&userPsw=11&userSex=1&userAge=2&userPhoneNumber=111111111
-
-	
-		if (kenYaUserServic.getPhoneNumberCount(userPhoneNumber) > 0) {
+	public HashMap<String,Object>  register(User user,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		//添加默认值
+		user.setUserProhibit("0");
+		if (kenYaUserServic.getPhoneNumberCount(user.getUserPhonenumber()) > 0) {
 			//KenyaUser kenyaUser = new KenyaUser();
-			String json = JSON.toJSONString(JsonResult.UserNameExist());
-			return json;
+			map.put("result",null);
+			map.put("code","040");
+			map.put("message","手机号已存在");
 		} else {
-			kenYaUserServic.createUser(userName, userPsw, userSex,userPhoneNumber, user_prohibit, user_birthday);
-			
-			//kenYaUserServic.createUser(userName, userPsw, userSex, userAge, userPhoneNumber,user_birthday,user_prohibit);
-		//	User user = new User(null, userName, null, userSex, userAge, userPhoneNumber,user_prohibit,user_birthday);
-			User user = new User(null, userName, userPsw, userSex,  userPhoneNumber, user_birthday, null, user_prohibit);
-			JsonResult result = JsonResult.getOK(user);
-
-			String mapJson = JSON.toJSONString(result);
-
-			return mapJson;
+	        user.setUserDate(new Date());
+	        user.setUserHavecar(1);
+	        user.setUserProhibit("0");
+			if(kenYaUserServic.createUser(user)>0) {
+				map.put("result",user);
+				map.put("code","000");
+				map.put("message","Posting Successfully");
+			}else {
+				map.put("result",null);
+				map.put("code", "040");
+				map.put("message","Posting Failed");
+			}
 		}
-
-	
-
+		return map;
 	}
+	
 
 }

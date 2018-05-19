@@ -19,5 +19,15 @@ public interface FundsService {
 	 * 判断非空
 	 */
 	public String IsNull(Funds funds);
+	/**
+	 * 删除funds
+	 */
+	public int delete(int id);
 	
+	public Funds selectById(int id);
+	
+	/**
+	 * 修改funds
+	 */
+	public int updatefunds(Funds funds);
 }

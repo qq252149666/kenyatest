@@ -14,9 +14,17 @@
 		<result column="goodsPhone" jdbcType="VARCHAR" property="goodsphone" />
 		<result column="goodsDesc" jdbcType="VARCHAR" property="goodsdesc" />
 		<result column="userId" jdbcType="INTEGER" property="userid" />
+		<result column="goodsDate" jdbcType="DATE" property="goodsdate" />
 		<association property="user" javaType="com.kenya.bean.User">  
 	    <id column="user_id" property="userId"/>
-	    	<result column="user_name" property="userName"/>
+	    	<id column="user_id" property="userId"/>
+		    <result column="user_name" property="userName"/>
+		    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+		    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+		    <result column="user_haveCar" jdbcType="INTEGER" property="userHavecar" />
+		    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+		    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+		    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
     	</association>
 	</resultMap>
 	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
@@ -89,7 +97,7 @@
 	<sql id="Base_Column_List">
 		goodsId, goodsName, goodsImgs, goodsImg1, goodsImg2, goodsImg3, goodsImg4,
 		goodsPrice,goodsDesc,
-		goodsUserName, goodsPhone, userId,user_id,user_name
+		goodsUserName, goodsPhone, userId,user_id,user_name,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex,goodsDate
 	</sql>
 	<sql id="Blob_Column_List">
 		goodsDesc
@@ -129,7 +137,7 @@
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
 		select goodsId, goodsName, goodsImgs, goodsImg1, goodsImg2, goodsImg3, goodsImg4,
 		goodsPrice,goodsDesc,
-		goodsUserName, goodsPhone, userId,user_id,user_name from kenya_goods join kenya_user on kenya_goods.userId=kenya_user.user_id where goodsId = #{goodsid}
+		goodsUserName, goodsPhone, userId,user_id,user_name,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex from kenya_goods join kenya_user on kenya_goods.userId=kenya_user.user_id where goodsId = #{goodsid}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from kenya_goods
@@ -145,14 +153,14 @@
 		insert into kenya_goods (goodsId, goodsName, goodsImgs,
 		goodsImg1, goodsImg2, goodsImg3,
 		goodsImg4, goodsPrice, goodsUserName,
-		goodsPhone, userId, goodsDesc
+		goodsPhone, userId, goodsDesc,goodsDate
 		)
 		values (#{goodsid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR},
 		#{goodsimgs,jdbcType=VARCHAR},
 		#{goodsimg1,jdbcType=VARCHAR}, #{goodsimg2,jdbcType=VARCHAR}, #{goodsimg3,jdbcType=VARCHAR},
 		#{goodsimg4,jdbcType=VARCHAR}, #{goodsprice,jdbcType=REAL},
 		#{goodsusername,jdbcType=VARCHAR},
-		#{goodsphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{goodsdesc,jdbcType=LONGVARCHAR}
+		#{goodsphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{goodsdesc,jdbcType=LONGVARCHAR},#{goodsdate,jdbcType=DATE}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.kenya.bean.Goods">
@@ -371,7 +379,8 @@
 		goodsUserName = #{goodsusername,jdbcType=VARCHAR},
 		goodsPhone = #{goodsphone,jdbcType=VARCHAR},
 		userId = #{userid,jdbcType=INTEGER},
-		goodsDesc = #{goodsdesc,jdbcType=LONGVARCHAR}
+		goodsDesc = #{goodsdesc,jdbcType=LONGVARCHAR},
+		goodsDate = #{goodsDate,jdbcType=DATE}
 		where goodsId = #{goodsid,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.kenya.bean.Goods">

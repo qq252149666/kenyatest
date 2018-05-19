@@ -1,5 +1,9 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Goods {
     private Integer goodsid;
 
@@ -24,11 +28,22 @@ public class Goods {
     private Integer userid;
 
     private String goodsdesc;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date goodsdate;
     
     private User user;
     
 
-    public User getUser() {
+   
+	public Date getGoodsdate() {
+		return goodsdate;
+	}
+
+	public void setGoodsdate(Date goodsdate) {
+		this.goodsdate = goodsdate;
+	}
+
+	public User getUser() {
 		return user;
 	}
 

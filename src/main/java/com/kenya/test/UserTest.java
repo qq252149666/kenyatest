@@ -2,20 +2,19 @@ package com.kenya.test;
 
 import java.util.List;
 
-import javax.annotation.Resource;  
-
-import org.apache.log4j.Logger;  
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;  
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;  
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import com.alibaba.fastjson.JSON;
 import com.kenya.bean.User;
 import com.kenya.service.UserService;  
 
   
-@RunWith(SpringJUnit4ClassRunner.class)     //±íÊ¾¼Ì³ÐÁËSpringJUnit4ClassRunnerÀà  
+@RunWith(SpringJUnit4ClassRunner.class)     //ï¿½ï¿½Ê¾ï¿½Ì³ï¿½ï¿½ï¿½SpringJUnit4ClassRunnerï¿½ï¿½  
 @ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})  
   
 public class UserTest {  
@@ -34,7 +33,7 @@ public class UserTest {
     public void test1() {  
         List<User> users = userService.selectAll();  
         // System.out.println(user.getUserName());  
-        // logger.info("Öµ£º"+user.getUserName());  
+        // logger.info("Öµï¿½ï¿½"+user.getUserName());  
         logger.info(JSON.toJSONString(users));  
     }  
 }  

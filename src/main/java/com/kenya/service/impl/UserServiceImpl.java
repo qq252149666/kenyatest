@@ -2,13 +2,14 @@ package com.kenya.service.impl;
 
 
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kenya.bean.User;
+import com.kenya.bean.UserExample;
+import com.kenya.bean.UserExample.Criteria;
 import com.kenya.dao.UserMapper;
 import com.kenya.service.UserService;
 import com.kenya.until.MD5Util;
@@ -64,41 +65,34 @@ public class UserServiceImpl implements UserService {
 			// myExceptionHandler.resolveException(request, response, handler, ex)
 			return null;
 		}
-		/*
-		 * List<Role> roles = roleMapper.getRoleListByUserId(userId);
-		 * userDetails.setRoles(roles); return userDetails;
-		 */
+		
+	/*	 * List<Role> roles = roleMapper.getRoleListByUserId(userId);
+		 * userDetails.setRoles(roles); return userDetails;*/
+		 
 		return e;
 	}
 	
 	public User login(String userPhoneNumber, String password) {
-
-		User kenyaUser = kenyaUserMapper.ByUserPhoneNumber(userPhoneNumber);
-
+		UserExample example = new UserExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUserPhonenumberEqualTo(userPhoneNumber);
+		User kenyaUser = null;
+		if(kenyaUserMapper.selectByExample(example).size()!=0) {
+			kenyaUser = kenyaUserMapper.selectByExample(example).get(0);
+		}
+		
 		if (kenyaUser != null) {
 			//System.out.println(kenyaUser.getUserName());
 			return kenyaUser;
-
 		} else {
 			return null;
 		}
 	}
 
 
-	public void createUser(String userName, String psw, Integer userSex, String userPhoneNumber,
-			String user_prohibit, String user_birthday) {
-		
-
-		User kenyaUser = new User();
-		kenyaUser.setUserName(userName);
-		kenyaUser.setUserPsw(MD5Util.getMD5(psw.getBytes()));
-		kenyaUser.setUserSex(userSex);
-	//	kenyaUser.setUserAge(userAge);
-		kenyaUser.setUserPhonenumber(userPhoneNumber);
-		kenyaUser.setUserProhibit(user_prohibit);
-		kenyaUser.setUserBirthday(user_birthday);
-		kenyaUserMapper.insert(kenyaUser);	
-
+	public int createUser(User user) {
+		user.setUserPsw(MD5Util.getMD5(user.getUserPsw().getBytes()));
+		return userdao.insert(user);
 	}
 
 	
@@ -110,14 +104,12 @@ public class UserServiceImpl implements UserService {
 
 	public Boolean updatePassWord(String userPhoneNumber, String userPsw) {
 		if(kenyaUserMapper.getPhoneNumberCount(userPhoneNumber)>0) {
-			//鏇存柊瀵嗙爜,涓嶈兘鍜屼笂娆″瘑鐮佺浉鍚�
 			User kenyaUser = kenyaUserMapper.ByUserPhoneNumber(userPhoneNumber);
 			if (kenyaUser.getUserPsw().equals(MD5Util.getMD5(userPsw.getBytes()))) {
 				return false;
 				
 			} else {
 				String updatePW = MD5Util.getMD5(userPsw.getBytes());
-				//kenyaUserMapper.updatePassWord(null, null, userPsw, null, null,userPhoneNumber);
 				kenyaUserMapper.updatePassWord(null, null, updatePW, null, null, userPhoneNumber);
 				return true;
 			}
@@ -131,9 +123,19 @@ public class UserServiceImpl implements UserService {
 	 * 根据ID查询记录
 	 */
 	public User selectbyId(int id) {
-		return userdao.selectByPrimaryKey(id);
+		UserExample example = new UserExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(id);
+		return userdao.selectByExample(example).get(0);
 	}
 
+
+	public int update(User user) {
+		return userdao.updateByPrimaryKey(user);
+	}
+	/**
+	 * 获取验证码
+	 */
 
 
 }

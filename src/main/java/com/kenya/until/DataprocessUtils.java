@@ -1,41 +1,20 @@
 package com.kenya.until;
 
-import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.jstl.core.LoopTagStatus;
 
-
-
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.google.gson.Gson;
 /*import com.atguigu.survey.entities.guest.Bag;
 import com.atguigu.survey.entities.guest.Question;*/
 //import com.google.gson.Gson;
 import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class DataprocessUtils {
 	private static Gson gson = new Gson();

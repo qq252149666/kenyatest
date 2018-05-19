@@ -2,6 +2,7 @@ package com.kenya.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,7 +51,17 @@ public class JobSeekerController {
 	@ResponseBody
 	@RequestMapping(value="/saveJobWant",method=RequestMethod.POST)
 	public JsonResult jobWantPulish(Job survey, @RequestParam("logoFile") MultipartFile logoFile, Integer userId,
-			HttpSession session) throws IOException {
+			HttpSession session) throws IOException, ParseException {
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String birthday = survey.getBirthday();
+		Date date1 = new Date();
+		Date date = simpleFormat.parse(birthday);
+		long diff = date1.getTime() - date.getTime();
+		long  day = diff / (1000 * 3600 * 24);
+		int age = (int)day / 366;
+		System.out.println(age);
+		survey.setAge(age);
+
 
 		// 1.妫�鏌ヤ笂浼犵殑鏂囦欢鏄惁涓虹┖
 		if (!logoFile.isEmpty()) {
@@ -73,7 +84,7 @@ public class JobSeekerController {
 			// =====================\============
 
 			// 2.澹版槑/surveyLogos鐩綍瀵瑰簲鐨勮櫄鎷熻矾寰�
-			String virtualPath = "/surveyLogos";
+			String virtualPath = "/upload";
 
 			// 3.鑾峰彇ServletContext瀵硅薄
 			ServletContext servletContext = session.getServletContext();

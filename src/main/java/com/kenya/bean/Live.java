@@ -1,5 +1,9 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Live {
     private Integer liveid;
 
@@ -24,7 +28,8 @@ public class Live {
     private String liveuser;
     
     private String livedesc;
-    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date livedate;
     
     private User user;
 
@@ -133,4 +138,13 @@ public class Live {
     public void setLivedesc(String livedesc) {
         this.livedesc = livedesc == null ? null : livedesc.trim();
     }
+
+	public Date getLivedate() {
+		return livedate;
+	}
+
+	public void setLivedate(Date livedate) {
+		this.livedate = livedate;
+	}
+    
 }

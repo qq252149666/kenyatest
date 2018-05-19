@@ -1,16 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <table class="easyui-datagrid" id="itemList" title="商品列表"
-	data-options="singleSelect:false,collapsible:true,pagination:true,url:'/kenya/news/pageQuery',method:'get',page:30,toolbar:toolbar">
+	data-options="singleSelect:false,collapsible:true,pagination:true,url:'/kenya/news/pageQuery',method:'get',pageNumbers:1,pageSize:10, 
+		rownumbers:true, 
+	      pageList: [5,10,15,20],toolbar:toolbar">
 	<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>
-			
+
 			<!-- <th data-options="field:'newstitle',checkbox:true"></th> -->
 			<th data-options="field:'newsid',width:60">新闻ID</th>
 			<th data-options="field:'newstitle',width:200">新闻标题</th>
 			<th data-options="field:'newsauthor',width:100">作者</th>
-			<th data-options="field:'newscreatetime',width:100">创建时间</th>
+			<th
+				data-options="field:'newscreatetime',width:130,align:'center',formatter:TAOTAO.formatDateTime">创建时间</th>
 			<th data-options="field:'newstext',width:1000 	">文章</th>
 			<!--             <th data-options="field:'sellPoint',width:100">卖点</th>
             <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">价格</th>
@@ -23,12 +26,25 @@
 	</thead>
 </table>
 <div id="itemEditWindow" class="easyui-window" title="编辑新闻"
-	data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'"
+	data-options="modal:true,closed:true,iconCls:'icon-save',href:'/kenya/rest/page/item-edit'"
 	style="width: 80%; height: 80%; padding: 10px;"></div>
 <script>
+	/* 	var p = $('#itemList').datagrid('getSelections');
+	 $(p).pagination({
+	 pageSize : 10,//每页显示的记录条数，默认为10 
+	 pageList : [ 5, 10,  ],//可以设置每页记录条数的列表  
+	 beforePageText : '第',//页数文本框前显示的汉字 
+	 afterPageText : '页    共 {pages} 页',
+	 displayMsg : '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+	 onBeforeRefresh:function(){
+	 $(this).pagination('loading');
+	 alert('before refresh');
+	 $(this).pagination('loaded');
+	 }
+	 });  */
 	function getSelectionsIds() {
-		var itemList = $("#itemList"); 	
-		var sels = itemList.datagrid("getSelections"); 
+		var itemList = $("#itemList");
+		var sels = itemList.datagrid("getSelections");
 		var ids = [];
 		for ( var i in sels) {
 			ids.push(sels[i].newsid);
@@ -148,8 +164,8 @@
 											});
 										}
 									}).window("open");
-			
-	}
+
+				}
 			},
 			{
 				text : '删除',
@@ -171,7 +187,7 @@
 											};
 											$
 													.post(
-															"/rest/item/delete",
+															"/kenya/news/rest/item/delete",
 															params,
 															function(data) {
 																if (data.status == 200) {

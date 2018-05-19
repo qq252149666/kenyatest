@@ -2,7 +2,9 @@ package com.kenya.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -29,8 +31,6 @@ import com.kenya.service.ProjectService;
 @RequestMapping("Project")
 public class ProjectController {
 	DeleteImg deleteImg = new DeleteImg();
-	int i;
-	HashMap<String,Object> map = new HashMap<String,Object>();
 	@Autowired
 	ProjectService projectService;
 	
@@ -40,26 +40,31 @@ public class ProjectController {
 	@RequestMapping("/selectByFile")
 	@ResponseBody
 	public HashMap<String,Object> selectByFile(@RequestParam(value="pn",defaultValue="1")int pn,String projectName,String Price){
+		//返回map集合
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		//page插件 pn页码 7显示几条记录
 		PageHelper.startPage(pn, 7);
 		//第一个查询默认分页
 		List<Project> list = projectService.Selectbyfile(projectName,Price);
 		//PageInfo封装分页信息
 		PageInfo<Project> page = new PageInfo<Project>(list);
 		//map封装分页数据
-		HashMap<String,Object> Projects = new HashMap<String,Object>();
-		Projects.put("result", list);
+		map.put("result", list);
+		map.put("count", page.getTotal());;
+		map.put("pages", page.getPages());
 		if(page.isIsLastPage()) {
-			Projects.put("code","040");
+			map.put("code","040");
 		}else {
-			Projects.put("code","000");
+			map.put("code","000");
 		}
-		return Projects;
+		return map;
 	}
 	@RequestMapping("/insertProject")
 	@ResponseBody
-	public  HashMap<String,Object> insertproject(@RequestParam("files")MultipartFile[] files,Project project,
-            HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public  HashMap<String,Object> insertproject(@RequestParam("files")MultipartFile[] files,MultipartFile head,Project project,
+            HttpServletRequest request,HttpServletResponse response,String minprice,String maxprice) throws Exception {
 		project.setAdminid(Integer.valueOf(String.valueOf(request.getSession().getAttribute("adminid"))));
+		System.out.print(project.getProjectprice());
 		List<String> list = new ArrayList<String>();
 		//遍历获得的MultiparFile数组
         if (files != null && files.length > 0) {
@@ -74,22 +79,28 @@ public class ProjectController {
 				}
             }
         }
+        if(maxprice==null) {
+        	project.setProjectprice(minprice);
+        }else {
+        	project.setProjectprice(minprice+"-"+maxprice);
+        }
+        project.setProjecthead("/upload/"+saveFile(request, head, list,response).get(0));
         //insert准备工作
         for (int i = 0; i < list.size(); i++) {
             if(i==0) {
-            	project.setProjectimgs("/kenya/upload/"+list.get(i));
+            	project.setProjectimgs("/upload/"+list.get(i));
             }
             if(i==1) {
-            	project.setProjectimg1("/kenya/upload/"+list.get(i));
+            	project.setProjectimg1("/upload/"+list.get(i));
             }
             if(i==2) {
-            	project.setProjectimg2("/kenya/upload/"+list.get(i));
+            	project.setProjectimg2("/upload/"+list.get(i));
             }
             if(i==3) {
-            	project.setProjectimg3("/kenya/upload/"+list.get(i));
+            	project.setProjectimg3("/upload/"+list.get(i));
             }
             if(i==4) {
-            	project.setProjectimg4("/kenya/upload/"+list.get(i));
+            	project.setProjectimg4("/upload/"+list.get(i));
             }
         }
         //返回map
@@ -97,9 +108,16 @@ public class ProjectController {
         //判断是否有空值
         if(projectService.IsNull(project)=="非法访问") {
         	map.put("code", "040");
-        	map.put("result","非法访问");
+        	map.put("message","非法访问");
+        	map.put("result",null);
         }else {
         	//数据库添加
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date = sdf.parse(sdf.format(new Date()));
+            
+            project.setProjectdate(date);
+        	
         	projectService.insertProject(project);
         	//添加外键
         	Admin user = adminservice.selectbyid(project.getAdminid());
@@ -108,24 +126,84 @@ public class ProjectController {
         	project.setAdmin(user);
         	map.put("code","000");
         	//返回插入的实体类
+        	map.put("message", "Posting Successfully");
         	map.put("result",project);
         }
         return map;//跳转的页面
     }
-    private List<String> saveFile(HttpServletRequest request,
+	private List<String> saveFile(HttpServletRequest request,
             MultipartFile file, List<String> list,HttpServletResponse response) throws IOException {
-    	if (!file.isEmpty()) {
+        // 判断文件是否为空
+        if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
             int random = rand.nextInt();
-            String filePath = request.getSession().getServletContext()
-                    .getRealPath("/")
-                    + "upload/" + String.valueOf(random)+file.getOriginalFilename();
+            String serverpath = request.getSession().getServletContext()
+                    .getRealPath("/");
+            String parentpath = new File(serverpath).getParent();
+            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
             list.add(random+file.getOriginalFilename());
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
 			file.transferTo(saveDir);
         }
-    return list;
+        return list;
+    }
+    /**
+     * 删除项目
+     */
+    @RequestMapping("/deleteProject")
+    @ResponseBody
+    public HashMap<String,Object> deleteProject(@RequestParam(value="projectid",defaultValue="0")int projectid,HttpServletRequest request){
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+    	if(projectid==0) {
+			map.put("Code", "040");
+			map.put("message", "非法访问");
+		}else {
+			if(projectService.selectbyid(projectid).getProjecthead()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjecthead(), request);
+			}
+			if(projectService.selectbyid(projectid).getProjectimgs()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjectimgs(), request);
+			}
+			if(projectService.selectbyid(projectid).getProjectimg1()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjectimg1(), request);
+			}
+			if(projectService.selectbyid(projectid).getProjectimg2()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjectimg2(), request);
+			}
+			if(projectService.selectbyid(projectid).getProjectimg3()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjectimg3(), request);
+			}
+			if(projectService.selectbyid(projectid).getProjectimg4()!=null) {
+				deleteImg.deleteImg(projectService.selectbyid(projectid).getProjectimg4(), request);
+			}
+			if(projectService.deleteProject(projectid)==0) {
+				map.put("code", "040");
+				map.put("message", "Process Failed");
+			}else {
+				map.put("code", "000");
+				map.put("message","Deleted");
+			}
+		}
+    	return map;
+    }
+    @RequestMapping("/selectById")
+    @ResponseBody
+    public HashMap<String,Object> selectById(int projectid){
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+    	Project project;
+    	project = projectService.selectbyid(projectid);
+    	if(project==null) {
+    		map.put("result", project);
+        	map.put("code", "000");
+        	map.put("message", "查询失败");
+    	}else {
+	    	map.put("result", project);
+	    	map.put("code", "000");
+	    	map.put("message", "查询成功");
+    	}
+		return map;
+    	
     }
 }
