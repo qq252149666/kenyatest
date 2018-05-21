@@ -20,45 +20,50 @@
 			<dl class="system_log">
 				<dt>
 					<img class="icon1" src="img/coin03.png" /><img class="icon2"
-						src="img/coin04.png" />网站管理<img class="icon3"
+						src="img/coin04.png" />project<img class="icon3"
 						src="img/coin19.png" /><img class="icon4"
 						src="img/coin20.png" />
 				</dt>
 				<dd>
 					<img class="coin11" src="img/coin111.png" /><img class="coin22"
-						src="img/coin222.png" /><a class="cks" href="tab.jsp"
-						target="main">会员管理</a><img class="icon5" src="img/coin21.png" />
+						src="img/coin222.png" /><a class="cks" href="tab1.jsp"
+						target="main">funds管理</a><img class="icon5" src="img/coin21.png" />
+				</dd>
+				<dd>
+					<img class="coin11" src="img/coin111.png" /><img class="coin22"
+						src="img/coin222.png" /><a class="cks" href="tab2.jsp"
+						target="main">project管理</a><img class="icon5" src="img/coin21.png" />
 				</dd>
 			</dl>
 			<dl class="system_log">
 				<dt>
 					<img class="icon1" src="img/coin01.png" /><img class="icon2"
-						src="img/coin02.png" /> 轮播图管理<img class="icon3"
+						src="img/coin02.png" />Project upload<img class="icon3"
 						src="img/coin19.png" /><img class="icon4"
 						src="img/coin20.png" />
 				</dt>
 				<dd>
 					<img class="coin11" src="img/coin111.png" /><img class="coin22"
 						src="img/coin222.png" /><a class="cks" href="p3.jsp"
-						target="main">轮播图上传</a><img class="icon5" src="img/coin21.png" />
+						target="main">Have funds to find project </a><img class="icon5" src="img/coin21.png" />
 				</dd>
 				<dd>
 					<img class="coin11" src="img/coin111.png" /><img class="coin22"
 						src="img/coin222.png" /><a class="cks" href="p2.jsp"
-						target="main">轮播图管理</a><img class="icon5" src="img/coin21.png" />
+						target="main">Have projects to find funds</a><img class="icon5" src="img/coin21.png" />
 				</dd>
 			</dl>
 			<dl class="system_log">
 				<dt>
 					<img class="icon1" src="img/coin07.png" /><img class="icon2"
-						src="img/coin08.png" /> 会员管理<img class="icon3"
+						src="img/coin08.png" /> 轮播图管理<img class="icon3"
 						src="img/coin19.png" /><img class="icon4"
 						src="img/coin20.png" />
 				</dt>
 				<dd>
 					<img class="coin11" src="img/coin111.png" /><img class="coin22"
-						src="img/coin222.png" /><a href="p1.jsp" target="main"
-						class="cks">会员管理</a><img class="icon5" src="img/coin21.png" />
+						src="img/coin222.png" /><a href="Sowing.jsp" target="main"
+						class="cks">Sowing map</a><img class="icon5" src="img/coin21.png" />
 				</dd>
 			</dl>
 			<dl class="system_log">

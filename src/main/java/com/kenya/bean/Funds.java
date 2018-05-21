@@ -1,11 +1,15 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Funds {
     private Integer fundsid;
 
     private String fundsname;
 
-    private Float fundsprice;
+    private String fundsprice;
 
     private String fundsdesc;
 
@@ -25,8 +29,26 @@ public class Funds {
 
     private Integer adminid;
 
+    private String fundadvantage;
+    
+    private String fundshead;
+    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date fundsdate;
+    
     private Admin admin;
     
+    
+    
+
+    public String getFundshead() {
+		return fundshead;
+	}
+
+	public void setFundshead(String fundshead) {
+		this.fundshead = fundshead;
+	}
+
 	public Admin getAdmin() {
 		return admin;
 	}
@@ -51,15 +73,17 @@ public class Funds {
         this.fundsname = fundsname == null ? null : fundsname.trim();
     }
 
-    public Float getFundsprice() {
-        return fundsprice;
-    }
 
-    public void setFundsprice(Float fundsprice) {
-        this.fundsprice = fundsprice;
-    }
 
-    public String getFundsdesc() {
+    public String getFundsprice() {
+		return fundsprice;
+	}
+
+	public void setFundsprice(String fundsprice) {
+		this.fundsprice = fundsprice;
+	}
+
+	public String getFundsdesc() {
         return fundsdesc;
     }
 
@@ -130,4 +154,21 @@ public class Funds {
     public void setAdminid(Integer adminid) {
         this.adminid = adminid;
     }
+
+    public String getFundadvantage() {
+        return fundadvantage;
+    }
+
+    public void setFundadvantage(String fundadvantage) {
+        this.fundadvantage = fundadvantage == null ? null : fundadvantage.trim();
+    }
+
+	public Date getFundsdate() {
+		return fundsdate;
+	}
+
+	public void setFundsdate(Date fundsdate) {
+		this.fundsdate = fundsdate;
+	}
+    
 }

@@ -1,11 +1,15 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Project {
     private Integer projectid;
 
     private String projectname;
 
-    private Float projectprice;
+    private String projectprice;
 
     private String projectdesc;
 
@@ -27,7 +31,37 @@ public class Project {
 
     private String projectaddress;
 
-    public Integer getProjectid() {
+    private String projecttype;
+    
+    private String projecthead;
+    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date projectdate;
+    
+    
+    private Admin admin;
+    
+
+    
+
+    
+    public String getProjecthead() {
+		return projecthead;
+	}
+
+	public void setProjecthead(String projecthead) {
+		this.projecthead = projecthead;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Integer getProjectid() {
         return projectid;
     }
 
@@ -43,12 +77,12 @@ public class Project {
         this.projectname = projectname == null ? null : projectname.trim();
     }
 
-    public Float getProjectprice() {
+    public String getProjectprice() {
         return projectprice;
     }
 
-    public void setProjectprice(Float projectprice) {
-        this.projectprice = projectprice;
+    public void setProjectprice(String projectprice) {
+        this.projectprice = projectprice == null ? null : projectprice.trim();
     }
 
     public String getProjectdesc() {
@@ -130,4 +164,21 @@ public class Project {
     public void setProjectaddress(String projectaddress) {
         this.projectaddress = projectaddress == null ? null : projectaddress.trim();
     }
+
+    public String getProjecttype() {
+        return projecttype;
+    }
+
+    public void setProjecttype(String projecttype) {
+        this.projecttype = projecttype == null ? null : projecttype.trim();
+    }
+
+	public Date getProjectdate() {
+		return projectdate;
+	}
+
+	public void setProjectdate(Date projectdate) {
+		this.projectdate = projectdate;
+	}
+    
 }

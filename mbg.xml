@@ -38,6 +38,6 @@
     </javaClientGenerator>
    
     
-    <table tableName="kenya_fram" domainObjectName="Fram"></table>
+    <table tableName="kenya_user" domainObjectName="User"></table>
   </context>
 </generatorConfiguration>

@@ -1,8 +1,13 @@
 package com.kenya.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kenya.bean.User;
+import com.kenya.dao.DeleteImg;
 import com.kenya.service.UserService;
   
   
@@ -24,6 +31,7 @@ public class UserController {
 	private static Logger log=LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
+	DeleteImg deleteImg=new DeleteImg();
 	
 	@Autowired
 	private LeaseController leaseController;
@@ -44,9 +52,6 @@ public class UserController {
         log.info(users.toString());
         return users; 
 	}
-	/**
-	 * 用户发布的信息
-	 */
 	@RequestMapping("selectByUserId")
 	@ResponseBody
 	public HashMap<String,Object> selectByUser(int userid,String Type,@RequestParam(value="pn",defaultValue="1") int pn) {
@@ -99,7 +104,145 @@ public class UserController {
 		}
 		return map;
 	}
+	@RequestMapping("/updatePortrait")
+	@ResponseBody
+	public HashMap<String,Object> updatePortrait(MultipartFile file,int id,String Type,HttpServletRequest request) {
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User user = userService.selectbyId(id);
+		if(file!=null) {
+			if (!file.isEmpty()) {
+	        	Random rand = new Random();   
+	            int random = rand.nextInt();
+	            String serverpath = "C:/usr/local/tomcat/upload";
+	            String parentpath = new File(serverpath).getParent();
+	            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
+	            File saveDir = new File(filePath);
+	            if (!saveDir.getParentFile().exists())
+	                saveDir.getParentFile().mkdirs();
+	            try {
+					file.transferTo(saveDir);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	            user.setUserPortrait("/upload/"+random+file.getOriginalFilename());
+	    	}
+		}
+		if(userService.update(user)==1) {
+			map.put("message", "Modify Successfully");
+			map.put("code", "000");
+			map.put("result", user);
+		}else {
+			map.put("message","Process Failed");
+			map.put("code","040");
+			map.put("result", user);
+		}
+		return map;
+	}
+	@RequestMapping("/updateuserName")
+	@ResponseBody
+	public HashMap<String,Object> updateuserName(String userName,int id,String Type,HttpServletRequest request) {
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User user = userService.selectbyId(id);
+		if(userName!=null) {
+			user.setUserName(userName);
+		}
+		if(userService.update(user)==1) {
+			map.put("message", "Modify Successfully");
+			map.put("code", "000");
+		}else {
+			map.put("message","Process Failed");
+			map.put("code","040");
+		}
+		return map;
+	}
 	
-	
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public HashMap<String,Object> updateUser(String birthday,User user,HttpServletRequest request) throws Exception{
+		HashMap<String,Object> map =new HashMap<String,Object>();
+		User users = userService.selectbyId(user.getUserId());
+		if(birthday!=null&&!birthday.equals("")) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date=sdf.parse(birthday);
+			users.setUserBirthday(date);
+		}
+		if(user.getUserSex()!=null) {
+			users.setUserSex(user.getUserSex());
+		}
+		if(user.getUserName()!=null) {
+			users.setUserName(user.getUserName());
+		}
+		if(userService.update(users)==1) {
+			map.put("message", "Modify Successfully");
+			map.put("code", "000");
+			map.put("result", users);
+		}else {
+			map.put("message","Process Failed");
+			map.put("code","040");
+			map.put("result", null);
+		}
+		return map;
+	}
+	/**
+	 * 鍙戦�侀獙璇佺爜
+	 */
+	@RequestMapping("/getCode")
+	@ResponseBody
+	public HashMap<String,Object> Code(String phone){
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		SendMsgUtil sendMsgUtil = new SendMsgUtil();
+		String value=SendMsgUtil.createRandomVcode();
+    	map = sendMsgUtil.sendMsg(phone, "[Bright Light] your verification code "+value);
+        if(map.get("code").equals(100)) {
+        	map.put("code", "000");
+        	map.put("message", "Post Successfully");
+        	map.put("verificationCode", value);
+        }else {
+        	map.put("code", "040");
+        	map.put("message", "Post Failed");
+        	map.put("verificationCode", null);
+        }
+		return map;
+	}
+	/**
+	 * 鑷姩鐧婚檰
+	 */
+	@RequestMapping("/loged")
+	@ResponseBody
+	public HashMap<String,Object> loged(String deviceId,int userId){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(userId==0) {
+			map.put("code", "040");
+			map.put("result", null);
+			map.put("message", "Process Failed");
+		}else {
+			User user = userService.selectbyId(userId);
+			if(user.getUserDeviceid()!=null&&user.getUserDeviceid().equals(deviceId)) {
+				//鑾峰彇褰撳墠鏃堕棿
+				Date date = new Date();
+				long nd = 1000 * 24 * 60 * 60;
+				long diff = date.getTime()-user.getUserLoginlasttime().getTime();
+				long day = diff / nd;
+				if(day>7) {
+					map.put("code", "040");
+					map.put("result", null);
+					map.put("message", "Logon Failure");
+				}else {
+					user.setUserLoginlasttime(new Date());
+					userService.update(user);
+					map.put("code", "000");
+					map.put("result", user);
+					map.put("message", "Login Successfully");
+				}
+			}else {
+				map.put("code", "040");
+				map.put("result", null);
+				map.put("message", "Logon Failure");
+			}
+		}
+		return map;
+	}
 }  
  

@@ -1,38 +1,20 @@
 package com.kenya.until;
 
-import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.jstl.core.LoopTagStatus;
 
-
-
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.google.gson.Gson;
 /*import com.atguigu.survey.entities.guest.Bag;
 import com.atguigu.survey.entities.guest.Question;*/
 //import com.google.gson.Gson;
 import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class DataprocessUtils {
 	private static Gson gson = new Gson();
@@ -56,12 +38,14 @@ public class DataprocessUtils {
 			if (sourceWidth > 720) {
 				// 按比例压缩目标图片的尺寸
 				targetWidth = 720;
-				targetHeight = sourceHeight / (sourceWidth / 720);
-
+				targetHeight = (int) (sourceHeight-(sourceHeight-sourceHeight/(sourceWidth/720.00)));
+			/*	targetHeight = (int) sourceHeight * sourceHeight*(sourceWidth / 720.00);
+*/
 			}
-
+  
 			// 4.创建压缩后的目标图片对应的Image对象
 			BufferedImage targetImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+			
 
 			// 5.绘制目标图片
 			targetImage.getGraphics().drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null);
@@ -98,6 +82,32 @@ public class DataprocessUtils {
 
 		}
 	}
+/*	public static String resizeImages1(InputStream inputStream, String realPath) {
+		Map resultMap = new HashMap<>();
+
+	
+		
+		FileWriter writer;
+		String str1 = DataprocessUtils.genImageName()+".html";
+		String str= realPath+"/"+str1 ;
+		//String str11 = "kenya1/htmlFile/"+str1;
+		try {
+			// inputStream = uploadFile.getInputStream();
+			writer = new FileWriter(str);
+			writer.write(newstext);
+			writer.flush();
+			writer.close();
+			news.setNewstext("kenya1/htmlFile/"+str1);
+		} catch (IOException e) {
+			resultMap.put("error", 1);
+			resultMap.put("message", "文件上传发生异常");
+
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(resultMap);
+			return jsonStr;
+		}
+	}*/
+
 
 	/**
 	 * 对源字符串进行加密操作
@@ -289,5 +299,38 @@ public class DataprocessUtils {
 	}
 */
 
+
+		/**
+		 * 图片名生成
+		 */
+		public static String genImageName() {
+			//取当前时间的长整形值包含毫秒
+			long millis = System.currentTimeMillis();
+			//long millis = System.nanoTime();
+			//加上三位随机数
+			Random random = new Random();
+			int end3 = random.nextInt(999);
+			//如果不足三位前面补0
+			String str = millis + String.format("%03d", end3);
+			
+			return str;
+		}
+		
+		/**
+		 * 商品id生成
+		 */
+		public static long genItemId() {
+			//取当前时间的长整形值包含毫秒
+			long millis = System.currentTimeMillis();
+			//long millis = System.nanoTime();
+			//加上两位随机数
+			Random random = new Random();
+			int end2 = random.nextInt(99);
+			//如果不足两位前面补0
+			String str = millis + String.format("%02d", end2);
+			long id = new Long(str);
+			return id;
+		}
+		
 
 }

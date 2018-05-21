@@ -7,7 +7,7 @@ public class Company {
 
     private String companystation;
 
-    private Double companystationsalary;
+    private String companystationsalary;
 
     private String companyphone;
 
@@ -49,11 +49,11 @@ public class Company {
         this.companystation = companystation == null ? null : companystation.trim();
     }
 
-    public Double getCompanystationsalary() {
+    public String getCompanystationsalary() {
         return companystationsalary;
     }
 
-    public void setCompanystationsalary(Double companystationsalary) {
+    public void setCompanystationsalary(String companystationsalary) {
         this.companystationsalary = companystationsalary;
     }
 

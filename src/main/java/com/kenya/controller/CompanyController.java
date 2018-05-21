@@ -35,14 +35,18 @@ import com.kenya.until.StringUtil;
 public class CompanyController {
 	@Autowired
 	private CompanyService recruitService;
-
+	
 	DeleteImg deleteimg = new DeleteImg();
+
 	@RequestMapping("/publish")
 	@ResponseBody
 	public Object publishRecruit(/* @RequestParam(value="logoFile",required=false) */
-			CompanyWithBLOBs recruitWithBLOBs, HttpServletRequest request, HttpSession session) throws IOException {
+			CompanyWithBLOBs recruitWithBLOBs,String companystationsalary, HttpServletRequest request, HttpSession session) throws IOException {
 		/* RecruitWithBLOBs recruitWithBLOBs = new RecruitWithBLOBs(); */
 		HashMap<String, Object> recruitWithMap = new HashMap<String, Object>();
+	/*	String parameter = request.getParameter("companystationsalary");
+		double value = Double.valueOf(parameter.toString());  
+		recruitWithBLOBs.setCompanystationsalary(value);*/
 
 		/*
 		 * String logoPaths[] = { "", "", "", "","","" }; int i = -1;
@@ -144,13 +148,17 @@ public class CompanyController {
 			 * userPage.setTotalsize(count); userPage.setPageno(pageno);
 			 * userPage.setPagesize(pagesize); result.setPageObj(userPage);
 			 */
+			jobSeekerPage.setCode("000");
+			if (totalno<=currPage) {
+				jobSeekerPage.setCode("040");
+			}
 			jobSeekerPage.setLists(jobSeeker);
 			jobSeekerPage.setTotalPage(totalno);
 			jobSeekerPage.setCurrPage(currPage);
 			jobSeekerPage.setTotalCount(count);
 			jobSeekerPage.setPageSize(pagesize);
 
-			jobSeekerPage.setCode("000");
+			
 			jsonResult.setPageObj(jobSeekerPage);
 			jsonResult.setSuccess(true);
 
@@ -163,13 +171,21 @@ public class CompanyController {
 	}
 	// 删除
 
+	@ResponseBody
+	@RequestMapping("/delet")
+	public Object pageQuery(Integer companyid) {
+		return recruitService.deleteByPrimaryKey(companyid);
+
+	}
+	// 删除
+
 	@RequestMapping("/deleteCompany")
 	@ResponseBody
 	public  HashMap<String, Object> deleteCompany(@RequestParam(value="companyId",defaultValue="0")int companyId,HttpServletRequest request){
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(companyId==0) {
 			map.put("Code", "040");
-			map.put("result", "非法访问");
+			map.put("result", "Invalid Visit");
 		}else {
 			if(recruitService.selectById(companyId).getCompanyimg0()!=null) {
 				deleteimg.deleteImg(recruitService.selectById(companyId).getCompanyimg0(), request);
@@ -191,10 +207,10 @@ public class CompanyController {
 			}
 			if(recruitService.deleteByPrimaryKey(companyId)==0) {
 				map.put("code", "040");
-				map.put("result", "删除失败");
+				map.put("result", "Process Failed");
 			}else {
 				map.put("code", "000");
-				map.put("result","删除成功");
+				map.put("result","Deleted");
 			}
 		}
 		return map;
@@ -218,6 +234,5 @@ public class CompanyController {
 		map.put("result", list);
 		return map;
     }
-
 
 }

@@ -1,10 +1,12 @@
 package com.kenya.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kenya.bean.Recruit;
 import com.kenya.bean.RecruitExample;
 import com.kenya.bean.RecruitWithBLOBs;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface RecruitMapper {
     long countByExample(RecruitExample example);

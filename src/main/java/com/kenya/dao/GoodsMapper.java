@@ -1,11 +1,12 @@
 package com.kenya.dao;
 
-import com.kenya.bean.Goods;
-import com.kenya.bean.GoodsExample;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.kenya.bean.Goods;
+import com.kenya.bean.GoodsExample;
 
 public interface GoodsMapper {
     long countByExample(GoodsExample example);

@@ -1,12 +1,16 @@
 package com.kenya.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +35,6 @@ public class FramController {
 	FramService framService;
 	
 	DeleteImg deleteImg = new DeleteImg();
-	
 	@Autowired
 	UserService userService;
 	@RequestMapping("/selectbytype")
@@ -55,71 +58,78 @@ public class FramController {
 	@RequestMapping("/insertfram")
 	@ResponseBody
 	public HashMap<String, Object> filesUpload(@RequestParam("files") MultipartFile[] files,Fram fram,
-            HttpServletRequest request) {
+            HttpServletRequest request,HttpServletResponse response) throws Exception {
         List<String> list = new ArrayList<String>();
         if (files != null && files.length > 0) {
             for (int i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];
                 // 保存文件
-                list = saveFile(request, file, list);
+                try {
+					list = saveFile(request, file, list,response);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
         //insert准备工作
         for (int i = 0; i < list.size(); i++) {
-            System.out.println("集合里面的数据" + list.get(i));
             if(i==0) {
-            	fram.setFramimgs("/kenya/upload/"+list.get(i));
+            	fram.setFramimgs("/upload/"+list.get(i));
             }
             if(i==1) {
-            	fram.setFramimg1("/kenya/upload/"+list.get(i));
+            	fram.setFramimg1("/upload/"+list.get(i));
             }
             if(i==2) {
-            	fram.setFramimg2("/kenya/upload/"+list.get(i));
+            	fram.setFramimg2("/upload/"+list.get(i));
             }
             if(i==3) {
-            	fram.setFramimg3("/kenya/upload/"+list.get(i));
+            	fram.setFramimg3("/upload/"+list.get(i));
             }
             if(i==4) {
-            	fram.setFramimg4("/kenya/upload/"+list.get(i));
+            	fram.setFramimg4("/upload/"+list.get(i));
             }
         }
         HashMap<String,Object> map = new HashMap<String,Object>();
         if(framService.IsNull(fram)=="非法访问") {
         	map.put("code", "040");
-        	map.put("result","非法访问");
+        	map.put("message","Invalid Visit");
+        	map.put("result",null);
         }else {
-        	framService.inserFram(fram);
-        	User user = userService.selectbyId(fram.getUserid());
-        	user.setUserPsw("");
-        	fram.setUser(user);
-        	map.put("code","000");
-        	map.put("result",fram);
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = sdf.parse(sdf.format(new Date()));
+            fram.setFramdate(date);
+        	if(framService.inserFram(fram)==1) {
+	        	User user = userService.selectbyId(fram.getUserid());
+	        	user.setUserPsw("");
+	        	fram.setUser(user);
+	        	map.put("code","000");
+	        	map.put("message","Posting Successfully");
+	        	map.put("result",fram);
+        	}else {
+        		map.put("code","040");
+	        	map.put("message","Posting Failed");
+	        	map.put("result",null);
+        	}
         }
         return map;
     }
 
-    private List<String> saveFile(HttpServletRequest request,
-            MultipartFile file, List<String> list) {
+	private List<String> saveFile(HttpServletRequest request,
+            MultipartFile file, List<String> list,HttpServletResponse response) throws IOException {
         // 判断文件是否为空
         if (!file.isEmpty()) {
-            try {
-            	Random rand = new Random();//生成随机数    
-                int random = rand.nextInt();
-                String filePath = request.getSession().getServletContext()
-                        .getRealPath("/")
-                        + "upload/" + String.valueOf(random)+file.getOriginalFilename();
-                System.out.println("filePath"+filePath+"file.getOriginalFilename()"+file.getOriginalFilename());
-                list.add(random+file.getOriginalFilename());
-                File saveDir = new File(filePath);
-                if (!saveDir.getParentFile().exists())
-                    saveDir.getParentFile().mkdirs();
-                System.out.println("saveDir"+saveDir);
-                // 转存文件
-                file.transferTo(saveDir);
-                return list;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        	Random rand = new Random();//生成随机数    
+            int random = rand.nextInt();
+            String serverpath = "C:/usr/local/tomcat/upload";
+            String parentpath = new File(serverpath).getParent();
+            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
+            System.out.println(filePath);
+            list.add(random+file.getOriginalFilename());
+            File saveDir = new File(filePath);
+            if (!saveDir.getParentFile().exists())
+                saveDir.getParentFile().mkdirs();
+			file.transferTo(saveDir);
         }
         return list;
     }
@@ -151,7 +161,7 @@ public class FramController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(framid==0) {
 			map.put("code", "040");
-			map.put("result", "非法访问");
+			map.put("result", "Invalid Visit");
 		}else {
 			if(framService.selectById(framid).getFramimgs()!=null) {
 				deleteImg.deleteImg(framService.selectById(framid).getFramimgs(), request);
@@ -170,10 +180,10 @@ public class FramController {
 			}
 			if(framService.deleteFram(framid)==0) {
 				map.put("code", "040");
-				map.put("result", "删除失败");
+				map.put("result", "Deleted");
 			}else {
 				map.put("code", "000");
-				map.put("result","删除成功");
+				map.put("result","Process Failed");
 			}
 		}
 		return map;

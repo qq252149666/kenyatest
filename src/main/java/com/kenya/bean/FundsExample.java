@@ -913,6 +913,76 @@ public class FundsExample {
             addCriterion("adminId not between", value1, value2, "adminid");
             return (Criteria) this;
         }
+
+        public Criteria andFundadvantageIsNull() {
+            addCriterion("FundAdvantage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageIsNotNull() {
+            addCriterion("FundAdvantage is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageEqualTo(String value) {
+            addCriterion("FundAdvantage =", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageNotEqualTo(String value) {
+            addCriterion("FundAdvantage <>", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageGreaterThan(String value) {
+            addCriterion("FundAdvantage >", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageGreaterThanOrEqualTo(String value) {
+            addCriterion("FundAdvantage >=", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageLessThan(String value) {
+            addCriterion("FundAdvantage <", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageLessThanOrEqualTo(String value) {
+            addCriterion("FundAdvantage <=", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageLike(String value) {
+            addCriterion("FundAdvantage like", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageNotLike(String value) {
+            addCriterion("FundAdvantage not like", value, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageIn(List<String> values) {
+            addCriterion("FundAdvantage in", values, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageNotIn(List<String> values) {
+            addCriterion("FundAdvantage not in", values, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageBetween(String value1, String value2) {
+            addCriterion("FundAdvantage between", value1, value2, "fundadvantage");
+            return (Criteria) this;
+        }
+
+        public Criteria andFundadvantageNotBetween(String value1, String value2) {
+            addCriterion("FundAdvantage not between", value1, value2, "fundadvantage");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

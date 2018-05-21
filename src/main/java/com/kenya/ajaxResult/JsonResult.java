@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Update;
-
-import com.sun.mail.imap.protocol.MailboxInfo;
-
 /**
 create by Liujishuai on 2015年9月21日
 
@@ -115,13 +111,10 @@ public class JsonResult {
 
 	   public static JsonResult getLoginOK(Object obj){
 	    	//登录成功
-	    	
 	    	JsonResult result = new JsonResult();
-	        
 	    	result.setData(obj);
 	        result.setCode(JsonCodeEnum.loginSuccess.getCode());
 	        result.setMessage(JsonCodeEnum.loginSuccess.getMsg());
-	       
 	        return result;
 	    }
 	

@@ -16,8 +16,16 @@
 			<img class="headLogo" src="img/logLOGO.png"/>
 		</div>
 		<div class="headR">
-			<span style="color:#FFF">欢迎：${UserName}</span><a href="head2.jsp" rel="external">【退出】</a>
+			<span style="color:#FFF">欢迎：${UserName}</span><a id="edit" href="head2.jsp" rel="external">【退出】</a>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+	  $("#edit").click(function(){
+		  $.ajax({url:"Admin/edit",async:false});
+		  window.parent.location.href="login.jsp";
+	  });
+});
+</script>
 </html>

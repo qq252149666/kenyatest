@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.kenya.bean.Company;
 import com.kenya.bean.CompanyWithBLOBs;
-import com.kenya.bean.Job;
-import com.kenya.bean.RecruitWithBLOBs;
 
 public interface CompanyService {
 	

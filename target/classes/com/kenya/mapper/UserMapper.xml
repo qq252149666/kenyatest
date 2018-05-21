@@ -6,8 +6,14 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_psw" jdbcType="VARCHAR" property="userPsw" />
     <result column="user_sex" jdbcType="INTEGER" property="userSex" />
-    <result column="user_age" jdbcType="INTEGER" property="userAge" />
     <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+    <result column="user_haveCar" jdbcType="INTEGER" property="userHavecar" />
+    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
+    <result column="user_Date" jdbcType="DATE" property="userDate" />
+    <result column="user_deviceId" jdbcType="VARCHAR" property="userDeviceid" />
+    <result column="user_loginLastTime" jdbcType="DATE" property="userLoginlasttime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, user_name, user_psw, user_sex, user_age, user_phoneNumber
+    user_id, user_name, user_psw, user_sex, user_phoneNumber, user_haveCar, user_birthday, 
+    user_portrait, user_prohibit, user_Date, user_deviceId, user_loginLastTime
   </sql>
   <select id="selectByExample" parameterType="com.kenya.bean.UserExample" resultMap="BaseResultMap">
     select
@@ -100,12 +107,16 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenya.bean.User">
+  <insert id="insert" parameterType="com.kenya.bean.User" useGeneratedKeys="true" keyProperty="userId">
     insert into kenya_user (user_id, user_name, user_psw, 
-      user_sex, user_age, user_phoneNumber
+      user_sex, user_phoneNumber, user_haveCar, 
+      user_birthday, user_portrait, user_prohibit, 
+      user_Date, user_deviceId, user_loginLastTime
       )
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPsw,jdbcType=VARCHAR}, 
-      #{userSex,jdbcType=INTEGER}, #{userAge,jdbcType=INTEGER}, #{userPhonenumber,jdbcType=VARCHAR}
+      #{userSex,jdbcType=INTEGER}, #{userPhonenumber,jdbcType=VARCHAR}, #{userHavecar,jdbcType=INTEGER}, 
+      #{userBirthday,jdbcType=DATE}, #{userPortrait,jdbcType=VARCHAR}, #{userProhibit,jdbcType=VARCHAR}, 
+      #{userDate,jdbcType=DATE}, #{userDeviceid,jdbcType=VARCHAR}, #{userLoginlasttime,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.User">
@@ -123,11 +134,29 @@
       <if test="userSex != null">
         user_sex,
       </if>
-      <if test="userAge != null">
-        user_age,
-      </if>
       <if test="userPhonenumber != null">
         user_phoneNumber,
+      </if>
+      <if test="userHavecar != null">
+        user_haveCar,
+      </if>
+      <if test="userBirthday != null">
+        user_birthday,
+      </if>
+      <if test="userPortrait != null">
+        user_portrait,
+      </if>
+      <if test="userProhibit != null">
+        user_prohibit,
+      </if>
+      <if test="userDate != null">
+        user_Date,
+      </if>
+      <if test="userDeviceid != null">
+        user_deviceId,
+      </if>
+      <if test="userLoginlasttime != null">
+        user_loginLastTime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -143,11 +172,29 @@
       <if test="userSex != null">
         #{userSex,jdbcType=INTEGER},
       </if>
-      <if test="userAge != null">
-        #{userAge,jdbcType=INTEGER},
-      </if>
       <if test="userPhonenumber != null">
         #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userHavecar != null">
+        #{userHavecar,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userPortrait != null">
+        #{userPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userProhibit != null">
+        #{userProhibit,jdbcType=VARCHAR},
+      </if>
+      <if test="userDate != null">
+        #{userDate,jdbcType=DATE},
+      </if>
+      <if test="userDeviceid != null">
+        #{userDeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginlasttime != null">
+        #{userLoginlasttime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -172,11 +219,29 @@
       <if test="record.userSex != null">
         user_sex = #{record.userSex,jdbcType=INTEGER},
       </if>
-      <if test="record.userAge != null">
-        user_age = #{record.userAge,jdbcType=INTEGER},
-      </if>
       <if test="record.userPhonenumber != null">
         user_phoneNumber = #{record.userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userHavecar != null">
+        user_haveCar = #{record.userHavecar,jdbcType=INTEGER},
+      </if>
+      <if test="record.userBirthday != null">
+        user_birthday = #{record.userBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.userPortrait != null">
+        user_portrait = #{record.userPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userProhibit != null">
+        user_prohibit = #{record.userProhibit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDate != null">
+        user_Date = #{record.userDate,jdbcType=DATE},
+      </if>
+      <if test="record.userDeviceid != null">
+        user_deviceId = #{record.userDeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userLoginlasttime != null">
+        user_loginLastTime = #{record.userLoginlasttime,jdbcType=DATE},
       </if>
     </set>
     <if test="_parameter != null">
@@ -189,8 +254,14 @@
       user_name = #{record.userName,jdbcType=VARCHAR},
       user_psw = #{record.userPsw,jdbcType=VARCHAR},
       user_sex = #{record.userSex,jdbcType=INTEGER},
-      user_age = #{record.userAge,jdbcType=INTEGER},
-      user_phoneNumber = #{record.userPhonenumber,jdbcType=VARCHAR}
+      user_phoneNumber = #{record.userPhonenumber,jdbcType=VARCHAR},
+      user_haveCar = #{record.userHavecar,jdbcType=INTEGER},
+      user_birthday = #{record.userBirthday,jdbcType=DATE},
+      user_portrait = #{record.userPortrait,jdbcType=VARCHAR},
+      user_prohibit = #{record.userProhibit,jdbcType=VARCHAR},
+      user_Date = #{record.userDate,jdbcType=DATE},
+      user_deviceId = #{record.userDeviceid,jdbcType=VARCHAR},
+      user_loginLastTime = #{record.userLoginlasttime,jdbcType=DATE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -207,25 +278,49 @@
       <if test="userSex != null">
         user_sex = #{userSex,jdbcType=INTEGER},
       </if>
-      <if test="userAge != null">
-        user_age = #{userAge,jdbcType=INTEGER},
-      </if>
       <if test="userPhonenumber != null">
         user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userHavecar != null">
+        user_haveCar = #{userHavecar,jdbcType=INTEGER},
+      </if>
+      <if test="userBirthday != null">
+        user_birthday = #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userPortrait != null">
+        user_portrait = #{userPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userProhibit != null">
+        user_prohibit = #{userProhibit,jdbcType=VARCHAR},
+      </if>
+      <if test="userDate != null">
+        user_Date = #{userDate,jdbcType=DATE},
+      </if>
+      <if test="userDeviceid != null">
+        user_deviceId = #{userDeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginlasttime != null">
+        user_loginLastTime = #{userLoginlasttime,jdbcType=DATE},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.User">
+  <update id="updateByPrimaryKey" parameterType="com.kenya.bean.User" useGeneratedKeys="true" keyProperty="userId">
     update kenya_user
     set user_name = #{userName,jdbcType=VARCHAR},
       user_psw = #{userPsw,jdbcType=VARCHAR},
       user_sex = #{userSex,jdbcType=INTEGER},
-      user_age = #{userAge,jdbcType=INTEGER},
-      user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR}
+      user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR},
+      user_haveCar = #{userHavecar,jdbcType=INTEGER},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_portrait = #{userPortrait,jdbcType=VARCHAR},
+      user_prohibit = #{userProhibit,jdbcType=VARCHAR},
+      user_Date = #{userDate,jdbcType=DATE},
+      user_deviceId = #{userDeviceid,jdbcType=VARCHAR},
+      user_loginLastTime = #{userLoginlasttime,jdbcType=DATE}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select id="ByUserPhoneNumber" parameterType="java.lang.String"
+   <select id="ByUserPhoneNumber" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -256,13 +351,17 @@
 	</update>
 		<update id="updateByUserPN" parameterType="com.kenya.bean.User">
 		update kenya_user
-		
 		set user_name = #{userName,jdbcType=VARCHAR},
-		user_id=#{userId,jdbcType=INTEGER}
-		user_psw = #{userPsw,jdbcType=VARCHAR},
-		user_sex = #{userSex,jdbcType=INTEGER},
-		user_age = #{userAge,jdbcType=INTEGER},
-		user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR}
-		where user_phoneNumber=#{userPN,jdbcType=VARCHAR}
+      user_psw = #{userPsw,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=INTEGER},
+      user_phoneNumber = #{userPhonenumber,jdbcType=VARCHAR},
+      user_haveCar = #{userHavecar,jdbcType=INTEGER},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_portrait = #{userPortrait,jdbcType=VARCHAR},
+      user_prohibit = #{userProhibit,jdbcType=VARCHAR},
+      user_Date = #{userDate,jdbcType=DATE},
+      user_deviceId = #{userDeviceid,jdbcType=VARCHAR},
+      user_loginLastTime = #{userLoginlasttime,jdbcType=DATE}
+    where user_phoneNumber=#{userPN,jdbcType=VARCHAR}
 	</update>
 </mapper>

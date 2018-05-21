@@ -23,10 +23,8 @@ public class FundsServiceImpl implements FundsService {
 			FundsExample example = new FundsExample();
 			Criteria criteria = example.createCriteria();
 			criteria.andFundsnameLike("%"+fundsName+"%");
-			System.out.println(criteria.getAllCriteria());
 			return fundsDao.selectByExample(example);
 		}else {
-			System.out.println(fundsName);
 			return fundsDao.selectByExample(null);
 		}
 	}
@@ -37,24 +35,43 @@ public class FundsServiceImpl implements FundsService {
 	
 	public String IsNull(Funds funds) {
 		if(funds.getFundsimgs()==null) {
+			System.out.println(0);
 			return"非法访问";
 		}
 		if(funds.getFundsname()==null) {
+			System.out.println(1);
 			return"非法访问";
 		}
 		if(funds.getFundsdesc()==null) {
+			System.out.println(2);
 			return "非法访问";
 		}
 		if(funds.getFundsphone()==null) {
+			System.out.println(3);
 			return "非法访问";
 		}
 		if(funds.getAdminid()==null) {
+			System.out.println(4);
 			return "非法访问";
 		}
 		if(funds.getFundsprice()==null) {
+			System.out.println(5);
 			return "非法访问";
 		}
 		return "";
+	}
+
+	public int delete(int id) {
+		return fundsDao.deleteByPrimaryKey(id);
+	}
+
+	public Funds selectById(int id) {
+		return fundsDao.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int updatefunds(Funds funds) {
+		return fundsDao.updateByPrimaryKey(funds);
 	}
 
 }

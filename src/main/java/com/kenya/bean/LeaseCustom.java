@@ -1,6 +1,10 @@
 package com.kenya.bean;
 
 public class LeaseCustom extends Lease {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String user_phoneNumber;
 
 	public String getUser_phoneNumber() {

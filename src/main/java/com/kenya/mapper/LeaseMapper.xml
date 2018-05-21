@@ -5,7 +5,7 @@
     <id column="leaseId" jdbcType="INTEGER" property="leaseid" />
     <result column="leaseImgs" jdbcType="VARCHAR" property="leaseimgs" />
     <result column="leaseName" jdbcType="VARCHAR" property="leasename" />
-    <result column="leasePrice" jdbcType="REAL" property="leaseprice" />
+    <result column="leasePrice" jdbcType="INTEGER" property="leaseprice" />
     <result column="leasePhone" jdbcType="VARCHAR" property="leasephone" />
     <result column="leaseSquare" jdbcType="VARCHAR" property="leasesquare" />
     <result column="leaseAddress" jdbcType="VARCHAR" property="leaseaddress" />
@@ -15,10 +15,18 @@
     <result column="leaseImg3" jdbcType="VARCHAR" property="leaseimg3" />
     <result column="leaseImg4" jdbcType="VARCHAR" property="leaseimg4" />
     <result column="leaseDesc" jdbcType="VARCHAR" property="leasedesc" />
+    <result column="leaseUser" jdbcType="VARCHAR" property="leaseuser" />
+    <result column="leaseDate" jdbcType="DATE" property="leasedate" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <association property="user" javaType="com.kenya.bean.User">  
 	    <id column="user_id" property="userId"/>
-	    <result column="user_name" property="userName"/>
+		    <result column="user_name" property="userName"/>
+		    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+		    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+		    <result column="user_haveCar" jdbcType="INTEGER" property="userHavecar" />
+		    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+		    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+		    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
     </association>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Lease">
@@ -84,7 +92,8 @@
   </sql>
   <sql id="Base_Column_List">
     leaseId, leaseImgs, leaseName, leasePrice, leasePhone, leaseSquare, leaseAddress, 
-    leaseHome, leaseImg1, leaseImg2, leaseImg3, leaseImg4, userId,user_id,user_name,leaseDesc
+    leaseHome, leaseImg1, leaseImg2, leaseImg3, leaseImg4, userId,user_id,user_name,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex,leaseDesc,user_portrait,leaseUser,
+    leaseDate
   </sql>
   <sql id="Blob_Column_List">
     leaseDesc
@@ -115,9 +124,7 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
+      order by leaseId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
@@ -142,12 +149,12 @@
       leasePrice, leasePhone, leaseSquare, 
       leaseAddress, leaseHome, leaseImg1, 
       leaseImg2, leaseImg3, leaseImg4, 
-      userId, leaseDesc)
+      userId, leaseDesc,leaseUser,leaseDate)
     values (#{leaseimgs,jdbcType=VARCHAR}, #{leasename,jdbcType=VARCHAR}, 
-      #{leaseprice,jdbcType=REAL}, #{leasephone,jdbcType=VARCHAR}, #{leasesquare,jdbcType=VARCHAR}, 
+      #{leaseprice,jdbcType=INTEGER}, #{leasephone,jdbcType=INTEGER}, #{leasesquare,jdbcType=VARCHAR}, 
       #{leaseaddress,jdbcType=VARCHAR}, #{leasehome,jdbcType=VARCHAR}, #{leaseimg1,jdbcType=VARCHAR}, 
       #{leaseimg2,jdbcType=VARCHAR}, #{leaseimg3,jdbcType=VARCHAR}, #{leaseimg4,jdbcType=VARCHAR}, 
-      #{userid,jdbcType=INTEGER}, #{leasedesc,jdbcType=LONGVARCHAR})
+      #{userid,jdbcType=INTEGER}, #{leasedesc,jdbcType=LONGVARCHAR},#{leaseuser,jdbcType=VARCHAR},#{leasedate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Lease">
     insert into kenya_lease
@@ -206,7 +213,7 @@
         #{leasename,jdbcType=VARCHAR},
       </if>
       <if test="leaseprice != null">
-        #{leaseprice,jdbcType=REAL},
+        #{leaseprice,jdbcType=INTEGER},
       </if>
       <if test="leasephone != null">
         #{leasephone,jdbcType=VARCHAR},
@@ -259,7 +266,7 @@
         leaseName = #{record.leasename,jdbcType=VARCHAR},
       </if>
       <if test="record.leaseprice != null">
-        leasePrice = #{record.leaseprice,jdbcType=REAL},
+        leasePrice = #{record.leaseprice,jdbcType=INTEGER},
       </if>
       <if test="record.leasephone != null">
         leasePhone = #{record.leasephone,jdbcType=VARCHAR},
@@ -301,7 +308,7 @@
     set leaseId = #{record.leaseid,jdbcType=INTEGER},
       leaseImgs = #{record.leaseimgs,jdbcType=VARCHAR},
       leaseName = #{record.leasename,jdbcType=VARCHAR},
-      leasePrice = #{record.leaseprice,jdbcType=REAL},
+      leasePrice = #{record.leaseprice,jdbcType=INTEGER},
       leasePhone = #{record.leasephone,jdbcType=VARCHAR},
       leaseSquare = #{record.leasesquare,jdbcType=VARCHAR},
       leaseAddress = #{record.leaseaddress,jdbcType=VARCHAR},
@@ -321,7 +328,7 @@
     set leaseId = #{record.leaseid,jdbcType=INTEGER},
       leaseImgs = #{record.leaseimgs,jdbcType=VARCHAR},
       leaseName = #{record.leasename,jdbcType=VARCHAR},
-      leasePrice = #{record.leaseprice,jdbcType=REAL},
+      leasePrice = #{record.leaseprice,jdbcType=INTEGER},
       leasePhone = #{record.leasephone,jdbcType=VARCHAR},
       leaseSquare = #{record.leasesquare,jdbcType=VARCHAR},
       leaseAddress = #{record.leaseaddress,jdbcType=VARCHAR},
@@ -345,7 +352,7 @@
         leaseName = #{leasename,jdbcType=VARCHAR},
       </if>
       <if test="leaseprice != null">
-        leasePrice = #{leaseprice,jdbcType=REAL},
+        leasePrice = #{leaseprice,jdbcType=INTEGER},
       </if>
       <if test="leasephone != null">
         leasePhone = #{leasephone,jdbcType=VARCHAR},
@@ -384,7 +391,7 @@
     update kenya_lease
     set leaseImgs = #{leaseimgs,jdbcType=VARCHAR},
       leaseName = #{leasename,jdbcType=VARCHAR},
-      leasePrice = #{leaseprice,jdbcType=REAL},
+      leasePrice = #{leaseprice,jdbcType=INTEGER},
       leasePhone = #{leasephone,jdbcType=VARCHAR},
       leaseSquare = #{leasesquare,jdbcType=VARCHAR},
       leaseAddress = #{leaseaddress,jdbcType=VARCHAR},
@@ -401,7 +408,7 @@
     update kenya_lease
     set leaseImgs = #{leaseimgs,jdbcType=VARCHAR},
       leaseName = #{leasename,jdbcType=VARCHAR},
-      leasePrice = #{leaseprice,jdbcType=REAL},
+      leasePrice = #{leaseprice,jdbcType=INTEGER},
       leasePhone = #{leasephone,jdbcType=VARCHAR},
       leaseSquare = #{leasesquare,jdbcType=VARCHAR},
       leaseAddress = #{leaseaddress,jdbcType=VARCHAR},
@@ -410,7 +417,9 @@
       leaseImg2 = #{leaseimg2,jdbcType=VARCHAR},
       leaseImg3 = #{leaseimg3,jdbcType=VARCHAR},
       leaseImg4 = #{leaseimg4,jdbcType=VARCHAR},
-      userId = #{userid,jdbcType=INTEGER}
+      userId = #{userid,jdbcType=INTEGER},
+      leaseUser = #{leaseuser,jdbcType=VARCHAR},
+      leaseDate = #{leasedate,jdbcType=DATE}
     where leaseId = #{leaseid,jdbcType=INTEGER}
   </update>
   

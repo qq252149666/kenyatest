@@ -13,10 +13,17 @@
     <result column="framUser" jdbcType="VARCHAR" property="framuser" />
     <result column="framDesc" jdbcType="VARCHAR" property="framdesc" />
     <result column="framPhone" jdbcType="VARCHAR" property="framphone" />
+    <result column="framDate" jdbcType="VARCHAR" property="framdate" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <association property="user" javaType="com.kenya.bean.User">  
 	    <id column="user_id" property="userId"/>
-	    	<result column="user_name" property="userName"/>
+		    <result column="user_name" property="userName"/>
+		    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+		    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+		    <result column="user_haveCar" jdbcType="INTEGER" property="userHavecar" />
+		    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+		    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+		    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
     </association>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Fram">
@@ -82,7 +89,8 @@
   </sql>
   <sql id="Base_Column_List">
     framId, framName, framImgs, framImg1, framImg2, framImg3, framImg4, framType, framUser, 
-    framPhone,framDesc, userId,user_id,user_name
+    framPhone,framDesc, userId,user_id,user_name,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex,
+    framDate
   </sql>
   <sql id="Blob_Column_List">
     framDesc
@@ -113,13 +121,11 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
+      order by framId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select framId, framName, framImgs, framImg1, framImg2, framImg3, framImg4, framType, framUser, 
-    framPhone,framDesc, userId,user_id,user_name from kenya_fram join kenya_user on kenya_fram.userId=kenya_user.user_id where framId=#{framid}
+    framPhone,framDesc, userId,user_id,user_name,framDate from kenya_fram join kenya_user on kenya_fram.userId=kenya_user.user_id where framId=#{framid}
     
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -136,12 +142,12 @@
     insert into kenya_fram (framId, framName, framImgs, 
       framImg1, framImg2, framImg3, 
       framImg4, framType, framUser, 
-      framPhone, userId, framDesc
+      framPhone, userId, framDesc,framDate
       )
     values (#{framid,jdbcType=INTEGER}, #{framname,jdbcType=VARCHAR}, #{framimgs,jdbcType=VARCHAR}, 
       #{framimg1,jdbcType=VARCHAR}, #{framimg2,jdbcType=VARCHAR}, #{framimg3,jdbcType=VARCHAR}, 
       #{framimg4,jdbcType=VARCHAR}, #{framtype,jdbcType=VARCHAR}, #{framuser,jdbcType=VARCHAR}, 
-      #{framphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{framdesc,jdbcType=LONGVARCHAR}
+      #{framphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{framdesc,jdbcType=LONGVARCHAR},#{framdate,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Fram">
@@ -373,6 +379,7 @@
       framType = #{framtype,jdbcType=VARCHAR},
       framUser = #{framuser,jdbcType=VARCHAR},
       framPhone = #{framphone,jdbcType=VARCHAR},
+      framDate = #{framdate,jdbcType=DATE},
       userId = #{userid,jdbcType=INTEGER}
     where framId = #{framid,jdbcType=INTEGER}
   </update>

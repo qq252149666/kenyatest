@@ -1,12 +1,13 @@
 package com.kenya.dao;
 
-import com.kenya.bean.Company;
-import com.kenya.bean.CompanyExample;
-import com.kenya.bean.CompanyWithBLOBs;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.kenya.bean.Company;
+import com.kenya.bean.CompanyExample;
+import com.kenya.bean.CompanyWithBLOBs;
 
 public interface CompanyMapper {
     long countByExample(CompanyExample example);

@@ -1,6 +1,9 @@
 package com.kenya.bean;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Lease implements Serializable{
 
@@ -15,7 +18,7 @@ public class Lease implements Serializable{
 
     private String leasename;
 
-    private Float leaseprice;
+    private int leaseprice;
 
     private String leasephone;
 
@@ -37,8 +40,28 @@ public class Lease implements Serializable{
 
     private String leasedesc;
     
+    private String leaseuser;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date leasedate;
+
     private User user;
     
+
+	public Date getLeasedate() {
+		return leasedate;
+	}
+
+	public void setLeasedate(Date leasedate) {
+		this.leasedate = leasedate;
+	}
+
+	public String getLeaseuser() {
+		return leaseuser;
+	}
+
+	public void setLeaseuser(String leaseuser) {
+		this.leaseuser = leaseuser;
+	}
 
 	public User getUser() {
 		return user;
@@ -72,15 +95,21 @@ public class Lease implements Serializable{
         this.leasename = leasename == null ? null : leasename.trim();
     }
 
-    public Float getLeaseprice() {
-        return leaseprice;
-    }
 
-    public void setLeaseprice(Float leaseprice) {
-        this.leaseprice = leaseprice;
-    }
 
-    public String getLeasephone() {
+    public int getLeaseprice() {
+		return leaseprice;
+	}
+
+	public void setLeaseprice(int leaseprice) {
+		this.leaseprice = leaseprice;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getLeasephone() {
         return leasephone;
     }
 

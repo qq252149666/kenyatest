@@ -1,5 +1,9 @@
 package com.kenya.bean;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Fram {
     private Integer framid;
 
@@ -24,10 +28,22 @@ public class Fram {
     private Integer userid;
 
     private String framdesc;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date framdate;
 
     private User user;
     
-    public User getUser() {
+    public Date getFramdate() {
+		return framdate;
+	}
+
+
+	public void setFramdate(Date framdate) {
+		this.framdate = framdate;
+	}
+
+
+	public User getUser() {
 		return user;
 	}
 

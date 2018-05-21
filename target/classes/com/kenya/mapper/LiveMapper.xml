@@ -14,9 +14,16 @@
     <result column="liveImg4" jdbcType="VARCHAR" property="liveimg4" />
     <result column="liveUser" jdbcType="VARCHAR" property="liveuser" />
 	<result column="userId" jdbcType="INTEGER" property="userid" />
+	<result column="liveDate" jdbcType="DATE" property="livedate" />
     <association property="user" javaType="com.kenya.bean.User">  
 	    <id column="user_id" property="userId"/>
 	    <result column="user_name" property="userName"/>
+	    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+	    <result column="user_phoneNumber" jdbcType="VARCHAR" property="userPhonenumber" />
+	    <result column="user_haveCar" jdbcType="INTEGER" property="userHavecar" />
+	    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+	    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+	    <result column="user_prohibit" jdbcType="VARCHAR" property="userProhibit" />
     </association>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kenya.bean.Live">
@@ -82,7 +89,7 @@
   </sql>
   <sql id="Base_Column_List">
     liveId, livePhone, liveName, liveType, liveImgs, liveImg1,liveUser, liveImg2, liveImg3, liveImg4, 
-    userId,user_id,user_name,liveDesc
+    userId,user_id,user_name,liveDesc,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex,liveDate
   </sql>
   <sql id="Blob_Column_List">
     liveDesc
@@ -113,13 +120,12 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
+
+      order by liveId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select liveId, livePhone, liveName, liveType, liveImgs, liveImg1,liveUser, liveImg2, liveImg3, liveImg4, 
-    userId,user_id,user_name,liveDesc from kenya_live left   join   kenya_user on kenya_live.userId=kenya_user.user_id where liveId=#{liveid}
+    userId,user_id,user_name,liveDesc,user_prohibit,user_portrait,user_birthday,user_haveCar,user_phoneNumber,user_sex,liveDate from kenya_live left   join   kenya_user on kenya_live.userId=kenya_user.user_id where liveId=#{liveid}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from kenya_live
@@ -134,11 +140,11 @@
   <insert id="insert" parameterType="com.kenya.bean.Live" useGeneratedKeys="true" keyProperty="liveid">
     insert into kenya_live (livePhone, liveName,liveType, liveImgs, liveImg1,
       liveImg2, liveImg3, liveImg4, 
-      userId, liveDesc,liveUser)
+      userId, liveDesc,liveUser,liveDate)
     values (#{livephone,jdbcType=VARCHAR}, #{livename,jdbcType=VARCHAR}, 
       #{livetype,jdbcType=VARCHAR}, #{liveimgs,jdbcType=VARCHAR}, #{liveimg1,jdbcType=VARCHAR}, 
       #{liveimg2,jdbcType=VARCHAR}, #{liveimg3,jdbcType=VARCHAR}, #{liveimg4,jdbcType=VARCHAR}, 
-      #{userid,jdbcType=INTEGER}, #{livedesc,jdbcType=LONGVARCHAR},#{liveuser,jdbcType=VARCHAR})
+      #{userid,jdbcType=INTEGER}, #{livedesc,jdbcType=LONGVARCHAR},#{liveuser,jdbcType=VARCHAR},#{livedate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.kenya.bean.Live">
     insert into kenya_live
@@ -353,7 +359,8 @@
       liveImg2 = #{liveimg2,jdbcType=VARCHAR},
       liveImg3 = #{liveimg3,jdbcType=VARCHAR},
       liveImg4 = #{liveimg4,jdbcType=VARCHAR},
-      userId = #{userid,jdbcType=INTEGER}
+      userId = #{userid,jdbcType=INTEGER},
+      liveDate=#{livedate,jdbcType=DATE}
     where liveId = #{liveid,jdbcType=INTEGER}
   </update>
   

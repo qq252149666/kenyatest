@@ -4,9 +4,9 @@ import java.util.List;
 
 public class PageBean2 <T>{
 
-	    private int currPage;//当前页数
+	    private int page;//当前页数
 	    private int pageSize;//每页显示的记录数
-	    private int totalCount;//总记录数
+	    private int total;//总记录数
 	    private int totalPage;//总页数
 	    private String code;
 	    private List<T> rows;//每页的显示的数据
@@ -23,19 +23,27 @@ public class PageBean2 <T>{
 		public PageBean2() {
 	        super();
 	    }
-
+/*
 	    public int getCurrPage() {
-	        return currPage;
+	        return page;
 	    }
 
-	    public void setCurrPage(int currPage) {
-	        this.currPage = currPage;
-	    }
-
+	    public void setCurrPage(int page) {
+	        this.page = page;
+	    }*/
+		
 
 
 		public int getPageSize() {
 			return pageSize;
+		}
+
+		public int getPage() {
+			return page;
+		}
+
+		public void setPage(int page) {
+			this.page = page;
 		}
 
 		public void setPageSize(int pageSize) {
@@ -50,12 +58,12 @@ public class PageBean2 <T>{
 			this.rows = rows;
 		}
 
-		public int getTotalCount() {
-	        return totalCount;
+		public int getTotal() {
+	        return total;
 	    }
 
-	    public void setTotalCount(int totalCount) {
-	        this.totalCount = totalCount;
+	    public void setTotal(int total) {
+	        this.total = total;
 	    }
 
 	    public int getTotalPage() {

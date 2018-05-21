@@ -5,12 +5,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.kenya.bean.Job;
 import com.kenya.bean.JobExample;
 import com.kenya.bean.JobExample.Criteria;
-import com.kenya.bean.JobSeeker;
 import com.kenya.dao.JobMapper;
-import com.kenya.dao.JobSeekerMapper;
 import com.kenya.service.JobSeekerService;
 
 @Service

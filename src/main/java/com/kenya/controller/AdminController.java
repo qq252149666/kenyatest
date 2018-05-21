@@ -31,4 +31,12 @@ public class AdminController {
 			return null;
 		}
 	}
+	@RequestMapping("/edit")
+	@ResponseBody
+	public String edit(HttpServletRequest request) {
+		request.getSession().removeAttribute("adminid");
+		request.getSession().removeAttribute("adminPassword");
+		request.getSession().removeAttribute("UserName");
+		return "ok";
+	}
 }

@@ -5,7 +5,7 @@
     <id column="companyId" jdbcType="INTEGER" property="companyid" />
     <result column="companyName" jdbcType="VARCHAR" property="companyname" />
     <result column="companyStation" jdbcType="VARCHAR" property="companystation" />
-    <result column="companyStationSalary" jdbcType="DOUBLE" property="companystationsalary" />
+    <result column="companyStationSalary" jdbcType="VARCHAR" property="companystationsalary" />
     <result column="companyPhone" jdbcType="VARCHAR" property="companyphone" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
     <result column="companyImg0" jdbcType="VARCHAR" property="companyimg0" />
@@ -79,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    companyId, companyName, companyStation, companyStationSalary, companyPhone, userId, 
-    companyImg0, companyImg1, companyImg2, companyImg3, companyImg4, companyImg5
+    companyId, companyName, companyStation,companyStationDesc, companyStationSalary, companyPhone,companyAddress, userId, 
+    companyImg0, companyImg1, companyImg2, companyImg3, companyImg4, companyImg5,companyDesc
   </sql>
   <sql id="Blob_Column_List">
     companyStationDesc, companyAddress, companyDesc
@@ -141,7 +141,7 @@
       companyStationDesc, companyAddress, 
       companyDesc)
     values (#{companyid,jdbcType=INTEGER}, #{companyname,jdbcType=VARCHAR}, #{companystation,jdbcType=VARCHAR}, 
-      #{companystationsalary,jdbcType=DOUBLE}, #{companyphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{companystationsalary,jdbcType=VARCHAR}, #{companyphone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{companyimg0,jdbcType=VARCHAR}, #{companyimg1,jdbcType=VARCHAR}, #{companyimg2,jdbcType=VARCHAR}, 
       #{companyimg3,jdbcType=VARCHAR}, #{companyimg4,jdbcType=VARCHAR}, #{companyimg5,jdbcType=VARCHAR}, 
       #{companystationdesc,jdbcType=LONGVARCHAR}, #{companyaddress,jdbcType=LONGVARCHAR}, 
@@ -207,7 +207,7 @@
         #{companystation,jdbcType=VARCHAR},
       </if>
       <if test="companystationsalary != null">
-        #{companystationsalary,jdbcType=DOUBLE},
+        #{companystationsalary,jdbcType=VARCHAR},
       </if>
       <if test="companyphone != null">
         #{companyphone,jdbcType=VARCHAR},
@@ -263,7 +263,7 @@
         companyStation = #{record.companystation,jdbcType=VARCHAR},
       </if>
       <if test="record.companystationsalary != null">
-        companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+        companyStationSalary = #{record.companystationsalary,jdbcType=VARCHAR},
       </if>
       <if test="record.companyphone != null">
         companyPhone = #{record.companyphone,jdbcType=VARCHAR},
@@ -308,7 +308,7 @@
     set companyId = #{record.companyid,jdbcType=INTEGER},
       companyName = #{record.companyname,jdbcType=VARCHAR},
       companyStation = #{record.companystation,jdbcType=VARCHAR},
-      companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+      companyStationSalary = #{record.companystationsalary,jdbcType=VARCHAR},
       companyPhone = #{record.companyphone,jdbcType=VARCHAR},
       userId = #{record.userid,jdbcType=INTEGER},
       companyImg0 = #{record.companyimg0,jdbcType=VARCHAR},
@@ -329,7 +329,7 @@
     set companyId = #{record.companyid,jdbcType=INTEGER},
       companyName = #{record.companyname,jdbcType=VARCHAR},
       companyStation = #{record.companystation,jdbcType=VARCHAR},
-      companyStationSalary = #{record.companystationsalary,jdbcType=DOUBLE},
+      companyStationSalary = #{record.companystationsalary,jdbcType=VARCHAR},
       companyPhone = #{record.companyphone,jdbcType=VARCHAR},
       userId = #{record.userid,jdbcType=INTEGER},
       companyImg0 = #{record.companyimg0,jdbcType=VARCHAR},
@@ -352,7 +352,7 @@
         companyStation = #{companystation,jdbcType=VARCHAR},
       </if>
       <if test="companystationsalary != null">
-        companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+        companyStationSalary = #{companystationsalary,jdbcType=VARCHAR},
       </if>
       <if test="companyphone != null">
         companyPhone = #{companyphone,jdbcType=VARCHAR},
@@ -394,7 +394,7 @@
     update company
     set companyName = #{companyname,jdbcType=VARCHAR},
       companyStation = #{companystation,jdbcType=VARCHAR},
-      companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+      companyStationSalary = #{companystationsalary,jdbcType=VARCHAR},
       companyPhone = #{companyphone,jdbcType=VARCHAR},
       userId = #{userid,jdbcType=INTEGER},
       companyImg0 = #{companyimg0,jdbcType=VARCHAR},
@@ -412,7 +412,7 @@
     update company
     set companyName = #{companyname,jdbcType=VARCHAR},
       companyStation = #{companystation,jdbcType=VARCHAR},
-      companyStationSalary = #{companystationsalary,jdbcType=DOUBLE},
+      companyStationSalary = #{companystationsalary,jdbcType=VARCHAR},
       companyPhone = #{companyphone,jdbcType=VARCHAR},
       userId = #{userid,jdbcType=INTEGER},
       companyImg0 = #{companyimg0,jdbcType=VARCHAR},
@@ -429,7 +429,7 @@
 		from company
 		<where>
 			<if test="pagetext != null">
-				and sName like concat('%', #{pagetext}, '%')
+				and companyStation like concat('%', #{pagetext}, '%')
 			</if>
 		</where>
 		order by companyId desc
@@ -439,7 +439,7 @@
 		select count(companyId) from company
 		<where>
 			<if test="pagetext != null">
-				and sName like concat('%', #{pagetext}, '%')
+				and companyStation like concat('%', #{pagetext}, '%')
 			</if>
 		</where>
 	</select>
