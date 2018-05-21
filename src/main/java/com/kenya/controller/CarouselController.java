@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +23,6 @@ import com.kenya.ajaxResult.JjsonResult1;
 import com.kenya.bean.CarouselProject;
 import com.kenya.bean.CarouselUrl;
 import com.kenya.bean.Content;
-import com.kenya.bean.News;
 import com.kenya.service.CarouselService;
 import com.kenya.until.DataprocessUtils;
 import com.kenya.until.KYResult;

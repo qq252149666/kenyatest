@@ -1,9 +1,11 @@
 package com.kenya.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kenya.bean.Admin;
 import com.kenya.bean.AdminExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface AdminMapper {
     long countByExample(AdminExample example);

@@ -121,7 +121,7 @@
       <include refid="Example_Where_Clause" />
     </if>
 
-      order by liveDate DESC
+      order by liveId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select liveId, livePhone, liveName, liveType, liveImgs, liveImg1,liveUser, liveImg2, liveImg3, liveImg4, 

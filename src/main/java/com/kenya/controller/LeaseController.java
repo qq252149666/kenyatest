@@ -133,10 +133,10 @@ public class LeaseController {
         if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
             int random = rand.nextInt();
-            String serverpath = request.getSession().getServletContext()
-                    .getRealPath("/");
+            String serverpath = "C:/usr/local/tomcat/upload";
             String parentpath = new File(serverpath).getParent();
-            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
+            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
+            System.out.println(filePath);
             list.add(random+file.getOriginalFilename());
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())

@@ -1,9 +1,11 @@
 package com.kenya.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kenya.bean.Funds;
 import com.kenya.bean.FundsExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface FundsMapper {
     long countByExample(FundsExample example);

@@ -40,7 +40,7 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
-    	
+		    	
     	<!-- https://mvnrepository.com/artifact/spring/spring-aopalliance -->
         <dependency>
             <groupId>junit</groupId>

@@ -96,7 +96,7 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-      order by projectDate DESC
+      order by projectId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

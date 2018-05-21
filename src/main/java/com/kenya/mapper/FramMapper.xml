@@ -121,7 +121,7 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-      order by framDate DESC
+      order by framId DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select framId, framName, framImgs, framImg1, framImg2, framImg3, framImg4, framType, framUser, 

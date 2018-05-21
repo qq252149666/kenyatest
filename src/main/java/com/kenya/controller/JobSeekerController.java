@@ -204,17 +204,17 @@ public class JobSeekerController {
     	HashMap<String,Object> map = new HashMap<String,Object>();
 		if(jobid==0) {
 			map.put("Code", "040");
-			map.put("result", "非法访问");
+			map.put("result", "Invalid Visit");
 		}else {
 			if(jobSeekerService.selectById(jobid).getHeadimg()!=null) {
 				deleteimg.deleteImg(jobSeekerService.selectById(jobid).getHeadimg(), request);
 			}
 			if(jobSeekerService.deleteById(jobid)==0) {
 				map.put("code", "040");
-				map.put("result", "删除失败");
+				map.put("result", "Process Failed");
 			}else {
 				map.put("code", "000");
-				map.put("result","删除成功");
+				map.put("result","Deleted");
 			}
 		}
 		return map;

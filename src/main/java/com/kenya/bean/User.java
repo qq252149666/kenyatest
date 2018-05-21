@@ -16,17 +16,17 @@ public class User {
     private String userPhonenumber;
 
     private Integer userHavecar;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date userBirthday;
 
     private String userPortrait;
 
     private String userProhibit;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date userDate;
 
     private String userDeviceid;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date userLoginlasttime;
 
     public Integer getUserId() {

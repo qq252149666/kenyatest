@@ -111,15 +111,11 @@ public class UserController {
 		User user = userService.selectbyId(id);
 		if(file!=null) {
 			if (!file.isEmpty()) {
-				if(user.getUserPortrait()!=null) {
-					deleteImg.deleteImg(user.getUserPortrait(), request);
-				}
-	        	Random rand = new Random();//鐢熸垚闅忔満鏁�    
+	        	Random rand = new Random();   
 	            int random = rand.nextInt();
-	            String serverpath = request.getSession().getServletContext()
-	                    .getRealPath("/");
+	            String serverpath = "C:/usr/local/tomcat/upload";
 	            String parentpath = new File(serverpath).getParent();
-	            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
+	            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
 	            File saveDir = new File(filePath);
 	            if (!saveDir.getParentFile().exists())
 	                saveDir.getParentFile().mkdirs();
@@ -178,7 +174,6 @@ public class UserController {
 		if(user.getUserName()!=null) {
 			users.setUserName(user.getUserName());
 		}
-	
 		if(userService.update(users)==1) {
 			map.put("message", "Modify Successfully");
 			map.put("code", "000");

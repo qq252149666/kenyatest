@@ -1,9 +1,11 @@
 package com.kenya.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kenya.bean.User;
 import com.kenya.bean.UserExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 	   long countByExample(UserExample example);

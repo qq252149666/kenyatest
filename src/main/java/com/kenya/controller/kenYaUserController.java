@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.record.UseSelFSRecord;
 import org.aspectj.apache.bcel.generic.ReturnaddressType;*/
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,7 +67,6 @@ public class kenYaUserController {
 	}
 
 	@ResponseBody
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@RequestMapping(value = "/login")
 	public HashMap<String,Object> login(String userDeviceId,String userPhoneNumber, String userPsw,HttpSession session,HttpServletRequest request) {
 		HashMap<String,Object> map = new HashMap<String,Object>();

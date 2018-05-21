@@ -123,10 +123,7 @@ public class UserServiceImpl implements UserService {
 	 * 根据ID查询记录
 	 */
 	public User selectbyId(int id) {
-		UserExample example = new UserExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andUserIdEqualTo(id);
-		return userdao.selectByExample(example).get(0);
+		return userdao.selectByPrimaryKey(id);
 	}
 
 

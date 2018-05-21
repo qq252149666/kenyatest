@@ -1,13 +1,11 @@
 package com.kenya.dao;
 
-import com.kenya.bean.ContentCategory;
-import com.kenya.bean.ContentCategoryExample;
-import com.kenya.bean.News;
-
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.kenya.bean.ContentCategory;
+import com.kenya.bean.ContentCategoryExample;
 
 public interface ContentCategoryMapper {
     long countByExample(ContentCategoryExample example);

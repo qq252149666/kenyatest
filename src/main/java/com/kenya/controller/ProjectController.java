@@ -1,5 +1,6 @@
 package com.kenya.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,8 @@ import com.kenya.bean.Project;
 import com.kenya.dao.DeleteImg;
 import com.kenya.service.AdminService;
 import com.kenya.service.ProjectService;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
 @RequestMapping("Project")
@@ -64,7 +68,6 @@ public class ProjectController {
 	public  HashMap<String,Object> insertproject(@RequestParam("files")MultipartFile[] files,MultipartFile head,Project project,
             HttpServletRequest request,HttpServletResponse response,String minprice,String maxprice) throws Exception {
 		project.setAdminid(Integer.valueOf(String.valueOf(request.getSession().getAttribute("adminid"))));
-		System.out.print(project.getProjectprice());
 		List<String> list = new ArrayList<String>();
 		//遍历获得的MultiparFile数组
         if (files != null && files.length > 0) {
@@ -84,7 +87,9 @@ public class ProjectController {
         }else {
         	project.setProjectprice(minprice+"-"+maxprice);
         }
-        project.setProjecthead("/upload/"+saveFile(request, head, list,response).get(0));
+        List<String> list1 = new ArrayList<String>();
+        list1 = saveFile(request, head, list,response);
+        project.setProjecthead("/upload/"+list1.get(0));
         //insert准备工作
         for (int i = 0; i < list.size(); i++) {
             if(i==0) {
@@ -111,12 +116,7 @@ public class ProjectController {
         	map.put("message","Invalid Visit");
         	map.put("result",null);
         }else {
-        	//数据库添加
-        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date date = sdf.parse(sdf.format(new Date()));
-            
-            project.setProjectdate(date);
+            project.setProjectdate(new Date());
         	
         	projectService.insertProject(project);
         	//添加外键
@@ -137,15 +137,21 @@ public class ProjectController {
         if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
             int random = rand.nextInt();
-            String serverpath = request.getSession().getServletContext()
-                    .getRealPath("/");
+            String serverpath = "C:/usr/local/tomcat/upload";
             String parentpath = new File(serverpath).getParent();
-            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
+            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
             list.add(random+file.getOriginalFilename());
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
-			file.transferTo(saveDir);
+            BufferedImage sourceImg =ImageIO.read(file.getInputStream()); 
+            double width = 720.0/sourceImg.getWidth();
+            System.out.println(width);
+            if(sourceImg.getWidth()>720) {
+            	Thumbnails.of(file.getInputStream()).scale(width).toFile(filePath);//按比例缩小
+            }else {
+            	file.transferTo(saveDir);
+            }			
         }
         return list;
     }

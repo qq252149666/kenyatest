@@ -1,5 +1,6 @@
 package com.kenya.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,8 @@ import com.kenya.bean.Funds;
 import com.kenya.dao.DeleteImg;
 import com.kenya.service.AdminService;
 import com.kenya.service.FundsService;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller  
 @RequestMapping("Funds")
@@ -234,15 +238,22 @@ public class FundsController {
         if (!file.isEmpty()) {
         	Random rand = new Random();//生成随机数    
             int random = rand.nextInt();
-            String serverpath = request.getSession().getServletContext()
-                    .getRealPath("/");
+            String serverpath = "C:/usr/local/tomcat/upload";
             String parentpath = new File(serverpath).getParent();
-            String filePath = parentpath+"\\upload\\" + String.valueOf(random)+file.getOriginalFilename();
+            String filePath = parentpath+"/upload/" + String.valueOf(random)+file.getOriginalFilename();
+            System.out.println(filePath);
             list.add(random+file.getOriginalFilename());
             File saveDir = new File(filePath);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
-			file.transferTo(saveDir);
+            BufferedImage sourceImg =ImageIO.read(file.getInputStream()); 
+            double width = 720.0/sourceImg.getWidth();
+            System.out.println(width);
+            if(sourceImg.getWidth()>720) {
+            	Thumbnails.of(file.getInputStream()).scale(width).toFile(filePath);//按比例缩小
+            }else {
+            	file.transferTo(saveDir);
+            }	
         }
         return list;
     }

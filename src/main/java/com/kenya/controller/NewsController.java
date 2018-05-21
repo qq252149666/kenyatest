@@ -1,41 +1,28 @@
 package com.kenya.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kenya.ajaxResult.JjsonResult1;
-import com.kenya.ajaxResult.JsonResult;
-import com.kenya.bean.Job;
 import com.kenya.bean.News;
-import com.kenya.bean.PageBean1;
 import com.kenya.service.NewsService;
 import com.kenya.until.DataprocessUtils;
-import com.kenya.until.EUDataGridResult;
-import com.kenya.until.JsonUtils;
 import com.kenya.until.KYResult;
 import com.kenya.until.PageBean2;
 import com.kenya.until.StringUtil;

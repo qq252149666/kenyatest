@@ -1,9 +1,11 @@
 package com.kenya.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kenya.bean.Fram;
 import com.kenya.bean.FramExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface FramMapper {
     long countByExample(FramExample example);

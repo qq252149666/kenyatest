@@ -24,9 +24,7 @@ public class DeleteImg {
 				break;
 			}
 		}
-		String filePath = request.getSession().getServletContext()
-                .getRealPath("\\")
-                + "\\upload\\"+str;
+		String filePath = "C:/usr/local/tomcat/upload"+str;
 		File file = new File(filePath);
 		file.delete();
 		return "删除成功";

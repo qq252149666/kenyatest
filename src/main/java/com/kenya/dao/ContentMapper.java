@@ -1,16 +1,14 @@
 package com.kenya.dao;
 
-import com.kenya.bean.CarouselProject;
-import com.kenya.bean.CarouselUrl;
-import com.kenya.bean.Content;
-import com.kenya.bean.ContentCategory;
-import com.kenya.bean.ContentExample;
-import com.kenya.bean.News;
-
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.kenya.bean.CarouselProject;
+import com.kenya.bean.CarouselUrl;
+import com.kenya.bean.Content;
+import com.kenya.bean.ContentExample;
 
 public interface ContentMapper {
 	long countByExample(ContentExample example);
